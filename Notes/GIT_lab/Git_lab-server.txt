@@ -1,0 +1,228 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-09-06T12:22:49+01:00
+
+====== Git lab-server ======
+Créée le Wednesday 06 September 2023
+
+=== Présentation ===
+GitLab est une plateforme de développement collaborative open source éditée par la société américaine du même nom. Elle couvre l’ensemble des étapes du DevOps. Se basant sur les fonctionnalités du logiciel Git, elle permet de piloter des dépôts de code source et de gérer leurs différentes versions. Son usage est particulièrement indiqué pour les développeurs qui souhaitent disposer d’un outil réactif et accessible.
+GitLab revendique plus de 100 000 organisations utilisant sa plateforme à travers le monde. Ce qui représente un total de plus de 30 millions d'utilisateurs enregistrés.
+
+=== Fonctionalités ===
+L’interface de GitLab reste très similaire à celle de GitHub. Toutefois, GitLab propose des options pour le moins pratiques :
+
+Gestion de projet
+Planification / priorisation
+Build
+Test logiciel
+Sécurité applicative
+Gestion des configurations
+Monitoring
+Intégration et déploiement continus, etc.
+
+== Installation de GITLAB ==
+
+1. __Installez et configurez les dépendances nécessaires__
+Sur CentOS 7 (et RedHat/Oracle/Scientific Linux 7), les commandes ci-dessous ouvriront également les accès HTTP, HTTPS et SSH dans le pare-feu du système. Il s'agit d'une étape facultative et vous pouvez l'ignorer si vous avez l'intention d'accéder à GitLab uniquement à partir de votre réseau local.
+
+__sudo yum install -y curl policycoreutils-python3 openssh-server perl__
+
+
+# Enable OpenSSH server daemon if not enabled: sudo systemctl status sshd
+__sudo systemctl enable sshd__
+__sudo systemctl start sshd__
+# Check if opening the firewall is needed with: sudo systemctl status firewalld
+__sudo firewall-cmd --permanent --add-service=http__
+__sudo firewall-cmd --permanent --add-service=https__
+__sudo systemctl reload firewalld__
+
+Ensuite, installez Postfix (ou Sendmail) pour envoyer des e-mails de notification. Si vous souhaitez utiliser une autre solution pour envoyer des e-mails, veuillez ignorer cette étape et configurer un serveur SMTP externe après l'installation de GitLab.
+
+
+__sudo dnf install -y  postfix__
+__sudo systemctl enable postfix__
+__sudo systemctl start postfix__
+
+
+
+
+
+https://about.gitlab.com/install/
+
+__sudo EXTERNAL_URL="https://gitlab.example.com" yum install -y gitlab-ee__
+sudo EXTERNAL_URL="https://gitlab.albam.lan" dnf install -y gitlab-ce
+# List available versions: sudo yum --showduplicate list
+# Specify version: sudo yum linstall gitlab-ee-16.1.4-ee.0.el7.x86_64
+# Pin the version to limit auto-updates: yum versionlock gitlab-ee*
+
+Lors de l'installation de Postfix, un écran de configuration peut apparaître. Sélectionnez « Site Internet » et appuyez sur Entrée. Utilisez le DNS externe de votre serveur pour le « nom de courrier » et appuyez sur Entrée. Si des écrans supplémentaires apparaissent, continuez d’appuyer sur Entrée pour accepter les valeurs par défaut.
+
+2. Ajoutez le référentiel de packages GitLab et installez le package
+__curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash__
+
+
+Ensuite, installez le package GitLab. Assurez-vous d'avoir correctement configuré votre DNS et remplacez https://gitlab.example.com par l'URL à laquelle vous souhaitez accéder à votre instance GitLab. L'installation configurera et démarrera automatiquement GitLab à cette URL.
+
+Pour les URL https://, GitLab demandera automatiquement un certificat avec Let's Encrypt , qui nécessite un accès HTTP entrant et un nom d'hôte valide . Vous pouvez également utiliser votre propre certificat ou simplement utiliser http:// (sans le s ).
+
+Si vous souhaitez spécifier un mot de passe personnalisé pour l'utilisateur administrateur initial (root), consultez la documentation . Si aucun mot de passe n'est spécifié, un mot de passe aléatoire sera automatiquement généré.
+
+__sudo EXTERNAL_URL="https://gitlab.example.com" dnf install -y gitlab-ee__
+# List available versions: sudo yum --showduplicate list
+# Specify version: sudo yum linstall gitlab-ee-16.1.4-ee.0.el7.x86_64
+# Pin the version to limit auto-updates: yum versionlock gitlab-ee*
+
+
+3. __Accédez au nom d'hôte et connectez-vous__
+Sauf si vous avez fourni un mot de passe personnalisé lors de l'installation, un mot de passe sera généré aléatoirement et stocké pendant 24 heures dans __/etc/gitlab/initial_root_password.__ Utilisez ce mot de passe avec le nom d'utilisateur root pour vous connecter.
+
+4. __Configurez vos préférences de communication__
+
+Remarque importante Si vous ne vous inscrivez pas à la newsletter de sécurité, vous ne recevrez pas d'alertes de sécurité.
+
+5. __Prochaines étapes recommandées__
+Une fois votre installation terminée, réfléchissez aux étapes suivantes recommandées, notamment les options d'authentification et les restrictions d'inscription.
+
+
+
+
+== Installation de GITLAB avec Helm ==
+helm upgrade --install gitlab gitlab/gitlab \
+  --timeout 600s \
+  --set global.hosts.domain=gitlab.albam.ci \
+  --set global.hosts.externalIP=192.168.0.111 \
+  --set certmanager-issuer.email=b44346249@gmail.com \
+  --set postgresql.image.tag=13.6.0
+
+
+
+
+
+
+
+
+
+
+
+=== 1. Installez et configurez les dépendances nécessaires ===
+Sur CentOS 7 (et RedHat/Oracle/Scientific Linux 7), les commandes ci-dessous ouvriront également les accès HTTP, HTTPS et SSH dans le pare-feu du système. Il s'agit d'une étape facultative et vous pouvez l'ignorer si vous avez l'intention d'accéder à GitLab uniquement à partir de votre réseau local.
+__sudo yum install -y curl policycoreutils-python3 openssh-server perl__
+# Enable OpenSSH server daemon if not enabled: sudo systemctl status sshd
+__sudo systemctl enable sshd__
+__sudo systemctl start sshd__
+# Check if opening the firewall is needed with: sudo systemctl status firewalld
+__sudo firewall-cmd --permanent --add-service=http__
+__sudo firewall-cmd --permanent --add-service=https__
+__sudo systemctl reload firewalld__
+
+
+Ensuite, installez Postfix (ou Sendmail) pour envoyer des e-mails de notification. Si vous souhaitez utiliser une autre solution pour envoyer des e-mails, veuillez ignorer cette étape et configurer un serveur SMTP externe après l'installation de GitLab.
+
+__sudo yum install postfix__
+__sudo systemctl enable postfix__
+__sudo systemctl start postfix__
+
+
+Lors de l'installation de Postfix, un écran de configuration peut apparaître. Sélectionnez « Site Internet » et appuyez sur Entrée. Utilisez le DNS externe de votre serveur pour le « nom de courrier » et appuyez sur Entrée. Si des écrans supplémentaires apparaissent, continuez d’appuyer sur Entrée pour accepter les valeurs par défaut.
+
+=== 2. Ajoutez le référentiel de packages GitLab et installez le package ===
+__curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash__
+
+
+Ensuite, installez le package GitLab. Assurez-vous d'avoir correctement configuré votre DNS et remplacez https://gitlab.example.com par l'URL à laquelle vous souhaitez accéder à votre instance GitLab. L'installation configurera et démarrera automatiquement GitLab à cette URL.
+
+Pour les URL https://, GitLab demandera automatiquement un certificat avec Let's Encrypt , qui nécessite un accès HTTP entrant et un nom d'hôte valide . Vous pouvez également utiliser votre propre certificat ou simplement utiliser http:// (sans le s ).
+
+Si vous souhaitez spécifier un mot de passe personnalisé pour l'utilisateur administrateur initial (root), consultez la documentation . Si aucun mot de passe n'est spécifié, un mot de passe aléatoire sera automatiquement généré.
+
+sudo EXTERNAL_URL="http://gitlab.albam.lan" dnf install -y gitlab-ce
+sudo EXTERNAL_URL="https://gitlab.example.com" yum install -y gitlab-ee
+# List available versions: sudo yum --showduplicate list
+# Specify version: sudo yum linstall gitlab-ee-16.1.4-ee.0.el7.x86_64
+# Pin the version to limit auto-updates: yum versionlock gitlab-ee*
+
+http://gitlab.albam.lan
+
+
+=== 3. Accédez au nom d'hôte et connectez-vous ===
+Sauf si vous avez fourni un mot de passe personnalisé lors de l'installation, un mot de passe sera généré aléatoirement et stocké pendant 24 heures dans __/etc/gitlab/initial_root_password__. Utilisez ce mot de passe avec le nom d'utilisateur root pour vous connecter.
+
+See our documentation for detailed instructions on installing and configuration.
+
+=== 4. Set up your communication preferences ===
+Visit our email subscription preference center to let us know when to communicate with you. We have an explicit email opt-in policy so you have complete control over what and how often we send you emails.
+Twice a month, we send out the GitLab news you need to know, including new features, integrations, docs, and behind the scenes stories from our dev teams. For critical security updates related to bugs and system performance, sign up for our dedicated security newsletter.
+
+Important Note If you do not opt-in to the security newsletter, you will not receive security alerts.
+
+=== 5. Recommended next steps ===
+Une fois votre installation terminée, réfléchissez aux étapes suivantes recommandées, notamment les options d'authentification et les restrictions d'inscription.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+apache-reverse-add  [[https://albam-gitlab.dev01.ovh.smile.ci/|albam-gitlab.dev01.ovh.smile.ci]] 192.168.0.111
+
+sudo certbot certonly --standalone -d gitlab.albam.lan
+
+
+
+apache-reverse-add albam-gitlab.dev01.ovh.smile.ci 192.168.0.111:80
+/usr/local/lib/python3.6/site-packages/OpenSSL/_util.py:6: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography. The next release of cryptography will remove support for Python 3.6.
+  from cryptography.hazmat.bindings.openssl.binding import Binding
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Requesting a certificate for albam-gitlab.dev01.ovh.smile.ci
+
+Successfully received certificate.
+Certificate is saved at: /etc/letsencrypt/live/albam-gitlab.dev01.ovh.smile.ci/fullchain.pem
+Key is saved at:         /etc/letsencrypt/live/albam-gitlab.dev01.ovh.smile.ci/privkey.pem
+This certificate expires on 2024-01-28.
+These files will be updated when the certificate renews.
+Certbot has set up a scheduled task to automatically renew this certificate in the background.
+
+Deploying certificate
+Successfully deployed certificate for albam-gitlab.dev01.ovh.smile.ci to /etc/httpd/conf.d/albam-gitlab.dev01.ovh.smile.ci-le-ssl.conf
+Congratulations! You have successfully enabled HTTPS on https://albam-gitlab.dev01.ovh.smile.ci
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+If you like Certbot, please consider supporting our work by:
+ * Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+ * Donating to EFF:                    https://eff.org/donate-le
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+URL:    https://albam-gitlab.dev01.ovh.smile.ci/
+
+
+
+
+
+
+
+grep 192.168.0.111 /opt/gitlab/* -r
+
+
+
+
+
+
+
+
+

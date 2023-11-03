@@ -1,0 +1,15 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-09-04T09:41:49+01:00
+
+====== devops ======
+Créée le Monday 04 September 2023
+
+=== ''Liste de techno 👌🏿'' ===
+__- Docker__
+__- Gitlab__
+__- Github__
+__- Nexus__
+__- Harbor__
+__- Spark__
+__- Kubernetes__

@@ -1,0 +1,97 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-13T11:14:30+01:00
+
+====== Installation ======
+Créée le Thursday 13 July 2023
+
+__''## Installer et mettre à jour Ansible''__
+__''Localiser Python''__
+
+	Localisez et mémorisez le chemin d'accès à l'interpréteur Python que vous souhaitez utiliser pour exécuter Ansible. Les instructions suivantes font référence à ce Python en tant que python3. Par exemple, si vous avez déterminé que vous voulez que Python /usr/bin/python3.9soit celui sous lequel vous allez installer Ansible, spécifiez cela au lieu de python3.
+
+__S'assurer qu'il pipest disponible__
+	Pour vérifier si pipest déjà installé pour votre Python préféré :
+''python3 -m pip -V''
+
+	Si tout va bien, vous devriez voir quelque chose comme ceci :
+python3 -m pip -V
+pip 21.0.1 from /usr/lib/python3.9/site-packages/pip (python 3.9)
+
+Si tel est le cas, pip est disponible et vous pouvez passer à l' étape suivante .
+
+Si vous voyez une erreur comme , vous devrez installer sous votre interpréteur Python choisi avant de continuer. Cela peut signifier installer un package de système d'exploitation supplémentaire (par exemple, ) ou installer le dernier directement à partir de Python Packaging Authority en exécutant ce qui suit :No module named pippippython3-pippip
+
+'''
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3 get-pip.py --user
+'''
+
+Vous devrez peut-être effectuer une configuration supplémentaire avant de pouvoir exécuter Ansible. Consultez la documentation Python sur l'installation sur le site de l'utilisateur pour plus d'informations.
+
+__Installation d'Ansible__
+
+Utilisez pipdans votre environnement Python sélectionné pour installer le package Ansible de votre choix pour l'utilisateur actuel :
+
+''python3 -m pip install --user ansible''
+
+Vous pouvez également installer une version spécifique de ansible-coredans cet environnement Python :
+
+''python3 -m pip install --user ansible-core==2.12.3''
+
+__Mise à niveau d'Ansible__
+
+Pour mettre à niveau une installation Ansible existante dans cet environnement Python vers la dernière version publiée, ajoutez simplement --upgradeà la commande ci-dessus :
+
+''python3 -m pip install --upgrade --user ansible''
+
+__Confirmation de votre installation__
+Vous pouvez tester qu'Ansible est correctement installé en vérifiant la version :
+
+ansible --version
+La version affichée par cette commande concerne le ansible-corepackage associé qui a été installé.
+
+Pour vérifier la version du ansible package qui a été installé :
+
+python3 -m pip show ansible
+
+=== # Installer Ansible sur Red Hat ===
+
+'''
+sudo dnf install ansible
+sudo dnf install ansible-core
+sudo dnf install ansible-collection-community-general
+'''
+
+
+__''## Installer Ansible sur Ubuntu''__
+
+'''
+sudo apt update
+sudo apt install software-properties-common
+sudo add-apt-repository --yes --update ppa:ansible/ansible
+sudo apt install ansible
+'''
+
+Sur les anciennes distributions Ubuntu, "software-properties-common" est appelé "python-software-properties". Vous voudrez peut-être utiliser apt-getplutôt que aptdans les anciennes versions. Sachez également que seules les distributions plus récentes (c'est-à-dire 18.04, 18.10 et versions ultérieures) ont un indicateur -uou --update. Ajustez votre script si nécessaire.
+
+===== centos =====
+1. Assurez-vous que votre système est à jour en exécutant les commandes suivantes :
+'''
+sudo yum clean all
+sudo yum update
+'''
+
+
+2. Installez Ansible en utilisant le gestionnaire de paquets yum :
+'''
+sudo yum install epel-release
+sudo yum install ansible
+'''
+
+
+3. Pour vérifier que l'installation a réussi, vous pouvez exécuter la commande suivante pour afficher la version d'Ansible installée :
+	  ''ansible --version''
+
+Cela devrait afficher les informations sur la version d'Ansible installée sur votre système CentOS 7.
+

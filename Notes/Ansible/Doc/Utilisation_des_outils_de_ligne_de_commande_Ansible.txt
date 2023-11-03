@@ -1,0 +1,85 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-14T12:45:13+01:00
+
+====== Utilisation des outils de ligne de commande Ansible ======
+Créée le Friday 14 July 2023
+
+__Introduction aux commandes ad hoc__
+	Pourquoi utiliser des commandes ad hoc ?
+	Cas d'utilisation pour des tâches ad hoc
+__Utilisation des outils de ligne de commande__
+	ansible
+	ansible-config
+	ansible-console
+	ansible-doc
+	ansible-galaxie
+	ansible-inventaire
+	ansible-playbook
+	ansible-pull
+	ansible-vault
+__Aide-mémoire Ansible CLI__
+	ansible-playbook
+
+
+
+
+=== Pourquoi utiliser des commandes ad hoc ? ===
+	Les commandes ad hoc sont idéales pour les tâches que vous répétez rarement. 
+'''
+```
+$ ansible [pattern] -m [module] -a "[module options]"
+```
+'''
+si vous souhaitez éteindre toutes les machines de votre laboratoire
+
+'''
+```
+$ ansible all -m command -a "shutdown -h now"
+```
+
+'''
+=== Cas d'utilisation pour des tâches ad hoc ===
+
+__Redémarrage des serveurs__
+	Pour redémarrer les serveurs [atlanta] avec 10 forks parallèles, connecter en tant qu'utilisateur différent et exécuter la commande en tant root :
+```
+''$ ansible atlanta -a "/sbin/reboot" -f 10 -u username --become [--ask-become-pass | -K]''
+```
+__Gestion des fichiers__
+	Pour transférer un fichier directement vers tous les serveurs du groupe [atlanta] :
+''$ ansible atlanta -m ansible.builtin.copy -a "src=/etc/hosts dest=/tmp/hosts"''
+
+Le module **ansible.builtin.file** permet de modifier la propriété et les autorisations sur les fichiers. 
+
+'''
+$ ansible webservers -m ansible.builtin.file -a "dest=/srv/foo/a.txt mode=600"
+$ ansible webservers -m ansible.builtin.file -a "dest=/srv/foo/b.txt mode=600 owner=mdehaan group=mdehaan"
+'''
+
+
+Le filemodule peut également créer des répertoires, similaires à :mkdir -p
+''$ ansible webservers -m ansible.builtin.file -a "dest=/path/to/c mode=755 owner=mdehaan group=mdehaan state=directory"''
+
+En plus de supprimer des répertoires (récursivement) et de supprimer des fichiers :
+''$ ansible webservers -m ansible.builtin.file -a "dest=/path/to/c state=absent"''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

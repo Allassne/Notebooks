@@ -1,0 +1,168 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-03T17:26:44+01:00
+
+====== solve problems ======
+Créée le Monday 03 July 2023
+
+__Redémarrer un serveur__
+	sudo reboot
+
+shutdown -h now 			#arret
+
+
+
+Pour redémarrer un serveur à l'aide de Rundeck, vous pouvez suivre ces étapes :
+
+1. Configuration de la connexion au serveur : Dans Rundeck, configurez les détails de la connexion au serveur que vous souhaitez redémarrer. Cela peut inclure l'adresse IP, le nom d'utilisateur, le mot de passe ou les clés d'authentification SSH.
+
+2. Création d'un job de redémarrage : Créez un job dans Rundeck qui exécutera la commande de redémarrage sur le serveur cible. Utilisez le plugin approprié pour la technologie de connexion (par exemple, SSH pour Linux) ou développez un script personnalisé pour effectuer le redémarrage.
+
+3. Paramétrage des options de redémarrage : Configurez les options spécifiques pour le redémarrage du serveur. Cela peut inclure la commande exacte de redémarrage du système d'exploitation, les paramètres supplémentaires, etc.
+
+4. Validation du job de redémarrage : Avant d'exécuter le job, assurez-vous de le tester et de valider son fonctionnement. Vous pouvez exécuter le job en mode de test ou le planifier pour une exécution ultérieure afin de vous assurer qu'il redémarre le serveur correctement.
+
+5. Exécution du job de redémarrage : Une fois le job de redémarrage configuré et validé, vous pouvez l'exécuter manuellement à partir de l'interface Rundeck. Vous pouvez également planifier l'exécution du job à des moments spécifiques ou le déclencher automatiquement en fonction de certains événements.
+
+6. Surveillance du redémarrage : Après avoir exécuté le job de redémarrage, vous pouvez surveiller son exécution dans Rundeck pour vérifier si le serveur a été redémarré avec succès. Vérifiez les résultats du job et les journaux pour confirmer que le redémarrage s'est déroulé sans erreur.
+
+Il est important de noter que le redémarrage d'un serveur peut entraîner une interruption de service temporaire, il est donc recommandé de planifier le redémarrage pendant une fenêtre de maintenance appropriée pour minimiser l'impact sur les utilisateurs ou les services dépendants du serveur.
+
+
+__Récupérer les logs__
+Rundeck peut être utilisé pour récupérer les logs à partir de différents systèmes et les rendre accessibles dans une interface centralisée. Voici comment vous pouvez récupérer les logs avec Rundeck :
+
+1. Configuration des jobs de récupération des logs : Créez des jobs dans Rundeck qui exécutent des commandes ou des scripts pour récupérer les logs à partir des systèmes cibles. Vous pouvez utiliser des plugins Rundeck existants pour des technologies spécifiques (comme SSH pour les serveurs Linux) ou développer des scripts personnalisés pour récupérer les logs des systèmes que vous ciblez.
+
+2. Paramétrage des options de récupération des logs : Dans les jobs de Rundeck, configurez les options appropriées pour la récupération des logs. Cela peut inclure les chemins de fichiers ou les commandes pour accéder aux logs, les critères de recherche pour récupérer les logs spécifiques, les filtres pour limiter les résultats, etc.
+
+3. Planification de l'exécution des jobs : Utilisez les fonctionnalités de planification de Rundeck pour exécuter les jobs de récupération des logs à des intervalles réguliers ou à des moments spécifiques. Vous pouvez définir la fréquence d'exécution, les plages horaires, les jours de la semaine, etc., en fonction de vos besoins.
+
+4. Stockage des logs : Rundeck offre la possibilité de stocker les logs récupérés dans une base de données ou un système de fichiers dédié. Vous pouvez configurer les options de stockage dans Rundeck pour conserver les logs pendant une période spécifiée et gérer l'espace de stockage.
+
+5. Visualisation des logs : Dans l'interface Rundeck, vous pouvez accéder aux logs récupérés et les visualiser à l'aide des fonctionnalités intégrées. Les logs peuvent être consultés dans les résultats des jobs exécutés ou dans des rapports dédiés.
+
+6. Intégration avec des outils de log centralisé : Si vous utilisez déjà un système de log centralisé tel que ELK (Elasticsearch, Logstash, Kibana) ou Splunk, vous pouvez configurer Rundeck pour envoyer les logs récupérés vers ces systèmes. Cela vous permet d'avoir une visibilité centralisée et une analyse plus approfondie des logs.
+
+En utilisant Rundeck pour la récupération des logs, vous pouvez automatiser le processus de collecte et de visualisation des logs à partir de différents systèmes, ce qui facilite la surveillance et le dépannage des environnements distribués.
+
+
+rsync -avz -e "ssh -i /path/to/private/key" ansible@:/var/log/app.log /path/to/local/directory/
+
+
+__ouvrir/fermer/mettre à jour le ticket__
+
+Avec Rundeck, il est possible d'ouvrir, fermer et mettre à jour des tickets dans le cadre de la gestion des incidents ou des demandes de service. Cette fonctionnalité permet d'intégrer Rundeck à un système de gestion des tickets existant, tel que JIRA, ServiceNow, Redmine, etc.
+
+Voici comment procéder pour ouvrir, fermer et mettre à jour un ticket avec Rundeck :
+
+1. Configuration de l'intégration : Tout d'abord, vous devez configurer l'intégration entre Rundeck et votre système de gestion des tickets. Les étapes précises peuvent varier en fonction du système de gestion des tickets que vous utilisez, mais généralement, vous devez configurer les paramètres de connexion, les informations d'authentification, les URL de l'API, etc. Vous pouvez consulter la documentation spécifique de votre système de gestion des tickets et de Rundeck pour obtenir des instructions détaillées sur la configuration de l'intégration.
+
+2. Création d'un ticket : Lorsque vous souhaitez ouvrir un ticket à partir de Rundeck, vous pouvez utiliser les fonctionnalités d'exécution de travaux ou de workflow de Rundeck pour déclencher automatiquement la création d'un nouveau ticket dans votre système de gestion des tickets. Vous pouvez configurer des étapes dans votre flux de travail Rundeck pour collecter les informations nécessaires à la création du ticket, telles que le titre, la description, la priorité, les attributions, etc. Ensuite, vous pouvez utiliser les fonctionnalités d'intégration de Rundeck pour appeler l'API du système de gestion des tickets et créer le ticket correspondant.
+
+3. Mise à jour d'un ticket : Pendant l'exécution d'un travail ou d'un workflow dans Rundeck, vous pouvez mettre à jour un ticket existant pour refléter l'état ou les informations liées au travail en cours. Par exemple, vous pouvez ajouter des commentaires, modifier la priorité, mettre à jour l'état, etc. Vous pouvez utiliser les fonctionnalités d'intégration de Rundeck pour appeler l'API du système de gestion des tickets et effectuer la mise à jour appropriée sur le ticket.
+
+4. Fermeture d'un ticket : Une fois que le travail ou le workflow dans Rundeck est terminé, vous pouvez également fermer automatiquement le ticket correspondant dans le système de gestion des tickets. Vous pouvez utiliser les fonctionnalités d'intégration de Rundeck pour appeler l'API appropriée du système de gestion des tickets et mettre à jour l'état du ticket en tant que résolu ou fermé.
+
+Il est important de noter que la disponibilité et les fonctionnalités précises d'intégration des tickets peuvent varier en fonction de votre système de gestion des tickets et de la configuration de Rundeck. Consultez la documentation spécifique de votre système de gestion des tickets et de Rundeck, ainsi que les plugins ou les intégrations disponibles, pour obtenir des instructions détaillées et des exemples spécifiques à votre environnement.
+
+__provisionnement des infrastructures__
+
+Avec Rundeck, le provisionnement des infrastructures fait référence à l'automatisation du déploiement et de la configuration des ressources informatiques, telles que les serveurs, les machines virtuelles, les conteneurs, etc. Cette automatisation permet de créer rapidement et de manière reproductible des infrastructures et de les préparer pour une utilisation opérationnelle.
+
+Voici comment Rundeck peut être utilisé pour le provisionnement des infrastructures :
+
+1. Création et configuration des ressources : Vous pouvez utiliser Rundeck pour exécuter des workflows ou des travaux qui créent et configurent les ressources nécessaires, comme des instances de serveur ou des machines virtuelles. Rundeck se connecte aux différents environnements d'infrastructure, tels que des clouds publics (AWS, Azure, etc.) ou des environnements locaux, et utilise des outils tels que Terraform, Ansible, Chef, ou d'autres scripts personnalisés pour créer et configurer les ressources.
+
+2. Gestion des configurations : Rundeck peut gérer les fichiers de configuration nécessaires pour les ressources provisionnées. Il peut distribuer les fichiers de configuration sur les ressources cibles, exécuter des commandes de configuration ou appliquer des modèles de configuration spécifiques.
+
+3. Orchestrer les workflows de provisionnement : Rundeck facilite l'orchestration des workflows de provisionnement, où plusieurs étapes sont exécutées séquentiellement ou en parallèle. Vous pouvez définir des dépendances et des relations entre les étapes du workflow, contrôler l'ordre d'exécution et gérer les éventuelles erreurs ou conditions.
+
+4. Gestion des secrets et des variables : Rundeck propose des fonctionnalités pour gérer les secrets tels que les mots de passe ou les clés d'accès, afin de sécuriser les informations sensibles nécessaires au provisionnement. De plus, vous pouvez utiliser des variables pour paramétrer dynamiquement les workflows et les configurations en fonction de différents environnements ou configurations spécifiques.
+
+5. Surveillance et rapports : Rundeck offre des capacités de surveillance pour suivre l'état du provisionnement des ressources, la progression des workflows et les éventuelles erreurs. Vous pouvez également générer des rapports et des journaux pour l'audit, la conformité ou le dépannage ultérieur.
+
+L'utilisation de Rundeck pour le provisionnement des infrastructures permet d'automatiser les tâches répétitives, de réduire les erreurs humaines et d'accélérer le déploiement des ressources. Cela facilite également la gestion et la reproductibilité des infrastructures, améliorant ainsi l'efficacité opérationnelle et la flexibilité de l'environnement informatique.
+
+__mise à jour du compte utilisateur__
+
+La mise à jour du compte utilisateur avec Rundeck fait référence à la modification des informations d'un compte utilisateur existant dans Rundeck, un outil d'automatisation des opérations informatiques.
+
+Rundeck permet la gestion des utilisateurs et des rôles, ce qui vous permet de définir des autorisations et des privilèges pour les utilisateurs dans le système. La mise à jour du compte utilisateur peut inclure les actions suivantes :
+
+1. Modification des informations de connexion : Vous pouvez mettre à jour le nom d'utilisateur, l'adresse e-mail, le mot de passe ou d'autres informations de connexion associées au compte utilisateur.
+
+2. Attribution de rôles et d'autorisations : Vous pouvez modifier les rôles attribués à un utilisateur pour définir les autorisations et les privilèges correspondants. Les rôles dans Rundeck contrôlent ce que chaque utilisateur est autorisé à faire, comme exécuter des travaux, gérer des projets, créer des nœuds, etc.
+
+3. Configuration des préférences utilisateur : Certains outils offrent des fonctionnalités permettant aux utilisateurs de personnaliser leur expérience. Vous pouvez mettre à jour les préférences utilisateur telles que la langue, le fuseau horaire, l'apparence de l'interface utilisateur, etc.
+
+Il est important de noter que la façon exacte de mettre à jour un compte utilisateur dans Rundeck peut dépendre de la version spécifique de Rundeck que vous utilisez et de la configuration de votre système. Référez-vous à la documentation de Rundeck ou à l'interface d'administration de Rundeck pour obtenir des instructions précises sur la mise à jour des comptes utilisateurs dans votre environnement Rundeck spécifique.
+
+	#[[ exemple]] de ACL 
+
+
+__patch de production__
+
+L'utilisation de Rundeck pour le déploiement de patchs de production peut simplifier et automatiser le processus de mise à jour des systèmes en production. Voici comment vous pouvez utiliser Rundeck pour le déploiement de patchs de production :
+
+1. Configuration des tâches de déploiement : Dans Rundeck, configurez une tâche qui spécifie les étapes nécessaires pour déployer le patch. Cela peut inclure le téléchargement du patch, l'arrêt ou la mise en mode de maintenance du service, l'application du patch, la vérification des dépendances et des prérequis, ainsi que le redémarrage du système ou du service.
+
+2. Création d'un workflow : Si vous avez plusieurs systèmes ou services à mettre à jour, vous pouvez créer un workflow dans Rundeck qui exécute les tâches de déploiement sur chaque système de manière séquentielle ou parallèle. Cela permet de gérer efficacement les mises à jour sur plusieurs machines ou environnements.
+
+3. Planification de la maintenance : Utilisez les fonctionnalités de planification de Rundeck pour définir une fenêtre de maintenance appropriée pour le déploiement du patch. Vous pouvez spécifier la date, l'heure et la récurrence des tâches de déploiement.
+
+4. Paramétrage des variables : Rundeck permet d'utiliser des variables pour paramétrer les tâches de déploiement en fonction des différents environnements ou configurations spécifiques. Vous pouvez configurer des variables pour les chemins de fichiers, les informations d'authentification, les adresses IP, etc., afin de rendre les tâches de déploiement plus flexibles et réutilisables.
+
+5. Gestion des secrets : Si vous avez besoin d'accéder à des informations sensibles, telles que des mots de passe ou des clés d'accès, Rundeck propose des fonctionnalités de gestion des secrets. Vous pouvez stocker ces informations en toute sécurité dans Rundeck et les utiliser de manière sécurisée lors du déploiement du patch.
+
+6. Vérification et journalisation : Pendant l'exécution des tâches de déploiement, Rundeck offre des fonctionnalités de vérification et de journalisation pour suivre l'état du déploiement, enregistrer les résultats des tâches et capturer les erreurs éventuelles. Cela facilite la surveillance et le dépannage ultérieur.
+
+7. Intégration avec les systèmes de suivi des tickets : Si vous utilisez un système de suivi des tickets, vous pouvez intégrer Rundeck à ce système pour créer automatiquement des tickets lors du déploiement de patchs, enregistrer les informations de suivi et mettre à jour l'état du ticket en fonction du résultat du déploiement.
+
+En utilisant Rundeck pour le déploiement de patchs de production, vous pouvez automatiser et standardiser le processus de mise à jour, réduire les erreurs humaines, améliorer la reproductibilité et la traçabilité des mises à jour, et gagner du temps en évitant des tâches manuelles fastidieuses.
+
+
+__systèmes de basculement__
+
+Rundeck n'est pas principalement conçu pour la mise en place de systèmes de basculement ou de haute disponibilité. Rundeck est plutôt une plateforme d'automatisation des opérations qui facilite l'exécution et la gestion des workflows et des tâches sur des systèmes hétérogènes.
+
+Cependant, vous pouvez utiliser Rundeck dans le cadre d'un système de basculement pour automatiser certaines tâches ou processus liés à la gestion de basculement. Voici quelques exemples :
+
+1. Déclenchement des procédures de basculement : Rundeck peut être configuré pour déclencher automatiquement des procédures de basculement lorsqu'une condition spécifique survient, par exemple, la détection d'une défaillance du système principal. Vous pouvez utiliser des plugins ou des intégrations personnalisées pour communiquer avec d'autres outils ou systèmes de basculement afin de lancer les procédures nécessaires.
+
+2. Orchestrer les étapes de basculement : Si vous avez des étapes spécifiques à suivre lors d'un basculement, Rundeck peut être utilisé pour orchestrer ces étapes et s'assurer qu'elles sont exécutées dans l'ordre approprié. Vous pouvez configurer des workflows dans Rundeck pour gérer les actions nécessaires, telles que l'arrêt et le démarrage des services, la synchronisation des données, etc.
+
+3. Surveillance des systèmes de basculement : Rundeck peut être configuré pour surveiller les systèmes de basculement et générer des alertes en cas de problèmes ou de défaillances. Vous pouvez configurer des jobs ou des plugins pour vérifier l'état des systèmes de basculement à intervalles réguliers et déclencher des notifications en cas d'anomalies.
+
+4. Rapports et journalisation : Rundeck peut enregistrer les résultats des tâches de basculement, les journaux d'exécution, les erreurs et les informations de suivi pour faciliter l'audit et l'analyse ultérieurs. Vous pouvez utiliser les fonctionnalités de journalisation et de génération de rapports de Rundeck pour obtenir une visibilité sur les activités de basculement effectuées.
+
+Il est important de noter que l'utilisation de Rundeck dans un contexte de basculement nécessite une configuration et une intégration spécifiques avec les autres composants du système de basculement. Vous devrez déterminer les bonnes pratiques et les outils appropriés pour votre environnement spécifique afin de mettre en place un système de basculement robuste et fiable.
+
+
+
+
+rsync -Pavz -e "ssh -i keys/projects/Smile/nodes/all/id_rsa" /var/log/htt10pd/ rundeck@10.1.4.179:/var/lib/rundeck/projects/stock/httpd/
+
+
+
+
+
+
+
+
+rsync -avz /var/log/httpd/access_log  rundeck@10.1.4.179:/var/lib/rundeck/projects/stock/
+
+scp user@hostname:/var/log/httpd/access_log /home/ansible/ansible/invent/logs/
+scp /var/log/httpd/access_log /var/lib/rundeck/projects/stock/
+
+
+
+j'aimerai me connecter 
+
+
+
+
+
+sudo rsync -avz /var/log/httpd/ rundeck@10.1.4.179:/var/lib/rundeck/projects/stock/httpd/
+
+scp -r /var/log/httpd/ rundeck@10.1.4.179:/var/lib/rundeck/projects/stock/

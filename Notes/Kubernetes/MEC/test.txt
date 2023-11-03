@@ -1,0 +1,1367 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-08-24T17:52:34+01:00
+
+====== test ======
+Créée le Thursday 24 August 2023
+
+sudo dnf update -y
+
+
+===== ''Installer docker (Master & worker)'' =====
+
+curl https://releases.rancher.com/install-docker/20.10.sh | sh
+
+''sudo systemctl enable docker'' 
+''sudo systemctl start docker''
+''sudo systemctl status docker''
+
+**__sudo usermod -aG docker $user__**
+sudo usermod -aG docker albam
+
+
+===== Installation du controller node avec docker =====
+//Pour installer le node master nous allons executer ce script//
+
+export INSTALL_K3S_VERSION=v1.23.16+k3s1
+__curl -sfL https://get.k3s.io | sh -s - --docker__
+
+
+//Le script nous permet d'installer les utilitaire suivant://
+
+//kubectl//
+//crictl//
+//k3s-killall.sh//
+//k3s-uninstall.sh//
+
+//Cette commande va télécharger et sauvegarder le binaire k3s dans le chemin /usr/local/bin. Assurez-vous alors que le chemin /usr/local/bin a été déclaré comme un chemin binaire.//
+
+__echo "export PATH=\$PATH:/usr/local/bin" | sudo tee -a /etc/profile__
+__source /etc/profile__
+
+//Rajouter la config .kube/config//
+
+__mkdir -p /root/.kube__
+__ln -s /etc/rancher/k3s/k3s.yaml /root/.kube/config__
+
+//Autorisez les ports ci-dessous à travers le pare-feu sur le nœud de contrôle ://
+
+__sudo firewall-cmd --zone=trusted --add-interface=cni0 --permanent__
+__sudo firewall-cmd --add-port=8090/tcp --permanent__
+__sudo firewall-cmd --add-port=10250/tcp --permanent__
+__sudo firewall-cmd --add-port=10255/tcp --permanent__
+__sudo firewall-cmd --add-port=8472/udp --permanent__
+__sudo firewall-cmd --add-port=6443/tcp --permanent__
+__sudo firewall-cmd --add-port=9443/tcp --permanent__
+__sudo firewall-cmd --reload__
+
+
+//Les service k3s seront gerer avec ces commande ci-dessous//
+
+__sudo systemctl start k3s__
+__sudo systemctl enable k3s__
+__sudo systemctl status k3s__
+
+
+
+
+=== Configuration ===
+la configuration de k3s se fait dans le fichier /etc/rancher/k3s/config.yaml
+Par example pour desactiver traefik
+
+__disable:__
+__  - traefik__
+__#  - helm-controller__
+__#  - cloud-controller__
+
+
+===== Installation des workers nodes avec docker =====
+//le token qui va nous permettre de joint les worker au control panel ce trouve dans le fichier token du master creer plus haut.//
+
+__sudo cat /var/lib/rancher/k3s/server/node-token__
+
+//Ensuite nous allons executer le script suivant pour permettre aux nodes worker de rejoindre le master et creer le cluster.//
+
+//K3S_URL and K3S_TOKEN son des variable d'environment a remplacer dans la commande.//
+
+__export  K3S_URL=https://192.168.0.108:6443 __
+export INSTALL_K3S_VERSION=v1.23.16+k3s1
+__export K3S_TOKEN=K10e7f995ed9c0741dfcc82c832fba0bfc91092a5a2e49db176209f7f0f68d28109::server:a92fbf551ab732169bc871617ff56e15__
+__curl -sfL https://get.k3s.io | sh -s - --docker__
+
+//Autorisez les ports suivants à travers le pare-feu sur le nœud de travail ://
+
+__sudo firewall-cmd --zone=trusted --add-interface=cni0 --permanent__
+__sudo firewall-cmd --add-port=8090/tcp --permanent__
+__sudo firewall-cmd --add-port=10250/tcp --permanent__
+__sudo firewall-cmd --add-port=10255/tcp --permanent__
+__sudo firewall-cmd --add-port=8472/udp --permanent__
+__sudo firewall-cmd --reload__
+
+
+
+===== ''auto-completion'' =====
+
+''sudo dnf install bash-completion''
+''echo "source <(kubectl completion bash)" >> ~/.bashrc''
+''source .bashrc''
+
+
+===== ''Autorisation k3s refusée lors de l'utilisation de kubectl'' =====
+https://0to1.nl/post/k3s-kubectl-permission/
+
+
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config && chown $USER ~/.kube/config && chmod 600 ~/.kube/config && export KUBECONFIG=~/.kube/config
+
+__sudo chmod 644 /etc/rancher/k3s/k3s.yaml__
+
+
+
+
+
+Utiliser helm en tant que root
+
+__Installer HELM__ 
+	''curl ''[[https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3|''https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3'']]'' | bash''
+
+__Nous allons utiliser helm pour installer traefik comme ingress controller__
+	''helm repo add traefik ''[[https://helm.traefik.io/traefik|''https://helm.traefik.io/traefik'']]
+
+__mise à jour du dépôt helm__
+	''helm repo update''
+	
+__Intaller traefik avec helm__
+
+	''kubectl delete ingressclasses traefik'' 
+
+	''helm install traefik traefik/traefik''
+
+__Récuperer les valeurs par defaut__
+	''helm show values traefik/traefik > traefik.yml''
+
+__Ensuite modifier les valeurs par defaut__
+	''vim traefik.yml''
+
+````
+service:é
+...
+# Addresse IP des noeuds qui peuvent accepter des requetes de l'exterieur
+  externalIPs:
+	- X.X.X.X
+globalArguments:
+  # Désactive la verification ssl au niveau du backend
+  - "--serversTransport.insecureSkipVerify=true"
+  - "--entryPoints.web.proxyProtocol.insecure"
+  - "--entryPoints.web.forwardedHeaders.insecure"
+
+...
+# Décommenteurs les clés Port
+ports:
+  traefik:
+	Port: 9000
+	expose: true
+  web:
+	Port: 80
+  websecure:
+	Port: 443
+logs:
+  # Traefik logs concern everything that happens to Traefik itself (startup, configuration, events, shutdown, and so on).
+  general:
+	level: DEBUG
+  access:
+	# To enable access logs
+	enabled: true
+
+```
+
+
+__Activer le dashboard de traefik__
+```
+ingressRoute:
+  dashboard:
+	enabled: true
+	# Additional ingressRoute annotations (e.g. for kubernetes.io/ingress.class)
+	annotations: {}
+	# Additional ingressRoute labels (e.g. for filtering IngressRoute by custom labels)
+	labels: {}
+	# The router match rule used for the dashboard ingressRoute
+	matchRule:  Host(`albam-traefik.lan`) &&  PathPrefix(`/dashboard`) || PathPrefix(`/api`)
+	# Specify the allowed entrypoints to use for the dashboard ingress route, (e.g. traefik, web, websecure).
+	# By default, it's using traefik entrypoint, which is not exposed.
+	# /!\ Do not expose your dashboard without any protection over the internet /!\
+	entryPoints: ["web"]
+	# Additional ingressRoute middlewares (e.g. for authentication)
+	middlewares: []
+	# TLS options (e.g. secret containing certificate)
+	tls: {}
+```
+
+__Ensuite installer__
+''helm upgrade -n kube-system -i traefik traefik/traefik -f traefik.yml''
+	
+
+//si la ressource existe deja// 
+	''kubectl delete ingressclasses traefik'' 
+
+
+
+
+http://192.168.0.108:9000/dashboard/
+
+http://albam-traefik.lan/dashboard/
+
+
+
+===== Configure des ingress pour pouvoir joindre tes pods =====
+
+__Testons L'Ingress__
+
+Attaquons notre application via un nom de domaine (myservicename.lan)
+Pour tester le controller, creer un webservice de test
+
+	''kubectl create deployment demo --image=httpd --port=80''
+
+	''kubectl expose deployment demo''
+# ou
+	''kubectl create service clusterip demo --tcp=80:80''
+
+
+__Ensuite créer une resource ingress__
+
+'''
+kubectl create ingress demo-web --class=traefik\
+  --rule=demo.lan/*=demo:80
+'''
+
+
+
+Détails:
+
+	''kubectl create ingress ingress-name --class=ingress_controller --rule=demo.lan/*=myservice-name:service-port''
+
+
+//NB: --class=nginx si l'ingress controller c'est nginx et --class=traefik si l'ingress controller c'est traefik//
+
+
+
+Testons
+
+	''curl -H "Host:demo.lan" http://192.168.0.108/''
+
+__Attaquons notre application via un endpoint (mydomain.lan/myservicename)__
+
+Créons un deploy:
+
+'''
+kubectl create deploy webapp --image nginx
+kubectl create service clusterip webapp --tcp=8080:80
+'''
+
+
+Créons un fichier manifest comme suit:
+
+	''vim myingress.yml''
+
+```
+'''
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: monitor
+  namespace: default
+spec:
+  stripPrefix:
+	forceSlash: false
+	prefixes:
+	  - /webapp
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+	ingress.kubernetes.io/rewrite-target: /
+	kubernetes.io/ingress.class: traefik
+	traefik.ingress.kubernetes.io/router.middlewares: default-monitor@kubernetescrd
+  generation: 3
+  name: webapp
+  namespace: default
+spec:
+  rules:
+	- host: myapp.lan
+	  http:
+		paths:
+		  - path: /webapp
+			pathType: Prefix
+			backend:
+			  service:
+				name: webapp
+				port:
+				  number: 8080
+status:
+  loadBalancer: {}
+'''
+
+
+```
+
+kubectl apply -f myingress.yml
+
+curl -H "Host:myapp.lan" http://10.1.4.153/webapp
+
+http://myapp.lan/webapp
+
+
+===== Installe rancher pour gerer le cluster =====
+
+__Installation sur centos__
+sudo docker run --privileged -d --restart=unless-stopped -p 80:80 -p 443:443 rancher/rancher
+
+__Installation avec helmsudo __
+
+helm repo add jetstack https://charts.jetstack.io
+helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
+helm repo update
+helm install cert-manager jetstack/cert-manager  --namespace cert-manager  --create-namespace  --version v1.7.1 --set installCRDs=true
+kubectl get pods --namespace cert-manager
+helm upgrade -i rancher rancher-stable/rancher --create-namespace  --namespace cattle-system --version 2.7   --set bootstrapPassword=admin  --set hostname=rancher.smile.ci
+
+
+===== Deploie grafana et prometheus depuis rancher pour le monitoring =====
+
+{{~/Images/Captures d’écran/Capture d’écran du 2023-08-25 21-46-40.png}}
+
+
+
+
+
+{{~/Images/Captures d’écran/Capture d’écran du 2023-08-25 21-47-18.png}}
+{{~/Images/Captures d’écran/Capture d’écran du 2023-08-25 21-48-35.png}}
+
+
+installer __Monitoring__
+
+
+
+
+== ''Installation de CEPH'' ==
+
+== Pre Requis ==
+Python 3
+Systemd
+Podman ou __Docker__ pour exécuter des conteneurs
+Synchronisation de l'heure (telle que chrony ou NTP)
+LVM2 pour le provisionnement des périphériques de stockage
+
+
+
+
+//Voir la section Compatibilité avec les versions de Podman pour un tableau des versions de Ceph compatibles avec Podman. Toutes les versions de Podman ne sont pas compatibles avec Ceph.//
+
+== Installation ==
+
+Utilisez curl pour récupérer la version la plus récente du script autonome.
+
+__cd /tmp__
+__curl --silent --remote-name --location https://github.com/ceph/ceph/raw/quincy/src/cephadm/cephadm__
+
+
+Rendre le cephadm script exécutable :
+
+__chmod +x cephadm__
+__./cephadm add-repo --release quincy__
+__./cephadm install__
+
+
+La première étape de la création d'un nouveau cluster Ceph consiste à exécuter la commande sur le premier hôte du cluster Ceph. Le fait d'exécuter la commande sur le premier hôte du cluster Ceph crée le premier « démon de surveillance » du cluster Ceph, et ce démon de surveillance a besoin d'une adresse IP. Vous devez transmettre l'adresse IP du premier hôte du cluster Ceph à la commande, vous aurez donc besoin de connaître l'adresse IP de cet hôte.
+Exécutez la commande :
+
+__cephadm bootstrap  --mon-ip 10.1.6.53  --allow-fqdn-hostname__
+cephadm bootstrap  --mon-ip 192.168.0.80  --allow-fqdn-hostname
+
+
+
+Cette commande va :
+
+Crée un démon de surveillance et de gestion pour le nouveau cluster sur l'hôte local.
+Génère une nouvelle clé SSH pour le cluster Ceph et ajoutez-la au /root/.ssh/authorized_keysfichier de l'utilisateur racine.
+Écris une copie de la clé publique dans /etc/ceph/ceph.pub.
+Écris un fichier de configuration minimal dans /etc/ceph/ceph.conf. Ce fichier est nécessaire pour communiquer avec le nouveau cluster.
+Écris une copie de la client.admin clé secrète administrative (privilégiée !) dans /etc/ceph/ceph.client.admin.keyring.
+Ajoute l'étiquette _admin à l'hôte d'amorçage. Par défaut, tout hôte avec cette étiquette obtiendra (également) une copie de /etc/ceph/ceph.conf et /etc/ceph/ceph.client.admin.keyring.
+
+A la fin du script, vous devriez avoir les acces au dashboard, tel que:
+
+**URL: https://FQDN:8443/**
+**User: admin**
+**Password: XXXXXXXXXXXX**
+
+**sudo /sbin/cephadm shell --fsid 3a70c210-03ae-11ed-9296-525400dd5e0f -c /etc/ceph/ceph.conf -k /etc/ceph/ceph.client.admin.keyring**
+
+
+**sudo /sbin/cephadm shell**
+
+
+Installer ceph-cli pour utiliser directement les commandes de ceph dans le shell Bash:
+
+__cephadm add-repo --release quincy__
+__cephadm install ceph-common__
+
+
+
+
+URL: https://albam-ceph-v1.dev01.smile.lan:8443/
+	  User: admin
+	
+	
+	
+https://albam-cephs.dev01.smile.lan:8443/
+
+
+
+== Ajouter un hote ==
+
+Rajouter la clé publique sur le serveur que vous voulez rajouter
+
+
+__ssh-copy-id -f -i /etc/ceph/ceph.pub root@10.1.6.52__
+
+
+
+Installer les pre requis plus haute sur le serveur
+Lancer la commande suivante
+
+
+__ceph orch host add HOSTNAME_OR_FQDN IP_ADDRESS --labels _admin__
+ceph orch host add node 10.1.6.52 --labels _admin
+ 
+
+== Initialisation des disques des OSD ==
+
+Listons et Vérifions la compatibilité du ou des disques présent sur l'hôte
+
+
+__ceph orch device ls --refresh__
+__ceph orch apply osd --all-available-devices --dry-run__
+
+
+
+== Mettons en place le(s) disque(s) des OSD de façon automatique ==
+
+**NB: Tous les disques non formatés seront utilisés et lorsque vous ajouterez de nouveaux disques, ils seront automatiquement utilisés.**
+
+__ceph orch apply osd --all-available-devices__
+
+
+
+Mettons en place le(s) disque(s) des OSD de façon manuelle
+
+
+__ceph orch device ls --wide --refresh__
+
+__ceph orch daemon add osd HOSTNAME:_DEVICE_PATH___
+
+
+
+__ceph orch ls osd__
+
+
+
+
+
+
+
+
+
+=== ''Installation de Velero'' ===
+
+Installation de Velero Client ( Action à faire sur le kubernetes master )
+
+Le client velero permet d'interagir avec les composants déployés sur le cluster kubernetes.
+
+__VERSION=1.9.0__
+__wget https://github.com/vmware-tanzu/velero/releases/download/v${VERSION}/velero-v${VERSION}-linux-amd64.tar.gz__
+
+__tar -xvf velero-v${VERSION}-linux-amd64.tar.gz__
+__cp velero-v${VERSION}-linux-amd64/velero /usr/local/sbin/__
+
+
+
+Activer l'autocompletion velero (https://velero.io/docs/v1.9/customize-installation/#enabling-shell-autocompletion)
+
+
+Vous devez maintenant vous assurer que le script de complétion de l'interface CLI de Velero est utilisé dans toutes vos sessions shell. Il y a deux façons de le faire :
+
+__yum install bash-completion -y__
+
+1 - Source the completion script in your ~/.bashrc file:
+
+__echo 'source <(velero completion bash)' >>~/.bashrc__
+
+2 - Ajoutez le script de complétion au répertoire /etc/bash_completion.d :
+
+__velero completion bash >/etc/bash_completion.d/velero__
+
+ou 
+
+__velero completion bash > /usr/local/etc/bash_completion.d/velero__
+
+
+
+== Installation des composants de Velero Serveur ==
+
+//Nous utilisons un stockage S3 déployé par Ceph RGW compatible avec l'API S3 AWS. Les identifiants aws_access_key_id et aws_secret_access_key sont récupérés depuis le dashboard Ceph dans la section "Object Gateway > Users" puis éditez, l'utilisateur ayant accès au bucket à utiliser.//
+//Créer le fichier credentials ( cas de Ceph RGW )//
+
+__tee credentials-velero <<EOF__
+__[default]__
+__aws_access_key_id = S2ZZJW616TKPUH6A22CW__
+__aws_secret_access_key = IHdcKsuBn7eLv2KW65WLoSaPNh3FkNDazqA9kHxD__
+__EOF__
+
+
+
+Lancer l'installation de velero ( cas de Ceph RGW )
+
+__velero install \__
+	__--provider aws \__
+	__--plugins velero/velero-plugin-for-aws:v1.5.0 \__
+	__--bucket velero \__
+	__--use-restic \__
+	__--secret-file ./credentials-velero \__
+	__--use-volume-snapshots=false \__
+	__--backup-location-config region=default,s3ForcePathStyle="true",s3Url=http://192.168.0.112:8080 \__
+__	--wait__
+
+
+Vérifiez que le stockage est disponible:
+
+__velero backup-location get__
+
+
+
+
+
+
+
+velero schedule create sauve-01 --schedule "42 20 * * *"
+
+velero schedule get
+
+velero schedule delete sauve-01
+
+
+
+
+
+
+https://www.youtube.com/watch?v=uIKaiZQxqkI&ab_channel=DEVOPSD-DAY
+
+velero backup create first-backup
+
+
+__velero backup describe first-backup__
+__velero backup logs first-backup__
+
+
+
+
+kubectl logs deployment/velero -n velero
+
+
+velero get backups  # voir les sauvegardes disponible
+
+velero restore create --from-backup NOM_DE_LA_SAUVEGARDE  # Restauration 
+
+velero restore
+velero restore describe NOM_DU_RESTORE    # voir la progression 
+
+
+
+
+
+
+
+kubectl create secret docker-registry nexus-registry \
+  --docker-server=http://192.168.0.112:8081 \
+  --docker-username=admin \
+  --docker-password=allassaneBamba\
+  --docker-email=allassane.bamba@smile.ci\
+  --insecure-skip-tls-verify \
+  -n default
+
+
+
+
+http://192.168.0.112:8081/
+
+http://192.168.0.112:8082/
+
+
+
+https://git.smile.ci/adminsys/dex/-/blob/master/gitlab-server/08-aide.md?ref_type=heads
+
+
+--------------------
+
+===== configuration de déploiement continue avec GITLAB =====
+
+=== **Créer un volume Docker pour Nexus** ===
+
+Ouvrez un terminal et exécutez la commande suivante pour créer un volume Docker nommé "nexus-data" (vous pouvez choisir un nom différent si vous le souhaitez) :
+
+```
+docker volume create nexus-data
+```
+
+Ce volume sera utilisé pour stocker les données de Nexus de manière persistante.
+
+=== **Télécharger et exécuter l'image Nexus** ===
+
+Exécutez la commande suivante pour télécharger et exécuter l'image Nexus Repository Manager tout en liant le volume que vous venez de créer :
+
+```
+docker run -d -p 8081:8081 --name nexus -v nexus-data:/nexus-data sonatype/nexus3
+```
+
+- L'option `-d` permet d'exécuter le conteneur en mode détaché.
+- L'option `-p 8081:8081` redirige le port 8081 du conteneur vers le port 8081 de votre système hôte.
+- Le nom `nexus` est donné au conteneur (vous pouvez choisir un autre nom si vous le souhaitez).
+- L'image utilisée est `sonatype/nexus3`, qui est l'image officielle de Nexus 3.
+- L'option `-v nexus-data:/nexus-data` monte le volume Docker "nexus-data" dans le répertoire `/nexus-data` à l'intérieur du conteneur, ce qui permet de stocker les données de manière persistante en dehors du conteneur.
+
+=== **Vérifier le démarrage de Nexus** ===
+
+Attendez quelques instants que le conteneur Nexus démarre. Vous pouvez vérifier l'état du conteneur en utilisant la commande suivante :
+
+```
+docker ps
+```
+
+Assurez-vous que le conteneur Nexus est en cours d'exécution.
+
+Désormais, les données de Nexus seront stockées de manière persistante dans le volume "nexus-data". Même si vous arrêtez ou supprimez le conteneur Nexus, vos données seront préservées dans ce volume.
+
+**Sauvegarde des données Nexus** : Pour effectuer des sauvegardes régulières des données Nexus, vous pouvez simplement sauvegarder le contenu du volume Docker "nexus-data". Vous pouvez utiliser des outils de sauvegarde Docker ou des scripts personnalisés pour automatiser ce processus.
+
+N'oubliez pas de sécuriser l'accès à Nexus, notamment en configurant des sauvegardes chiffrées si les données sont sensibles.
+
+
+
+
+
+
+
+
+
+==== Fichier ====
+
+__''.gitlab-ci.yml''__
+
+```
+---
+
+variables:
+  DOCKER_VERSION: 20.10.12
+  CI_REGISTRY: 192.168.0.112:8082
+  CI_REGISTRY_IMAGE: 192.168.122.76:8082/$CI_PROJECT_PATH
+
+stages:
+  - build
+  - deploy 
+
+build:
+  stage: build
+  image: docker:${DOCKER_VERSION}
+  tags:
+	- docker
+  script:
+	- echo "$REGISTRY_PASSWORD" | docker login -u $REGISTRY_USER --password-stdin $REGISTRY
+	- docker build -t  $CI_REGISTRY_IMAGE .
+	- docker push $CI_REGISTRY_IMAGE
+	- docker image rm $CI_REGISTRY_IMAGE
+
+deploy:
+  stage: deploy
+  image: 
+		name: alpine/helm
+		entrypoint: [""]
+  script: 
+		- export
+		- echo $KUBECONFIG 
+		- helm repo add stakater https://stakater.github.io/stakater-charts
+#		     - helm uninstall $RELEASE_NAME
+		- helm upgrade -i $RELEASE_NAME stakater/application -f values.yaml
+```
+
+__''Dockerfile''__
+
+```
+# This file is a template, and might need editing before it works on your project.
+FROM httpd:alpine
+
+WORKDIR /usr/local/apache2/htdocs/
+
+COPY index.html .
+
+```
+
+__''index.html''__
+
+```
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Site Web Responsive</title>
+	<style>
+		/* Styles de base */
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+
+		header {
+			background-color: #333;
+			color: #fff;
+			padding: 20px;
+			text-align: center;
+		}
+
+		nav ul {
+			list-style: none;
+			padding: 0;
+		}
+
+		nav ul li {
+			display: inline;
+			margin-right: 20px;
+		}
+
+		main {
+			padding: 20px;
+		}
+
+		/* Media queries pour la mise en page responsive */
+		@media (max-width: 768px) {
+			header {
+				padding: 10px;
+			}
+
+			nav ul li {
+				display: block;
+				margin: 10px 0;
+			}
+		}
+
+		@media (max-width: 480px) {
+			main {
+				padding: 10px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>Mon Site Web</h1>
+		<nav>
+			<ul>
+				<li><a href="#">Accueil</a></li>
+				<li><a href="#">À propos</a></li>
+				<li><a href="#">Services</a></li>
+				<li><a href="#">Contact</a></li>
+			</ul>
+		</nav>
+	</header>
+
+	<main>
+		<section class="section">
+			<h2>Section 1</h2>
+			<p>Contenu de la section 1.</p>
+		</section>
+
+		<section class="section">
+			<h2>Section 2</h2>
+			<p>Contenu de la section 2.</p>
+		</section>
+	</main>
+
+	<footer>
+		<p>&copy; 2023 Mon Site Web</p>
+	</footer>
+</body>
+</html>
+
+```
+
+__''values.yaml''__
+
+```
+# -- Same as nameOverride but for the namespace.
+namespaceOverride: ""
+
+# -- Same as nameOverride but for the component.
+componentOverride: ""
+
+# -- Same as nameOverride but for the partOf.
+partOfOverride: ""
+
+##########################################################
+# Name of the application.
+##########################################################
+applicationName: "app1"
+
+##########################################################
+# Global labels
+# These labels will be added on all resources, 
+# and you can add additional labels from below 
+# on individual resource
+##########################################################
+  
+cronJob: 
+  enabled: false
+  jobs:
+	# db-migration:
+	#   schedule: "* * * 8 *"
+	#   env: 
+	#     KEY:
+	#       value: VALUE
+	#   image: 
+	#     repository: docker.io/nginx
+	#     tag: v1.0.0
+	#     digest: '' # if set to a non empty value, digest takes precedence on the tag
+	#     imagePullPolicy: IfNotPresent
+	#   command: ["/bin/bash"]
+	#   args: ["-c","sleep 5000"]
+	#   resources:  
+	#     requests:
+	#         memory: 5Gi
+	#         cpu: 1
+  
+##########################################################
+# Deployment
+##########################################################
+deployment:
+
+  enabled: true
+  # By default deploymentStrategy is set to rollingUpdate with maxSurge of 25% and maxUnavailable of 25%
+  # You can change type to `Recreate` or can uncomment `rollingUpdate` specification and adjust them to your usage.
+  strategy:
+	type: RollingUpdate
+	# rollingUpdate:
+	#   maxSurge: 25%
+	#   maxUnavailable: 25%
+  
+  # Reload deployment if configMap/secret updates
+  reloadOnChange: true
+
+  # Select nodes to deploy which matches the following labels  
+  nodeSelector:
+	# cloud.google.com/gke-nodepool: default-pool  
+
+ ore the app container
+  initContainers:
+#      init-contaner:
+#        image: busybox
+#        imagePullPolicy: IfNotPresent
+#        command: ['/bin/sh']
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Velero 
+
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml 
+
+
+
+
+
+
+==== __''Configuration des notifications en cas d'échecs de déploiement GITLAB''__ ====
+
+==== __''Installation de keycloak''__ ====
+
+export KCADM=/home/albam/keycloak-21.0.2/bin/kcadm.sh
+
+
+export HOST_FOR_KCADM=192.168.0.80
+
+
+$KCADM config credentials --server http://$HOST_FOR_KCADM:8080 --user admin --password allassaneBamba --realm master
+
+
+
+==== __''Configuration des clients''__ ====
+
+
+https://git.smile.ci/adminsys/dex/-/blob/master/kubernetes/03-0-configuration.md?ref_type=heads
+
+==== __''Configuration des services k3s du cluster pour accepter les paramètres OIDC''__ ====
+
+
+
+
+ krew is now installed! To start using kubectl plugins, you need to add
+ |  | krew's installation directory to your PATH:
+ |  | 
+ |  |   * macOS/Linux:
+ |  |     - Add the following to your ~/.bashrc or ~/.zshrc:
+ |  |         export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+ |  |     - Restart your shell.
+
+
+
+==== __''Configuration de kubectl pour l'authentification avec OIDC''__ ====
+
+==== __''Configuration des autorisations RBAC pour limiter l'accès aux ressources d'un cluster à certains utilisateurs''__ ====
+
+==== __''Installation d'un cluster consul''__ ====
+
+==== __''Installation d'un cluster vault''__ ====
+
+
+
+
+
+
+
+===== **kubernetes-dashboard** =====
+
+
+
+
+Release "kubernetes-dashboard" does not exist. Installing it now.
+NAME: kubernetes-dashboard
+LAST DEPLOYED: Fri Oct 27 19:15:37 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+*********************************************************************************
+*** PLEASE BE PATIENT: kubernetes-dashboard may take a few minutes to install ***
+*********************************************************************************
+From outside the cluster, the server URL(s) are:
+	 https://k8s-dashboard.dev01.ovh.smile.ci
+
+
+
+Bien sûr, voici une explication en français.
+
+Le certificat que vous avez fourni révèle les informations suivantes :
+
+- Émetteur (Issuer): Let's Encrypt (R3)
+- Nom commun du sujet (Subject Common Name - CN): `5173.code.jekas.dev01.ovh.smile.ci`
+- Nom alternatif du sujet (X509v3 Subject Alternative Name - SAN): `DNS:5173.code.jekas.dev01.ovh.smile.ci`
+
+Cela signifie que le certificat est uniquement valide pour le nom d'hôte `5173.code.jekas.dev01.ovh.smile.ci`. Si vous tentez d'accéder à un autre nom d'hôte avec ce certificat, vous obtiendrez une erreur de correspondance de certificat SSL/TLS, comme celle que vous avez observée précédemment avec le nom d'hôte `k8s-dashboard.dev01.ovh.smile.ci`.
+
+Pour résoudre ce problème, vous devriez :
+
+1. Obtenir un certificat pour le nom d'hôte souhaité, `k8s-dashboard.dev01.ovh.smile.ci`, ou
+2. Obtenir un certificat générique qui couvre tous les sous-domaines sous `dev01.ovh.smile.ci` (par exemple, `*.dev01.ovh.smile.ci`).
+
+L'utilisation du bon certificat vous aidera à éviter les erreurs de non-correspondance de noms d'hôtes SSL/TLS.
+
+
+
+
+
+helm upgrade -i kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard  --set service.type=NodePort,enable-insecure-login=true,enable-skip-login=false -f kubernetes-dashboard.yml
+
+
+
+
+__helm upgrade -i kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard  --set enable-insecure-login=true,enable-skip-login=true -f kubernetes-dashboard.yml__
+
+
+
+
+
+===== Argo CD Working With Helm =====
+
+
+
+Helm est un gestionnaire de paquets pour Kubernetes, permettant de définir, d'installer et de mettre à niveau des applications Kubernetes à l'aide de chartes Helm. Pour utiliser Helm, il est souvent nécessaire d'ajouter des dépôts (ou "repos") qui contiennent des chartes prédéfinies. Voici une liste de quelques dépôts Helm populaires :
+
+1. **Helm Hub / Artifact Hub** : Bien que Helm Hub ait été l'endroit original pour trouver des chartes Helm, il a été remplacé par Artifact Hub. Artifact Hub est le centre de découverte pour les paquets cloud natifs, y compris les chartes Helm.
+   - Artifact Hub : [https://artifacthub.io/](https://artifacthub.io/)
+
+2. **Bitnami Helm Charts** : Bitnami fournit un grand nombre de chartes Helm pour des applications populaires.
+   - Repo : `https://charts.bitnami.com/bitnami`
+
+3. **Helm Stable & Incubator Repos** : Historiquement, ces deux dépôts étaient les références officielles pour les chartes Helm. Cependant, le dépôt stable a été déprécié et les chartes ont été déplacées vers d'autres dépôts. L'incubateur est également en phase de dépréciation.
+   - Stable (déprécié) : `https://charts.helm.sh/stable`
+   - Incubator (déprécié) : `https://charts.helm.sh/incubator`
+
+4. **JupyterHub Helm Charts** : Si vous déployez JupyterHub sur Kubernetes, ce dépôt est utile.
+   - Repo : `https://jupyterhub.github.io/helm-chart/`
+
+5. **Prometheus Community Helm Charts** : Pour le monitoring avec Prometheus et d'autres outils liés.
+   - Repo : `https://prometheus-community.github.io/helm-charts`
+
+6. **Elastic Helm Charts** : Pour déployer des produits Elastic comme Elasticsearch sur Kubernetes.
+   - Repo : `https://helm.elastic.co`
+
+7. **Grafana Helm Charts** : Pour déployer Grafana sur Kubernetes.
+   - Repo : `https://grafana.github.io/helm-charts`
+
+Ceci est juste un échantillon de quelques dépôts Helm populaires. Il existe de nombreux autres dépôts hébergés par des fournisseurs de logiciels, des communautés open-source et des organisations. Lorsque vous cherchez une charte Helm pour une application spécifique, une recherche rapide sur Artifact Hub ou sur le web en général devrait vous donner des résultats pertinents.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+I- Ajout d’un repo Gitlab
+
+
+1- Se rendre dans la section Settings -> Repositories et cliquer sur "+ CONNECT REPO"
+2- Renseigner les informations de connexion au repo comme suit :
+
+
+
+
+3- Une fois le repo ajoutée , vous devriez avoir :
+
+Application coté Gitlab
+Notre application est constitué des deux fichier yml ci-dessous :
+
+
+* Deployment
+
+* Service
+
+
+Ajout d'une application
+
+
+Pour ajouter l'application au niveau de ArgoCD, il faut renseigner les champs comme suit :
+Application Name: nom_application
+Project Name : projet_application
+
+
+Repository URL : URL du repo GIT ou se trouve l'application
+Path : Le chemin vers les fichiers de l'application
+
+Cluster URL: Cluster Kubernetes où déployer l'application
+Application ajoutée :
+
+En cliquant sur l'application, on peut avoir une vue plus détaillée
+
+Ajout d'une application avec HELM
+Pour ajouter l'application avec HELM au niveau de ArgoCD, il faut renseigner les champs comme suit :
+
+
+Repository URL :  URL du dépôt Helm contenant des charts où se trouve l'application souhaitée.
+Dans notre cas : https://charts.bitnami.com/bitnami
+Ensuite, sélectionnez la chart souhaitée et la version correspondant à votre application.
+
+
+Modifiez les paramètres souhaités dans l'onglet 'Helm'.
+
+En cliquant sur l'application, nous obtenons une vue plus détaillée du déploiement effectué.
+
+
+
+
+
+
+
+
+
+--------------------
+
+
+===== Installation d'HARBOR =====
+__Ajout du repot__
+
+helm repo add harbor https://helm.goharbor.io
+
+helm repo update
+
+__Récuperation de la values afin de faire des modifiaction__
+
+helm show values harbor/harbor > harbor.yaml
+
+
+
+__Nous allons faire les config  ci-dessous avant l'installation__
+
+
+vim harbor.yaml
+
+```
+expose:
+  # Set how to expose the service. Set the type as "ingress", "clusterIP", "nodePort" or "loadBalancer"
+  # and fill the information in the corresponding section
+  type: ingress
+  tls:
+	# Enable TLS or not.
+	# Delete the "ssl-redirect" annotations in "expose.ingress.annotations" when TLS is disabled and "expose.type" is "ingress"
+	# Note: if the "expose.type" is "ingress" and TLS is disabled,
+	# the port must be included in the command when pulling/pushing images.
+	# Refer to https://github.com/goharbor/harbor/issues/5291 for details.
+	enabled: false
+
+ ingress:
+	hosts:
+	  core: domain-harbor.lan
+	# set to the type of ingress controller if it has specific requirements.
+	# leave as `default` for most ingress controllers.
+	# set to `gce` if using the GCE ingress controller
+	# set to `ncp` if using the NCP (NSX-T Container Plugin) ingress controller
+	# set to `alb` if using the ALB ingress controller
+	# set to `f5-bigip` if using the F5 BIG-IP ingress controller
+	controller: default
+	## Allow .Capabilities.KubeVersion.Version to be overridden while creating ingress
+	kubeVersionOverride: ""
+	className: ""
+	annotations:
+
+
+# The external URL for Harbor core service. It is used to
+# 1) populate the docker/helm commands showed on portal
+# 2) populate the token service URL returned to docker client
+#
+# Format: protocol://domain[:port]. Usually:
+# 1) if "expose.type" is "ingress", the "domain" should be
+# the value of "expose.ingress.hosts.core"
+# 2) if "expose.type" is "clusterIP", the "domain" should be
+# the value of "expose.clusterIP.name"
+# 3) if "expose.type" is "nodePort", the "domain" should be
+# the IP address of k8s node
+#
+# If Harbor is deployed behind the proxy, set it as the URL of proxy
+externalURL: https://domain-harbor.lan
+
+
+-   Remplacer seulement le storageclass par le votre
+
+  persistentVolumeClaim:
+	registry:
+	  # Use the existing PVC which must be created manually before bound,
+	  # and specify the "subPath" if the PVC is shared with other components
+	  existingClaim: ""
+	  # Specify the "storageClass" used to provision the volume. Or the default
+	  # StorageClass will be used (the default).
+	  # Set it to "-" to disable dynamic provisioning
+	  storageClass: "rbd"
+	  subPath: ""
+	  accessMode: ReadWriteOnce
+	  size: 5Gi
+	  annotations: {}
+	jobservice:
+	  jobLog:
+		existingClaim: ""
+		storageClass: "rbd"
+		subPath: ""
+		accessMode: ReadWriteOnce
+		size: 1Gi
+		annotations: {}
+	# If external database is used, the following settings for database will
+	# be ignored
+	database:
+	  existingClaim: ""
+	  storageClass: "rbd"
+	  subPath: ""
+	  accessMode: ReadWriteOnce
+	  size: 1Gi
+	  annotations: {}
+	# If external Redis is used, the following settings for Redis will
+	# be ignored
+	redis:
+	  existingClaim: ""
+	  storageClass: "rbd"
+	  subPath: ""
+	  accessMode: ReadWriteOnce
+	  size: 1Gi
+	  annotations: {}
+	trivy:
+	  existingClaim: ""
+	  storageClass: ""
+	  subPath: ""
+	  accessMode: ReadWriteOnce
+	  size: 5Gi
+	  annotations: {}
+
+
+
+Il faut changer le harborAdminPassword  qui seras utile lors de la connexion  a  la GUI.
+
+# The initial password of Harbor admin. Change it from portal after launching Harbor
+# or give an existing secret for it
+# key in secret is given via (default to HARBOR_ADMIN_PASSWORD)
+# existingSecretAdminPassword:
+existingSecretAdminPasswordKey: HARBOR_ADMIN_PASSWORD
+harborAdminPassword: "Harbor12345"
+```
+
+
+
+
+ helm install harbor   harbor/harbor -f harbor.yaml
+
+
+
+Nous pouvons joindre la GUI via la ressource ingress definir dans la fichier ci-dessus
+
+https://domain.harbor.lan
+
+
+--------------------
+
+===== ''Installer docker (Master & worker)'' =====
+
+curl https://releases.rancher.com/install-docker/20.10.sh | sh
+
+''sudo systemctl enable docker'' 
+''sudo systemctl start docker''
+''sudo systemctl status docker''
+
+**__sudo usermod -aG docker $user__**
+sudo usermod -aG docker albam
+
+
+
+
+===== Installation d'un nouveau controller node avec docker =====
+
+
+export K3S_URL=https://192.168.0.128:6443
+export INSTALL_K3S_VERSION=v1.23.16+k3s1
+curl -sfL https://get.k3s.io | K3S_TOKEN=K10ef08abf620e5310e1f8630fac12d65257c1784c720a13a80010f183b74fd7ec2::server:b937816c6a826e8bbe220468b6c1eb74 sh -s - --docker server --no-deploy=traefik
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Cette commande va télécharger et sauvegarder le binaire k3s dans le chemin /usr/local/bin. Assurez-vous alors que le chemin /usr/local/bin a été déclaré comme un chemin binaire.//
+
+__echo "export PATH=\$PATH:/usr/local/bin" | sudo tee -a /etc/profile__
+__source /etc/profile__
+
+//Rajouter la config .kube/config//
+
+__mkdir -p /root/.kube__
+__ln -s /etc/rancher/k3s/k3s.yaml /root/.kube/config__
+
+//Autorisez les ports ci-dessous à travers le pare-feu sur le nœud de contrôle ://
+
+__sudo firewall-cmd --zone=trusted --add-interface=cni0 --permanent__
+__sudo firewall-cmd --add-port=8090/tcp --permanent__
+__sudo firewall-cmd --add-port=10250/tcp --permanent__
+__sudo firewall-cmd --add-port=10255/tcp --permanent__
+__sudo firewall-cmd --add-port=8472/udp --permanent__
+__sudo firewall-cmd --add-port=6443/tcp --permanent__
+__sudo firewall-cmd --add-port=9443/tcp --permanent__
+__sudo firewall-cmd --reload__
+
+
+//Les service k3s seront gerer avec ces commande ci-dessous//
+
+__sudo systemctl start k3s__
+__sudo systemctl enable k3s__
+__sudo systemctl status k3s__
+
+
+
+
+===== Installation des workers nodes avec docker =====
+//le token qui va nous permettre de joint les worker au control panel ce trouve dans le fichier token du master creer plus haut.//
+
+__sudo cat /var/lib/rancher/k3s/server/node-token__
+
+//Ensuite nous allons executer le script suivant pour permettre aux nodes worker de rejoindre le master et creer le cluster.//
+
+//K3S_URL and K3S_TOKEN son des variable d'environment a remplacer dans la commande.//
+
+__export  K3S_URL=https://192.168.0.128:6443__
+export INSTALL_K3S_VERSION=v1.23.16+k3s1
+__export K3S_TOKEN=K10ef08abf620e5310e1f8630fac12d65257c1784c720a13a80010f183b74fd7ec2::server:b937816c6a826e8bbe220468b6c1eb74__
+__curl -sfL https://get.k3s.io | sh -s - --docker__
+
+//Autorisez les ports suivants à travers le pare-feu sur le nœud de travail ://
+
+__sudo firewall-cmd --zone=trusted --add-interface=cni0 --permanent__
+__sudo firewall-cmd --add-port=8090/tcp --permanent__
+__sudo firewall-cmd --add-port=10250/tcp --permanent__
+__sudo firewall-cmd --add-port=10255/tcp --permanent__
+__sudo firewall-cmd --add-port=8472/udp --permanent__
+__sudo firewall-cmd --reload__
+
+
+
+===== ''auto-completion'' =====
+
+''sudo dnf install bash-completion''
+''echo "source <(kubectl completion bash)" >> ~/.bashrc''
+''source .bashrc''
+
+
+
+
+
+
+
+
+
+--------------------
+
+
+
+
+	__ceph osd pool create vdisk 32__
+//Error ERANGE:  pg_num 32 size 3 for this pool would result in 288 cumulative PGs per OSD (864 total PG replicas on 3 'in' root OSDs by crush rule) which exceeds the mon_max_pg_per_osd value of 257//
+
+__ceph config set global mon_max_pg_per_osd 864__
+__ceph osd pool create vdisk 32__
+
+ceph tell mon.* injectargs '--mon_max_pg_per_osd 864'
+
+
+
+
+
+

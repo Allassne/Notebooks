@@ -1,0 +1,161 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-20T15:29:49+01:00
+
+====== doc ======
+Créée le Thursday 20 July 2023
+
+
+Kubernetes est une plate-forme open source de niveau production qui orchestre le placement (planification) et l'exécution des conteneurs d'application dans et entre les clusters d'ordinateus.
+
+
+Les planes controles gèrent le cluster et les noeuds utilisés pour héberger les applications en cours d'exécution.
+
+
+Un déploiement est responsable de la création et la mise à jour des instances de votre application.
+
+Les application doivent etre empaquetées dans l'un des formats de conteneur pris en charge afin d'etre déployées sur kubernetes.
+
+Un pod est un groupe  d'un ou plusieurs conteneurs d'applications (tels que Docker) et comprend un stockage partagé (volumes), une adresse IP et des informations sur la façon de les exécuter.
+
+Les conteneurs ne doivent etres planifiés ensemble dans un seul pod que s'ils sont étroitement couplés et doivent partager des ressources telles que le disque.
+
+un noeud est une machine de travail dans kubernetes et peut etres une machine virtuelle ou une machine physique selon le cluster. Plusieurs pods peuvent s'exécuter sur un noeud.   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Les __conteneurs__ sont devenus populaires car ils offrent des avantages supplémentaires, tels que :
+
+	Création et déploiement d'applications agiles : facilité et efficacité accrues de la création d'images de conteneurs par rapport à l'utilisation d'images de VM.
+	Développement, intégration et déploiement continus : permettent une création et un déploiement fiables et fréquents d'images de conteneurs avec des restaurations rapides et efficaces (en raison de l'immuabilité de l'image).
+	Séparation des préoccupations entre Dev et Ops : créez des images de conteneur d'applications au moment de la construction/de la publication plutôt qu'au moment du déploiement, dissociant ainsi les applications de l'infrastructure.
+	Observabilité : non seulement affiche les informations et les métriques au niveau du système d'exploitation, mais également la santé des applications et d'autres signaux.
+	Cohérence environnementale entre le développement, les tests et la production : fonctionne de la même manière sur un ordinateur portable que dans le cloud.
+	Portabilité de la distribution dans le cloud et le système d'exploitation : s'exécute sur Ubuntu, RHEL, CoreOS, sur site, sur les principaux clouds publics et partout ailleurs.
+	Gestion centrée sur les applications : augmente le niveau d'abstraction de l'exécution d'un système d'exploitation sur du matériel virtuel à l'exécution d'une application sur un système d'exploitation utilisant des ressources logiques.
+	Micro-services lâchement couplés, distribués, élastiques et libérés : les applications sont divisées en éléments plus petits et indépendants et peuvent être déployées et gérées de manière dynamique ; il ne s'agit pas d'une pile monolithique fonctionnant sur une seule grosse machine à usage unique.
+	Isolation des ressources : performances applicatives prévisibles.
+	Utilisation des ressources : haute efficacité et densité.
+
+
+
+
+__Kubernetes , également connu sous le nom de K8s, est un système open source permettant d'automatiser le déploiement, la mise à l'échelle et la gestion des applications conteneurisées.__
+
+
+
+kubectl est utilisé pour interagir avec les ressources et les opérations du cluster une fois qu'il est opérationnel.
+kubeadm est utilisé pour créer et initialiser le cluster Kubernetes, en fournissant des commandes pour configurer le plan de contrôle et ajouter des nœuds de travail.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+__Kubernetes__ est une plateforme d'orchestration de conteneurs puissante et flexible, offrant de nombreuses fonctionnalités pour la gestion, le déploiement et la mise à l'échelle des applications conteneurisées. Voici un aperçu des principales fonctionnalités de Kubernetes :
+
+1. **Orchestration :** Gestion de la planification, du déploiement, de la mise à jour et de la gestion des conteneurs à grande échelle.
+
+2. **Automatisation :** Automatisation des tâches opérationnelles, telles que la création et la suppression de conteneurs, la mise à l'échelle, la distribution de la charge, etc.
+
+3. **Mise à l'échelle automatique :** Mise à l'échelle automatique des applications en fonction de la demande, horizontalement (ajout de répliques) ou verticalement (augmentation des ressources).
+
+4. **Gestion de la configuration :** Utilisation de ConfigMaps et Secrets pour gérer et injecter des configurations dans les conteneurs.
+
+5. **Déploiements :** Gestion des déploiements avec des mises à jour en douceur, des rollbacks et la possibilité de spécifier le nombre souhaité de répliques.
+
+6. **Équilibrage de charge :** Distribution du trafic réseau entrant entre les répliques de l'application pour garantir la haute disponibilité.
+
+7. **Services :** Création de services réseau pour permettre aux conteneurs de communiquer entre eux et avec le monde extérieur.
+
+8. **Volumes :** Gestion des volumes de stockage persistant et attaché aux conteneurs pour stocker des données.
+
+9. **Détection des défaillances :** Surveillance des conteneurs et des nœuds pour détecter les défaillances et prendre des mesures appropriées.
+
+10. **Roulage des mises à jour :** Déploiement progressif des nouvelles versions d'application pour minimiser l'impact sur les utilisateurs.
+
+11. **Mises à jour automatisées :** Mise à jour automatique des nœuds pour appliquer les correctifs et les mises à jour de sécurité.
+
+12. **Gestion des secrets :** Stockage sécurisé et gestion des informations sensibles, telles que les mots de passe et les clés API.
+
+13. **Sécurité :** Prise en charge des politiques de sécurité, des autorisations basées sur les rôles et des mesures de sécurité pour protéger les applications.
+
+14. **Gestion des ressources :** Attribution et gestion des ressources CPU et mémoire aux conteneurs pour optimiser les performances.
+
+15. **Extensions :** Utilisation d'extensions, telles que les StatefulSets pour les applications étatiques, les DaemonSets pour exécuter un pod sur chaque nœud, etc.
+
+16. **Helm :** Utilisation d'Helm pour gérer et distribuer des applications en tant que packages configurables.
+
+17. **Observabilité :** Surveillance et journalisation des métriques pour diagnostiquer les problèmes et optimiser les performances.
+
+18. **Mises à jour continues :** Intégration avec les outils de CI/CD pour automatiser les déploiements continus.
+
+19. **Gestion des versions :** Gestion des versions de l'application avec des étiquettes et des balises pour permettre les rollbacks.
+
+20. **Portabilité :** Fonctionnement sur diverses infrastructures, y compris les centres de données locaux, les clouds publics et les environnements hybrides.
+
+Ces fonctionnalités sont conçues pour simplifier le déploiement et la gestion des applications conteneurisées, améliorer la résilience et la disponibilité, et automatiser de nombreuses tâches opérationnelles pour les développeurs et les administrateurs.

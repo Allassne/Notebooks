@@ -1,0 +1,77 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-09-11T18:14:33+01:00
+
+====== test ======
+Créée le Monday 11 September 2023
+
+**Créer un projet ""Intro 1"" (garder le fichier readme) et  Écriver une pipeline qui a une seule étape (stage) ""test"", **
+**un seul job ""todo"" et qui nous permet de:**
+		* **Afficher le mot bonjour dans la console**
+		* **Créer un fichier bonsoir **
+		* **Lister les fichiers présent dans le répertoire courant**
+		* **Affiche les informations concernant la distribution utilisé durant la pipeline (cat /etc/*release) **
+
+
+
+
+
+
+
+
+
+
+Pour créer un projet GitLab nommé "Intro 1" avec une pipeline qui a une seule étape "test" contenant un seul job "todo" pour accomplir les tâches que vous avez décrites, suivez les étapes ci-dessous :
+
+**Étape 1 : Créer le projet "Intro 1"**
+
+1. Connectez-vous à GitLab.
+
+2. Cliquez sur le bouton "New project" pour créer un nouveau projet.
+
+3. Configurez les paramètres du projet :
+   - Nom du projet : "Intro 1"
+   - Visibilité du projet : Choisissez votre préférence (privé ou public).
+   - Description (optionnelle) : Ajoutez une description si nécessaire.
+   - Les autres paramètres peuvent être laissés par défaut.
+
+4. Cliquez sur "Create project" pour créer le projet.
+
+**Étape 2 : Créer un fichier README**
+
+1. Dans le dépôt "Intro 1", cliquez sur "Create new file".
+
+2. Nommez le fichier "README.md".
+
+3. Ajoutez un contenu quelconque dans le fichier README.md (par exemple, une brève description du projet).
+
+4. Cliquez sur "Commit changes" pour ajouter le fichier README.md au dépôt.
+
+**Étape 3 : Créer un fichier de configuration GitLab CI/CD**
+
+1. Dans le dépôt "Intro 1", créez un fichier nommé `.gitlab-ci.yml` s'il n'existe pas déjà. C'est le fichier de configuration de la pipeline.
+
+2. Ajoutez le contenu suivant à votre `.gitlab-ci.yml` :
+
+```yaml
+stages:
+  - test
+
+test:
+  stage: test
+  script:
+	- echo "Bonjour"                # Afficher "Bonjour" dans la console
+	- touch bonsoir                  # Créer un fichier bonsoir
+	- ls                            # Lister les fichiers du répertoire courant
+	- cat /etc/*release             # Afficher les informations de distribution
+```
+
+Ce fichier de configuration de pipeline définit une étape "test" avec un job "test". Le job exécute les commandes pour afficher "Bonjour" dans la console, créer un fichier "bonsoir", lister les fichiers du répertoire courant et afficher les informations de distribution.
+
+3. Enregistrez les modifications du fichier `.gitlab-ci.yml` dans le dépôt.
+
+**Étape 4 : Exécution de la pipeline**
+
+Votre pipeline est maintenant configurée. Chaque fois que vous effectuez un push de modifications dans le dépôt GitLab, la pipeline sera déclenchée automatiquement. Vous pouvez également la déclencher manuellement depuis l'interface GitLab en utilisant l'option "Run pipeline" si nécessaire.
+
+Assurez-vous que vous avez GitLab Runner configuré pour exécuter les travaux de la pipeline sur une machine où les commandes de la pipeline peuvent être exécutées.

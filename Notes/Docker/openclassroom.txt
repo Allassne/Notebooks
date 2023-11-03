@@ -1,0 +1,343 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-18T10:54:29+01:00
+
+====== openclassroom ======
+Créée le Tuesday 18 July 2023
+
+installer la bonne version de Docker pour votre projet ;
+
+créer, lancer et partager des images Docker ;
+
+orchestrer des images Docker grâce à Docker Compose.
+
+
+
+
+
+
+
+ressources
+allouer → VM → insfrastructure 
+partager → conteneur → isoler les composants → App spécifique
+
+
+__Un conteneur ?__
+**Un conteneur Linux est un processus ou un ensemble de processus isolés du reste du système, tout en étant légers.**
+
+	Le conteneur permet de faire de la virtualisation légère, c'est-à-dire qu'il ne virtualise pas les ressources, il ne crée qu'une isolation des processus. Le conteneur partage donc les ressources avec le système hôte.
+
+
+//OpenVZ ou LXC sont des technologies de conteneur qui existent depuis de nombreuses années.//
+
+__Ne réservez que les ressources nécessaires__
+	Un conteneur ne réserve pas la quantité de CPU, RAM et disque attribuée auprès du système hôte.
+
+
+=== En résumé ===
+	Vous connaissez maintenant la différence entre conteneur et machine virtuelle ; vous avez ainsi pu voir les différences entre la virtualisation lourde et la virtualisation légère.
+	
+	Un conteneur doit être léger, il ne faut pas ajouter de contenu superflu dans celui-ci afin de le démarrer rapidement, mais il apporte une isolation moindre. À contrario, les machines virtuelles offrent une très bonne isolation, mais elle sont globalement plus lentes et bien plus lourdes.
+
+
+__Pourquoi utiliser Docker ?__
+comment déployer votre projet ?
+Comment faire pour avoir un environnement unifié et fonctionnel chez l'ensemble des développeurs ?
+	
+	Docker répond à ces problématiques en créant des conteneurs. Grâce à Docker, vous n'aurez plus de problème de différence d'environnement, et votre code marchera partout !
+	
+On retrouve aussi Docker dans les domaines de la CI (Continous Integration, ou Intégration Continue) et de la CD (Continous Delivery, ou Livraison Continue). Cela permet à la CI/CD de créer rapidement des espaces isolés pour faire tourner vos tests.
+
+__limite__ : faire persister de grandes quantités de mémoire disque et d'assurer une grande continuité de service
+
+
+=== Stateless et immutabilité ===
+__Stateless vs Stateful__
+	Dans le monde de Docker, vous allez souvent entendre parler de stateless et stateful, **deux catégories de conteneurs**, et vous devez savoir à quoi correspond chaque catégorie.
+
+Si nous prenons le cas d'une base de donnée MySQL, celle-ci est stateful car elle stocke un état. Ainsi, si vous éteignez et rallumez votre base de données, vous la retrouverez dans le même état de fonctionnement.
+
+Stateless est donc l'inverse : l'application ne stocke pas d'état. Vous pouvez prendre le cas du protocole HTTP, celui-ci est stateless. À chaque nouvelle requête HTTP, les mêmes séries d'actions seront réalisées.
+
+Un conteneur est __immuable__
+	L'immutabilité d'un conteneur est aussi importante. Un conteneur ne doit pas stocker de données qui doivent être pérennes, car il les perdra (à moins que vous les ayez pérennisées). Mais si vous souhaitez en local mettre une base de données dans un conteneur Docker, vous devez créer un volume pour que celui-ci puisse stocker les données de façon pérenne.
+	
+	
+	
+__version de Docker__ 
+3 versions de Docker différentes :
+	* Docker Community Edition (Linux seulement) ;
+	* Docker Desktop (Mac ou Windows) ;
+	* Docker Enterprise (Linux seulement).
+__Docker for windows__
+	//Attention, vous devez avoir un Windows Enterprise ou Windows Professional pour que cette fonctionnalité soit disponible. Dans le cas contraire, il faudra vous tourner vers l'utilisation de Docker Toolbox.//
+	
+
+
+==== Installation ====
+
+Pour les environnements __non-Gnome Desktop__, gnome-terminaldoivent être installés :
+	 ''sudo dnf install gnome-terminal''
+__Configurer le référentiel__
+Installez le dnf-plugins-corepackage (qui fournit les commandes pour gérer vos référentiels DNF) et configurez le référentiel.
+
+ ''sudo dnf -y install dnf-plugins-core''
+'' sudo dnf config-manager --add-repo ''[[https://download.docker.com/linux/fedora/docker-ce.repo|''https://download.docker.com/linux/fedora/docker-ce.repo'']]
+
+
+__Installez en utilisant le script pratique__ 
+
+
+
+__machine Linux sous Debian__
+Vous allez commencer par mettre à jour votre système et installer les prérequis pour l'installation de Docker :
+
+''sudo apt-get update && sudo apt-get install apt-transport-https ca-certificates curl gnupg2 software-properties-common''
+Une fois cela réalisé, nous allons ajouter le repository de Docker :
+
+'''
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable"
+'''
+
+Nous pouvons maintenant installer Docker sur notre machine :
+
+''sudo apt update && sudo apt-get install docker-ce docker-ce-cli containerd.io''
+
+Vous avez maintenant Docker sur votre machine ; cependant, vous n'avez pas les accès nécessaires pour pouvoir parler avec le daemon. Pour y remédier, vous devez utiliser la commande suivante : **sudo usermod -aG docker your-user.**
+
+
+
+__Installation docker sur Rocky Linux__
+
+1) Ajout du repo
+sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+
+2) Mise à jour du repo
+sudo dnf update
+
+3) Installation du package docker
+sudo dnf install docker-ce docker-ce-cli containerd.io
+
+4) Démarrage de docker
+sudo systemctl enable docker 
+sudo systemctl start docker
+
+
+
+==== Creation de conteneur avec docker ====
+
+__Une registry ? __: est un logiciel qui permet de partager des images à d'autres personnes.
+
+	**le daemon Docker va chercher si l'image est disponible en local. Dans le cas contraire, il va la récupérer sur la registry Docker officielle.**
+
+__Lister les images docker__
+''docker images''
+
+__afficher la liste des conteneurs en cours d'exécution__
+''docker ps [-a|--filter|--format|-q]''
+
+__exécuter un nouveau conteneur__ 
+''docker run -it [image]''
+
+__rentrer dans votre conteneur Docker__ 
+''docker exec -ti [ID image] bash''
+
+__Arrêtez un conteneur Docker__
+''docker stop [ID image]''
+
+__Supprimer un conteneur__
+''docker rm [ID image]''
+''docker rm -f $(docker ps -aq)''
+
+__Supprimer une image__
+''docker rmi [ID image]''
+''docker rmi $(docker images -q)''
+
+__Récupérez une image du Docker Hub__
+''docker pull [image]''
+
+__nettoyer mon système__
+''docker system prune -f''
+
+
+=== Dockerfile ===
+__FROM__ → qui vous permet de définir l'image source ;
+__RUN__ → qui vous permet d’exécuter des commandes dans votre conteneur ;
+__ADD__ → qui vous permet d'ajouter des fichiers dans votre conteneur ;
+__WORKDIR__ →  qui vous permet de définir votre répertoire de travail ;
+__EXPOSE__ → qui permet de définir les ports d'écoute par défaut ;
+__VOLUME__ → qui permet de définir les volumes utilisables ;
+__CMD__ → qui permet de définir la commande par défaut lors de l’exécution de vos conteneurs Docker.
+
+=== Créez votre fichier .dockerignore ===
+**permet s'assurer que l'image est optimisée, légère et sécurisée.**
+	À la racine de votre projet (soit à côté de votre fichier Dockerfile), vous devez créer un fichier .dockerignore qui contiendra les lignes suivantes :
+
+'''
+node_modules # 
+'''
+permet de réduire considérablement la taille de l'image et d'accélérer le processus de construction.
+'''
+.git         # évite d'inclure les informations de gestion de version,etc.
+'''
+
+
+__Lancez votre conteneur personnalisé !__
+''docker build -t ocr-docker-build .''
+	''-t'' →  permet de donner un nom à votre image Docker.
+	Le __.__ est le répertoire où se trouve le Dockerfile ; dans notre cas, à la racine de notre projet.
+
+
+
+__pour créer un tag__ 
+''docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]''
+
+__Supprimer un tag__ 
+''docker rmi -f IMAGE[:TAG]''
+
+
+
+__docker push__ qui vous permet d'envoyer vos images locales sur une registry ;
+	''docker push all12/test12:latest''
+
+__docker search__ qui vous permet de rechercher une image sur votre registry.
+	''docker search all12/test12''
+
+
+
+==== Installer docker compose ====
+
+''sudo curl -L "''[[https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname|''https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname'']]'' -s)-$(uname -m)" -o /usr/bin/docker-compose && sudo chmod +x /usr/bin/docker-compose''
+
+''docker-compose --version''
+
+
+
+
+__''docker-compose up -d''__ → vous permettra de démarrer l'ensemble des conteneurs en arrière-plan ;
+__''docker-compose ps''__  → vous permettra de voir le statut de l'ensemble de votre stack ;
+__''docker-compose logs -f --tail 5''__ →  vous permettra d'afficher les logs de votre stack ;
+__''docker-compose stop''__ → vous permettra d'arrêter l'ensemble des services d'une stack ;
+__''docker-compose down''__ → vous permettra de détruire l'ensemble des ressources d'une stack ;
+__''docker-compose config''__ → vous permettra de valider la syntaxe de votre fichier docker-compose.yml  .
+
+
+==== fichier docker-compose.yml ====
+
+__image__ → qui permet de spécifier l'image source pour le conteneur ;
+__build__ → qui permet de spécifier le Dockerfile source pour créer l'image du conteneur ;
+__volume__ →  qui permet de spécifier les points de montage entre le système hôte et les conteneurs ;
+__restart__ → qui permet de définir le comportement du conteneur en cas d'arrêt du processus ;
+__environment__ →  qui permet de définir les variables d’environnement ;
+__depends_on__ → qui permet de dire que le conteneur dépend d'un autre conteneur ;
+
+'''
+``` 
+version: '3'
+services:
+  db:
+	image: mysql:5.7
+	volumes:
+	  - db_data:/var/lib/mysql
+	restart: always
+	environment:
+	  MYSQL_ROOT_PASSWORD: somewordpress
+	  MYSQL_DATABASE: wordpress
+	  MYSQL_USER: wordpress
+	  MYSQL_PASSWORD: wordpress
+    
+  wordpress:
+	depends_on:
+	  - db
+	image: wordpress:latest
+	ports:
+	  - "8000:80"
+	restart: always
+	environment:
+	  WORDPRESS_DB_HOST: db:3306
+	  WORDPRESS_DB_USER: wordpress
+	  WORDPRESS_DB_PASSWORD: wordpress
+	  WORDPRESS_DB_NAME: wordpress
+
+volumes:
+  db_data: {}
+```
+'''
+
+
+
+
+
+sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+sudo dnf update
+sudo dnf install docker-ce docker-ce-cli containerd.io
+sudo systemctl enable docker 
+sudo systemctl start docker
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

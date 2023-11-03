@@ -1,0 +1,67 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-27T10:51:33+01:00
+
+====== plus ======
+Créée le Thursday 27 July 2023
+
+
+
+=== différences entre replication controller et replica set ===
+
+__Avant la version 1.2 de Kubernetes, le principal moyen de garantir un nombre spécifique de réplicas d'un pod était d'utiliser un "Replication Controller". Cependant, à partir de Kubernetes 1.2, le concept de "Replica Set" a été introduit pour remplacer le Replication Controller tout en offrant les mêmes fonctionnalités et des fonctionnalités supplémentaires. Voici les principales différences entre les deux :__
+
+1. Sélecteurs :
+   - Replication Controller : Utilise des sélecteurs basés sur l'égalité exacte pour identifier les pods qu'il doit gérer.
+   - Replica Set : Offre une flexibilité accrue dans la sélection des pods à gérer, en permettant l'utilisation d'opérateurs d'égalité et d'opérateurs de correspondance basés sur des expressions régulières.
+
+2. Matching expressions :
+   - Replication Controller : Se limite à la vérification de l'égalité des labels.
+   - Replica Set : Permet des expressions plus avancées pour la correspondance des labels, offrant ainsi des options de sélection plus puissantes.
+
+3. Noms :
+   - Replication Controller : Lors de la création d'un Replication Controller, le nom doit être spécifié.
+   - Replica Set : Si le nom n'est pas spécifié lors de la création, Kubernetes le générera automatiquement.
+
+4. Intégration avec Deployments :
+   - Replication Controller : N'est pas associé directement aux objets "Deployment".
+   - Replica Set : Est utilisé par les objets "Deployment" pour gérer les réplicas de pods.
+
+5. Mise à jour de l'image :
+   - Replication Controller : Ne prend pas en charge les mises à jour d'images directement.
+   - Replica Set : Prend en charge les mises à jour d'images via le déploiement de nouvelles révisions.
+
+6. Rolling Update :
+   - Replication Controller : Pour effectuer une mise à jour des pods, il faut souvent supprimer le Replication Controller existant et en créer un nouveau avec la configuration mise à jour.
+   - Replica Set : Les Replica Sets peuvent effectuer des mises à jour "Rolling Updates" en modifiant progressivement les pods tout en maintenant un nombre spécifié de répliques actives.
+
+En résumé, le "Replica Set" est une version améliorée du "Replication Controller" avec des fonctionnalités supplémentaires et une plus grande souplesse dans la sélection des pods à gérer. Il est donc généralement recommandé d'utiliser les Replica Sets plutôt que les Replication Controllers pour gérer les répliques de pods dans Kubernetes.
+
+
+
+
+
+__Les options disponibles pour mettre à l'échelle automatiquement le jeu de répliques en fonction de__
+__charge__
+
+
+=== qu'elle est l'essentiel a savoir sur ces termes : cgroupfs et systemd dans kubernetes ===
+
+Dans Kubernetes, cgroupfs (Control Groups File System) et systemd sont des technologies sous-jacentes utilisées pour gérer les ressources des conteneurs et pour l'orchestration des services sur les nœuds du cluster. Voici l'essentiel à savoir sur ces termes dans le contexte de Kubernetes :
+
+1. **Cgroupfs (Control Groups File System)** :
+   - Kubernetes utilise cgroupfs pour isoler et contrôler les ressources consommées par les conteneurs exécutés sur chaque nœud du cluster.
+   - Cgroupfs permet de limiter l'utilisation des ressources telles que le CPU, la mémoire, les E/S disque, etc., par les conteneurs. Cela garantit que les conteneurs ne consomment pas toutes les ressources du nœud, ce qui pourrait affecter la performance globale du cluster.
+   - Les ressources de chaque conteneur sont placées dans des groupes de contrôle (cgroups) pour une gestion fine et pour éviter que les conteneurs ne s'interfèrent mutuellement.
+   - Kubernetes utilise cgroupfs pour rendre possible la mise à l'échelle et le contrôle efficace des ressources des conteneurs dans un environnement multi-tenant.
+
+2. **Systemd** :
+   - Dans Kubernetes, systemd est principalement utilisé sur les nœuds du cluster pour gérer le processus de démarrage du système, et notamment pour lancer les services et les conteneurs au démarrage du nœud.
+   - Systemd est responsable du démarrage et de la gestion des différents services, tels que Kubelet, containerd, kube-proxy, etc., nécessaires pour faire fonctionner un nœud Kubernetes.
+   - L'utilisation de systemd facilite la gestion du cycle de vie des services et des conteneurs sur les nœuds du cluster, en permettant notamment de redémarrer automatiquement les services en cas d'échec ou de gestion des dépendances entre les services.
+
+En résumé, cgroupfs est utilisé dans Kubernetes pour isoler et contrôler les ressources des conteneurs, tandis que systemd est utilisé pour gérer le processus de démarrage du système et le cycle de vie des services sur les nœuds du cluster Kubernetes. Ces deux technologies sont fondamentales pour assurer une gestion efficace des ressources et l'orchestration des services dans un environnement Kubernetes.
+
+
+=== containerd ===
+containerd est utilisé comme backend par CRI-O pour gérer les conteneurs, et containerd a été utilisé comme backend par Docker avant que Kubernetes ne passe à containerd comme runtime par défaut.

@@ -1,0 +1,302 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-25T10:17:20+01:00
+
+====== installation K3S ======
+Créée le Tuesday 25 July 2023
+
+Installation avec K3s
+
+Qu'est ce que k3s ?
+K3s est une solution légère et réduite de Kubernetes, conçue pour une utilisation sur des environnements informatiques peu puissants comme les serveurs Edge, les ordinateurs embarqués et les environnements IoT. Il a été conçu pour être simple à installer, à mettre à niveau et à utiliser et s'intègre parfaitement à des environnements de bureau et de production. K3s combine le noyau Linux, le gestionnaire de conteneurs et le gestionnaire Kubernetes en une seule application.
+
+===== Installation du controller node =====
+Pour installer le node master nous allons executer ce script
+
+__export INSTALL_K3S_VERSION=v1.23.16+k3s1__
+__curl -sfL https://get.k3s.io | sh -__
+
+
+Le script nous permet d'installer les utilitaire suivant:
+
+kubectl
+crictl
+k3s-killall.sh
+k3s-uninstall.sh
+
+Cette commande va télécharger et sauvegarder le binaire k3s dans le chemin /usr/local/bin. Assurez-vous alors que le chemin /usr/local/bin a été déclaré comme un chemin binaire.
+
+  __echo "export PATH=\$PATH:/usr/local/bin" | sudo tee -a /etc/profile__
+__  source /etc/profile__
+
+
+
+Rajouter la config .kube/config
+
+
+__mkdir -p /root/.kube__
+__ln -s /etc/rancher/k3s/k3s.yaml /root/.kube/config__
+
+
+
+Autorisez les ports ci-dessous à travers le pare-feu sur le nœud de contrôle :
+
+
+__sudo firewall-cmd --zone=trusted --add-interface=cni0 --permanent__
+__sudo firewall-cmd --add-port=8090/tcp --permanent__
+__sudo firewall-cmd --add-port=10250/tcp --permanent__
+__sudo firewall-cmd --add-port=10255/tcp --permanent__
+__sudo firewall-cmd --add-port=8472/udp --permanent__
+__sudo firewall-cmd --add-port=6443/tcp --permanent__
+__sudo firewall-cmd --add-port=9443/tcp --permanent__
+__sudo firewall-cmd --reload__
+
+
+
+Les service k3s seront gerer avec ces commande ci-dessous
+
+
+__sudo systemctl start k3s__
+__sudo systemctl enable k3s__
+__sudo systemctl status k3s__
+
+
+
+===== Installation des workers nodes =====
+le token qui va nous permettre de joint les worker au control panel ce trouve dans le fichier token du master creer plus haut.
+
+__sudo cat /var/lib/rancher/k3s/server/node-token__
+
+
+
+
+Ensuite nous allons executer le script suivant pour permettre aux nodes worker de rejoindre le master et creer le cluster.
+
+
+K3S_URL and K3S_TOKEN son des variable d'environment a remplacer dans la commande.
+
+
+
+export  K3S_URL=https://10.1.4.60:6443 
+export INSTALL_K3S_VERSION=v1.23.16+k3s1
+export K3S_TOKEN=K10ec63946c4389edeea4ef8e9eb625db5c5858e7539f80f187dd522822f4d947b5::server:18dd68d662ee4ce479fb3b3914f1de6d
+curl -sfL https://get.k3s.io |  sh -
+
+Autorisez les ports suivants à travers le pare-feu sur le nœud de travail :
+
+__sudo firewall-cmd --zone=trusted --add-interface=cni0 --permanent__
+__sudo firewall-cmd --add-port=8090/tcp --permanent__
+__sudo firewall-cmd --add-port=10250/tcp --permanent__
+__sudo firewall-cmd --add-port=10255/tcp --permanent__
+__sudo firewall-cmd --add-port=8472/udp --permanent__
+__sudo firewall-cmd --reload__
+
+
+--------------------
+
+=== Commande d'administration sur k3s ===
+Les commandes d'administration spécifiques à K3s incluent:
+
+Pour lancer une vérification des configurations
+__k3s check-config__
+
+Pour vérifier la version de k3s
+__k3s --version__
+
+Pour lancer une snapshot etcd
+__k3s etcd-snapshot__
+
+
+
+=== Configuration ===
+la configuration de k3s se fait dans le fichier /etc/rancher/k3s/config.yaml
+Par example pour desactiver traefik
+
+__disable:__
+__  - traefik__
+__#  - helm-controller__
+__#  - cloud-controller__
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------
+
+===== Installation du controller node avec docker =====
+Pour installer le node master nous allons executer ce script
+
+curl -sfL https://get.k3s.io | sh -s - --docker
+
+
+
+  __echo "export PATH=\$PATH:/usr/local/bin" | sudo tee -a /etc/profile__
+__  source /etc/profile__
+
+
+
+Rajouter la config .kube/config
+
+
+__mkdir -p /root/.kube__
+__ln -s /etc/rancher/k3s/k3s.yaml /root/.kube/config__
+
+
+
+Autorisez les ports ci-dessous à travers le pare-feu sur le nœud de contrôle :
+
+
+__sudo firewall-cmd --zone=trusted --add-interface=cni0 --permanent__
+__sudo firewall-cmd --add-port=8090/tcp --permanent__
+__sudo firewall-cmd --add-port=10250/tcp --permanent__
+__sudo firewall-cmd --add-port=10255/tcp --permanent__
+__sudo firewall-cmd --add-port=8472/udp --permanent__
+__sudo firewall-cmd --add-port=6443/tcp --permanent__
+__sudo firewall-cmd --add-port=9443/tcp --permanent__
+__sudo firewall-cmd --reload__
+
+
+
+Les service k3s seront gerer avec ces commande ci-dessous
+
+
+__sudo systemctl start k3s__
+__sudo systemctl enable k3s__
+__sudo systemctl status k3s__
+
+
+
+===== Installation des workers nodes avec docker =====
+le token qui va nous permettre de joint les worker au control panel ce trouve dans le fichier token du master creer plus haut.
+
+__sudo cat /var/lib/rancher/k3s/server/node-token__
+
+
+
+
+export  K3S_URL=https://192.168.1.242:6443 
+export K3S_TOKEN=
+curl -sfL https://get.k3s.io | sh -s - --docker
+
+Autorisez les ports suivants à travers le pare-feu sur le nœud de travail :
+
+__sudo firewall-cmd --zone=trusted --add-interface=cni0 --permanent__
+__sudo firewall-cmd --add-port=8090/tcp --permanent__
+__sudo firewall-cmd --add-port=10250/tcp --permanent__
+__sudo firewall-cmd --add-port=10255/tcp --permanent__
+__sudo firewall-cmd --add-port=8472/udp --permanent__
+__sudo firewall-cmd --reload__
+
+
+
+
+
+
+
+
+
+===== ''auto-completion'' =====
+
+'''
+sudo dnf install bash-completion
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+'''
+''source .bashrc''
+
+
+===== ''Autorisation k3s refusée lors de l'utilisation de kubectl'' =====
+https://0to1.nl/post/k3s-kubectl-permission/
+
+
+sudo cp /etc/rancher/k3s/k3s.yaml ~/.kube/config && chown $USER ~/.kube/config && chmod 600 ~/.kube/config && export KUBECONFIG=~/.kube/config
+
+sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+
+
+
+
+=== ''telecharger helm'' ===
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+[[./get_helm.sh]]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cephadm bootstrap  --mon-ip *192.168.1.206*   --allow-ceph.lan-hostname
+
+
+
+
+
+
+velero install \
+	--provider aws \
+	--plugins velero/velero-plugin-for-aws:v1.5.0 \
+	--bucket velero \
+	--use-restic \
+	--secret-file ./credentials-velero \
+	--use-volume-snapshots=false \
+	--backup-location-config region=default,s3ForcePathStyle="true",s3Url=http://<IP_MONITOR>:<RGW_PORT> \
+	--wait

@@ -1,0 +1,171 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-09-04T17:27:02+01:00
+
+====== defi-2 ======
+Créée le Monday 04 September 2023
+
+Ce cluster Kubernetes à 2 nœuds est en panne ! Dépannez, corrigez les problèmes de cluster, puis déployez les objets selon le schéma d'architecture donné pour déverrouiller notre galerie d'images !!
+
+
+
+
+__controleplan__
+Master node: coredns deployment has image: 'registry.k8s.io/coredns/coredns:v1.8.6'
+Fix kube-apiserver. Make sure its running and healthy.
+kubeconfig = /root/.kube/config, User = 'kubernetes-admin' Cluster: Server Port = '6443'
+
+Nœud maître : le déploiement de coredns a l'image : 'registry.k8s.io/coredns/coredns:v1.8.6'
+Corrigez kube-apiserver. Assurez-vous qu'il fonctionne et est en bonne santé.
+kubeconfig = /root/.kube/config, Utilisateur = 'kubernetes-admin' Cluster : Serveur Port = '6443'
+
+
+kubectl --kubeconfig=/root/.kube/config get pods
+
+
+
+
+__node01__
+node01 is ready and can schedule pods?
+
+"node01 est prêt et peut planifier des pods."
+
+
+__svc__ 
+New Service, name: 'gop-fs-service'
+Service name: gop-fs-service, port: '8080'
+Service name: gop-fs-service, targetPort: '8080'
+
+
+__pod__
+Create a pod for file server, name: 'gop-file-server'
+pod: gop-file-server image: 'kodekloud/fileserver'
+pod: gop-file-server mountPath: '/web'
+pod: gop-file-server volumeMount name: 'data-store'
+pod: gop-file-server persistent volume name: data-store
+pod: gop-file-server persistent volume claim used: 'data-pvc'
+
+"Créez un pod pour un serveur de fichiers, nommé : 'gop-file-server'
+pod : gop-file-server
+image : 'kodekloud/fileserver'
+mountPath : '/web'
+volumeMount du pod : nom : 'data-store'
+pod : gop-file-server
+nom du volume persistant : data-store
+demande de volume persistant du pod : 'data-pvc'"
+
+
+
+
+__pvc__
+Create new PersistentVolumeClaim = 'data-pvc'
+PersistentVolume = 'data-pvc', accessModes = 'ReadWriteMany'
+PersistentVolume = 'data-pvc', storage request = '1Gi'
+PersistentVolume = 'data-pvc', volumeName = 'data-pv'
+
+
+"Créez une nouvelle demande de PersistentVolumeClaim = 'data-pvc'
+PersistentVolume = 'data-pvc', modes d'accès = 'ReadWriteMany'
+PersistentVolume = 'data-pvc', demande de stockage = '1Gi'
+PersistentVolume = 'data-pvc', nom du volume = 'data-pv'"
+
+__pv__
+	Create new PersistentVolume = 'data-pv'
+	PersistentVolume = data-pv, accessModes = 'ReadWriteMany'
+	PersistentVolume = data-pv, hostPath = '/web'
+	PersistentVolume = data-pv, storage = '1Gi'
+
+"Créez un nouveau PersistentVolume = 'data-pv'
+PersistentVolume = data-pv, modes d'accès = 'ReadWriteMany'
+PersistentVolume = data-pv, chemin d'hôte = '/web'
+PersistentVolume = data-pv, espace de stockage = '1Gi'"
+
+
+
+
+
+
+
+
+
+__web__
+Copy all images from the directory '/media' on the controlplane node to '/web' directory on node01
+
+
+"Copiez toutes les images du répertoire '/media' sur le nœud controlplane vers le répertoire '/web' sur le nœud node01."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+__apiVersion: v1__
+__kind: PersistentVolume__
+__metadata:__
+__  name: pv0003__
+__spec:__
+__  capacity:__
+	__storage: 5Gi__
+__  volumeMode: Filesystem__
+__  accessModes:__
+	__- ReadWriteOnce__
+__  persistentVolumeReclaimPolicy: Recycle__
+__  storageClassName: slow__
+__  mountOptions:__
+	__- hard__
+	__- nfsvers=4.1__
+__  nfs:__
+	__path: /tmp__
+__	server: 172.17.0.2__
+
+
+
+
+__apiVersion: v1__
+__kind: PersistentVolumeClaim__
+__metadata:__
+__  name: myclaim__
+__spec:__
+__  accessModes:__
+	__- ReadWriteOnce__
+__  volumeMode: Filesystem__
+__  resources:__
+	__requests:__
+	__  storage: 8Gi__
+__  storageClassName: slow__
+__  selector:__
+	__matchLabels:__
+	__  release: "stable"__
+	__matchExpressions:__
+__	  - {key: environment, operator: In, values: [dev]}__
+
+
+
+
+https://github.com/kelseyhightower/kubernetes-the-hard-way/blob/master/docs/08-bootstrapping-kubernetes-controllers.md
+

@@ -1,0 +1,7 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-10-23T16:29:15+01:00
+
+====== Linux ======
+Créée le Monday 23 October 2023
+

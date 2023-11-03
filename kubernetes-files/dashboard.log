@@ -1,0 +1,116 @@
+Script started on 2023-10-27 20:22:43+02:00
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /root/.kube/config
+WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /root/.kube/config
+]0;root@albam-maasster-1:~]0;albam-maasster-1:~[0;31mroot@albam-maasster-1:~[0;37m#[0;0m vim kubernetes-dashboard.yml [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Chelm uninstall kubernetes-dashboard[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[19Pkubectl get podshelm uninstall kubernetes-dashboard[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[6Pvim kubernetes-dashboard.yml [C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Kcurl https://k8s-dashboard.dev01.ovh.smile.ci
+curl: (51) SSL: no alternative certificate subject name matches target host name 'k8s-dashboard.dev01.ovh.smile.ci'
+]0;root@albam-maasster-1:~]0;albam-maasster-1:~[0;31mroot@albam-maasster-1:~[7;37m#[0;0m curl -k https://k8s-dashboard.dev01.ovh.smile.ci
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>503 Service Unavailable</title>
+</head><body>
+<h1>Service Unavailable</h1>
+<p>The server is temporarily unable to service your
+request due to maintenance downtime or capacity
+problems. Please try again later.</p>
+</body></html>
+]0;root@albam-maasster-1:~]0;albam-maasster-1:~[0;31mroot@albam-maasster-1:~[0;37m#[0;0m echo | openssl s_client -showcerts -servername k8s-dashboard.dev01.ovh.smile..ci -connect k8s-dashboard.dev01.ovh.smile.ci:443 2>/dev/null | openssl x509 -inform pem -noout -text [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Kt
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            04:a9:16:7e:aa:6a:4e:89:5d:35:1a:9d:2c:2a:95:1a:10:21
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C = US, O = Let's Encrypt, CN = R3
+        Validity
+            Not Before: Oct 25 00:07:22 2023 GMT
+            Not After : Jan 23 00:07:21 2024 GMT
+        Subject: CN = 5173.code.jekas.dev01.ovh.smile.ci
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                RSA Public-Key: (2048 bit)
+                Modulus:
+                    00:a8:cb:9b:8c:a2:9d:79:ac:69:3b:2d:aa:13:81:
+                    49:52:3a:a3:cf:13:ba:b0:a2:44:14:20:c8:02:42:
+                    44:74:fe:62:32:66:96:65:15:0f:55:45:30:2c:4e:
+                    b5:d9:dc:05:a7:51:69:67:f7:c3:2f:8b:7d:26:96:
+                    b9:7e:a8:d5:d0:45:df:ec:e0:59:4c:aa:cd:38:e2:
+                    f6:a0:b2:be:18:82:b6:a7:0b:12:f5:57:72:01:3e:
+                    f3:23:17:e4:00:54:d5:3a:fb:c7:57:eb:0d:16:af:
+                    8a:f2:79:aa:c9:64:08:f2:6c:62:d9:28:e4:a6:72:
+                    e2:ed:86:e5:93:b7:b2:32:6f:d3:57:85:a1:df:57:
+                    08:04:0d:14:88:d6:d0:dc:30:95:9a:ad:46:eb:09:
+                    a0:57:f7:44:f0:f6:db:8e:85:af:f8:61:cd:b5:78:
+                    51:71:33:e1:9a:a1:25:b3:06:2d:d1:5e:40:af:99:
+                    23:f0:3a:f8:3a:50:bf:f8:7a:19:08:d0:34:66:fa:
+                    41:5e:d1:92:25:d6:2d:f6:ec:fc:b1:a6:61:4f:27:
+                    b2:f8:2a:ac:11:c6:e2:e4:18:22:4f:90:45:d4:21:
+                    67:8b:7f:2a:50:74:5f:c5:2f:02:66:fb:a5:00:ae:
+                    fb:81:60:3f:ec:a1:d3:de:b3:3f:48:4d:9c:2b:40:
+                    c8:af
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Digital Signature, Key Encipherment
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication, TLS Web Client Authentication
+            X509v3 Basic Constraints: critical
+                CA:FALSE
+            X509v3 Subject Key Identifier: 
+                26:81:2E:32:9A:F4:CD:CE:A9:C1:9E:56:EF:0B:91:C5:67:9F:85:5F
+            X509v3 Authority Key Identifier: 
+                keyid:14:2E:B3:17:B7:58:56:CB:AE:50:09:40:E6:1F:AF:9D:8B:14:C2:C6
+
+            Authority Information Access: 
+                OCSP - URI:http://r3.o.lencr.org
+                CA Issuers - URI:http://r3.i.lencr.org/
+
+            X509v3 Subject Alternative Name: 
+                DNS:5173.code.jekas.dev01.ovh.smile.ci
+            X509v3 Certificate Policies: 
+                Policy: 2.23.140.1.2.1
+
+            CT Precertificate SCTs: 
+                Signed Certificate Timestamp:
+                    Version   : v1 (0x0)
+                    Log ID    : 3B:53:77:75:3E:2D:B9:80:4E:8B:30:5B:06:FE:40:3B:
+                                67:D8:4F:C3:F4:C7:BD:00:0D:2D:72:6F:E1:FA:D4:17
+                    Timestamp : Oct 25 01:07:22.813 2023 GMT
+                    Extensions: none
+                    Signature : ecdsa-with-SHA256
+                                30:44:02:20:41:6B:10:53:18:AA:A1:F4:7F:4D:49:D5:
+                                25:99:A4:92:CF:2C:65:7A:1E:B8:1D:06:5D:B6:F1:CA:
+                                E6:DE:04:F1:02:20:1A:CE:6A:68:FE:45:8C:7D:50:67:
+                                D4:C8:E1:8F:4B:DF:82:AD:F9:EB:D1:3D:56:66:B1:4B:
+                                68:D3:02:20:CC:59
+                Signed Certificate Timestamp:
+                    Version   : v1 (0x0)
+                    Log ID    : EE:CD:D0:64:D5:DB:1A:CE:C5:5C:B7:9D:B4:CD:13:A2:
+                                32:87:46:7C:BC:EC:DE:C3:51:48:59:46:71:1F:B5:9B
+                    Timestamp : Oct 25 01:07:22.799 2023 GMT
+                    Extensions: none
+                    Signature : ecdsa-with-SHA256
+                                30:45:02:21:00:82:37:19:6C:96:50:1A:B9:C5:6D:D9:
+                                0D:5A:68:B5:06:EF:AD:F8:63:91:96:5D:0A:30:6C:1C:
+                                B1:DB:5F:BE:36:02:20:06:7D:DC:27:71:EF:17:3D:9D:
+                                05:61:16:C8:C2:18:CA:DB:6B:29:15:E1:10:5B:61:68:
+                                9C:45:63:69:8A:A1:FD
+    Signature Algorithm: sha256WithRSAEncryption
+         24:51:d9:12:ff:cc:12:62:7e:21:07:c4:63:b9:82:ec:74:e7:
+         a5:92:3b:de:27:56:c3:44:50:12:ed:4c:83:fd:af:62:45:ca:
+         f5:34:99:f8:38:c6:84:f3:6b:de:aa:6a:82:6c:6c:90:57:4d:
+         42:ce:de:bb:0a:f0:c0:83:16:22:6a:1d:31:e4:0d:bf:61:c8:
+         f0:94:3b:b6:4c:91:9d:8a:ed:dd:7c:1f:72:2d:d0:2a:c8:e7:
+         8c:aa:eb:af:59:80:5d:e8:81:7d:e5:2d:a6:15:9a:6c:22:f3:
+         3e:0b:2c:5c:34:14:16:2f:64:f2:50:5c:22:f4:fa:b4:95:8b:
+         21:32:84:1f:dc:bb:4a:1a:f7:20:a5:5c:5d:4c:7d:b6:d5:69:
+         ce:08:78:23:61:e1:58:56:6a:2c:91:c0:71:91:57:d3:37:57:
+         10:bd:8c:e9:98:cd:25:3f:96:79:1e:f7:f1:2c:0a:01:0d:aa:
+         e9:da:82:90:07:ba:76:b7:66:7e:6e:77:7f:10:3c:d4:d2:9c:
+         e4:3f:3c:2b:f0:f7:88:32:77:35:92:6d:5c:b8:57:7d:06:59:
+         73:2e:5d:7d:5c:fd:cf:bb:ab:26:57:3d:64:81:6c:7e:bb:99:
+         84:28:ea:80:27:7a:cd:ab:6a:d1:ef:30:1b:92:52:8b:f7:75:
+         60:7c:c4:8f
+]0;root@albam-maasster-1:~]0;albam-maasster-1:~[0;31mroot@albam-maasster-1:~[0;37m#[0;0m echo | openssl s_client -showcerts -servername k8s-dashboard.dev01.ovh.smile..ci -connect k8s-dashboard.dev01.ovh.smile.ci:443 2>/dev/null | openssl x509 -inform pem -noout -text [A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ct  | grep Subject Alternative Name'[1@'
+            X509v3 [01;31m[KSubject Alternative Name[m[K: 
+]0;root@albam-maasster-1:~]0;albam-maasster-1:~[0;31mroot@albam-maasster-1:~[0;37m#[0;0m exit

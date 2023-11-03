@@ -1,0 +1,50 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-21T13:42:05+01:00
+
+====== labs ======
+Créée le Friday 21 July 2023
+
+=== LAB-01 ===
+
+Combien de nœuds font partie du cluster ?
+__''kubectl get nodes''__
+
+Quelle est la version de Kubernetes exécutée sur les nœuds ?
+__kubectl version__
+
+
+
+
+$ ''kubectl edit deploy frontend''
+
+__apiVersion: apps/v1__
+__kind: Deployment__
+__metadata:__
+__  name: frontend__
+__spec:__
+__  minReadySeconds: 20__
+__  progressDeadlineSeconds: 600__
+__  replicas: 4__
+__  revisionHistoryLimit: 10__
+__  selector:__
+	__matchLabels:__
+	__  name: webapp__
+__  strategy:__
+	__rollingUpdate:__
+	__  maxSurge: 25%__
+	__  maxUnavailable: 25%__
+	__type: RollingUpdate__
+__  template:__
+	__metadata:__
+	__  labels:__
+		__name: webapp__
+	__spec:__
+	__  containers:__
+	__  - image: kodekloud/webapp-color:v2__
+		__name: simple-webapp__
+		__ports:__
+		__- containerPort: 8080__
+		__  protocol: TCP__
+
+

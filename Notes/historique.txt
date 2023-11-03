@@ -1,0 +1,770 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-10-18T21:21:24+01:00
+
+====== historique ======
+Créée le Wednesday 18 October 2023
+
+
+
+=== machine physique ===
+
+  145  sudo rm -vfr playbooks/
+  146  ll
+  147  sudo git clone --recursive https://git.smile.ci/adminsys/playbooks.git
+  148  mkdir smile
+  149  cd smile/
+  150  ssh albam@dev01.ovh.smile.ci
+  151  ssh albam@192.168.0.128
+  152  vim /etc/hosts
+  153  sudo apt install vim
+  154  vim /etc/hosts
+  155  sudo vim /etc/hosts
+  156  cat /etc/hosts
+  157  ll
+  158  mkdir .kube
+  159  cd .kube/
+  160  vim config
+  161  kubectl get pod
+  162  sudo snap install kubectl
+  163  sudo apt-get update && sudo apt-get install -y apt-transport-https
+  164  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  165  echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+  166  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  167  sudo snap install curl
+  168  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  169  echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+  170  sudo apt-get update
+  171  sudo apt-get install -y kubectl
+  172  kubectl get pod
+  173  kubectl get pod --all-namespace
+  174  kubectl get pod --all-namespaces
+  175  ssh albam@dev01.ovh.smile.ci
+  176  ssh albam@192.168.0.128
+  177  ssh albam@dev01.smile.ci
+  178  ssh albam@dev01.ovh.smile.ci
+  179  sudo apt install sshuttle
+  180  sshuttle -r albam@dev01.ovh.smile.ci 192.168.0.0/24
+  181  poweroff
+  182  ll
+  183  cd /media/veracrypt1/OS/Windows/Windows_10/
+  184  ll
+  185  cp -v windows-10-22h2-build-19045.iso /media/alex/Ventoy1/
+  186  udo add-apt-repository ppa:unit193/encryption
+  187  sudo add-apt-repository ppa:unit193/encryption
+  188  sudo apt update
+  189  sudo apt install veracrypt
+  190  cd /media/veracrypt1/
+  191  cd OS/
+  192  ll
+  193  cd Windows/
+  194  ls
+  195  cd Windows_7/
+  196  ll
+  197  cp * /media/alex/Ventoy1
+  198  cd ..
+  199  ll
+  200  pwd 
+  201  cd /media/alex/ALL/Smile/
+  202  ll
+  203  sudo cp super_grub2_disk_hybrid_2.04s1.iso /media/alex/Ventoy1
+  204  cd nouveau\ dossier/
+  205  ll
+  206  sudo cp ubuntu-22.04.3-desktop-amd64.iso /media/alex/Ventoy1
+  207  sudo apt install dirmngr ca-certificates software-properties-common gnupg gnupg2 apt-transport-https
+  208  cd Téléchargements/
+  209  ll
+  210  sudo tar -xvf ventoy-1.0.70-linux.tar.gz 
+  211  cd ventoy-1.0.70/
+  212  ll
+  213  ./VentoyWeb.sh 
+  214  sudo ./VentoyWeb.sh 
+  215  cd /media/alex/Ventoy1/
+  216  ll
+  217  pwd
+  218  ll
+  219  poweroff
+  220  (   set -x; cd "$(mktemp -d)" &&   OS="$(uname | tr '[:upper:]' '[:lower:]')" &&   ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&   KREW="krew-${OS}_${ARCH}" &&   curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&   tar zxvf "${KREW}.tar.gz" &&   ./"${KREW}" install krew; )
+  221  sudo apt install git
+  222  man git 
+  223  (   set -x; cd "$(mktemp -d)" &&   OS="$(uname | tr '[:upper:]' '[:lower:]')" &&   ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&   KREW="krew-${OS}_${ARCH}" &&   curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&   tar zxvf "${KREW}.tar.gz" &&   ./"${KREW}" install krew; )
+  224  (   set -x; cd "$(mktemp -d)" &&   OS="$(uname | tr '[:upper:]' '[:lower:]')" &&   ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&   KREW="krew-${OS}_${ARCH}" &&   curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&   tar zxvf "${KREW}.tar.gz" &&   ./"${KREW}" install krew; )
+  225  man curl 
+  226  curl
+  227  curl --help
+  228  kubetctl get pod
+  229  cd .kube/
+  230  cat config 
+  231  cd
+  232  kubectl get nodes
+  233  (   set -x; cd "$(mktemp -d)" &&   OS="$(uname | tr '[:upper:]' '[:lower:]')" &&   ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&   KREW="krew-${OS}_${ARCH}" &&   curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&   tar zxvf "${KREW}.tar.gz" &&   ./"${KREW}" install krew; )
+  234  vim /etc/bashrc
+  235  ll
+  236  cd /etc/
+  237  ll 
+  238  sudo vim /etc/bashrc
+  239  kubectl version
+  240  sudo apt remove kubectl
+  241  dpkg -list
+  242  sudo rm /usr/local/bin/kubectl
+  243  kubectl krew uninstall kubectl
+  244  cat /etc/os-release 
+  245  curl -LO https://dl.k8s.io/release/v1.12/bin/linux/amd64/kubectl
+  246  curl -LO https://dl.k8s.io/release/v1.28.2/bin/linux/amd64/kubectl
+  247  dpkg -l
+  248  dpkg -l | grep kube
+  249  sudo apt-get update && sudo apt-get install -y apt-transport-https
+  250  dpkg -l | grep curl
+  251  sudo apt install curl
+  252  curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+  253  echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
+  254  sudo apt-get update
+  255  sudo apt-get install -y kubectl
+  256  kubectl get pod
+  257  (   set -x; cd "$(mktemp -d)" &&   OS="$(uname | tr '[:upper:]' '[:lower:]')" &&   ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&   KREW="krew-${OS}_${ARCH}" &&   curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&   tar zxvf "${KREW}.tar.gz" &&   ./"${KREW}" install krew; )
+  258  sudo -i
+  259  sudo vim /etc/bashrc
+  260  cat bashrc 
+  261  source /etc/bashrc
+  262  kubectl krew install oidc-login
+  263  kubectl get nodes
+  264  sudo kubectl krew install oidc-login
+  265  sudo -i
+  266  cat .bashrc 
+  267  sudo vim .bashrc 
+  268  kubectl krew
+  269  *
+  270  sudo -i
+  271  ssh albam@dev01.ovh.smile.ci
+  272  ssh albam@192.168.0.128
+  273  ssh albam@192.168.0.114
+  274  ssh albam@192.168.0.128
+  275  kubectl get nodes
+  276  ssh albam@192.168.0.128
+  277  cd .kube/
+  278  vim config
+  279  mv config cc
+  280  mv config.old config
+  281  kubectl get pod
+  282  kubectl get all
+  283  mv config config.old 
+  284  mv cc config 
+  285  ll
+  286  cat config
+  287  cd cache/
+  288  ll
+  289  cd oidc-login/
+  290  ll
+  291  cd ..
+  292  rm -rfv cache/*
+  293  ll cache/
+  294  kubectl --user=albam get pod 
+  295  kubectl --user=albam get pod -v
+  296  kubectl --user=albam get pod -V
+  297  rm -rfv cache/*
+  298  kubectl --user=albam get nodes -v=10
+  299  rm -rfv cache/*
+  300  kubectl --user=albam get nodes -v=10
+  301  rm -rfv cache/*
+  302  kubectl --user=albam get nodes
+  303  rm -rfv cache/*
+  304  kubectl --user=albam get nodes -v=10
+  305  rm -rfv cache/*
+  306  kubectl --user=albam get nodes
+  307  rm -rfv cache/*
+  308  kubectl --user=albam get nodes
+  309  vim config
+  310  rm -rfv cache/*
+  311  ls
+  312  cd
+  313  cd .kube/cache/
+  314  l
+  315  sls
+  316  ls
+  317  cd ..
+  318  ls
+  319  cat config
+  320  kubectl --user=albam get nodes
+  321  rm -rfv cache/*
+  322  ls
+  323  rm -rfv cache/*
+  324  kubectl --user=albam get nodes
+  325  ls
+  326  kubectl --user=albam get nodes
+  327  rm -rfv cache/*
+  328  kubectl --user=albam get nodes
+  329  rm -rfv cache/*
+  330  kubectl --user=albam get nodes
+  331  rm -rfv cache/*
+  332  cat config
+  333  s
+  334  ls
+  335  l
+  336  cat config.
+  337  cat config.old 
+  338  rm -rfv cache/*
+  339  kubectl --user=albam get nodes
+  340  rm -rfv cache/*
+  341  vim config
+  342  rm -rfv cache/*
+  343  s
+  344  kubectl --user=lazok get nodes
+  345  kubectl get nodes -v=10
+  346  rm -rfv cache/*
+  347  kubectl --user=lazok get nodes -v=10
+  348  vim config
+  349  kubectl --user=default get nodes -v=10
+  350  rm -rfv cache/*
+  351  kubectl --user=default get nodes -v=10
+  352  vim config
+  353  kubectl --user=lazok get nodes -v=10
+  354  ls
+  355  cat config.old c
+  356  ls
+  357  mv config config.ol
+  358  ls
+  359  mv config.old config
+  360  ls
+  361  kubectl --user=lazok get nodes -v=10
+  362  vim config
+  363  kubectl --user=lazok get nodes -v=10
+  364  c
+  365  *
+  366  vimco
+  367  vim config
+  368  kubectl --user=lazok get nodes -v=10
+  369  kubectl get node
+  370  ls
+  371  mv config config.old
+  372  ls
+  373  mv config.ol config
+  374  ls
+  375  vim config
+  376  kubectl --user=lazok get nodes -v=10
+  377  ls -al
+  378  sudo chown $(id -u):$(id -g) config
+  379  cd .kube/
+  380  vim config
+  381  cd .kube/
+  382  ll
+  383  rm -r cache/
+  384  rm -r cache
+  385  rmdir -r cache
+  386  ll
+  387  cat config
+  388  cat config.old 
+  389  mv config cc
+  390  mv config.old config
+  391  kubectl get nodes
+  392  kubectl --user=lazok get nodes
+  393  mv config config.old
+  394  mv cc config 
+  395  vim config
+  396  cat config
+  397  kubectl --user=albam get pod
+  398  rm -r cache/
+  399  ll
+  400  kubectl --user=albam get pod
+  401  rm -r cache/
+  402  kubectl --user=albam get pod
+  403  vim config
+  404  kubectl-krew --help
+  405  kubectl --help
+  406  kubectl --user=albam get pod
+  407  kubectl config current-context
+  408  kubectl --user=albam get pod
+  409  ls
+  410  cat config.old 
+  411  cat config
+  412  mv config config.bak
+  413  vim config
+  414  kubectl --user=albam get pod
+  415  rm -rf cache/*
+  416  kubectl --user=albam get pod
+  417  rm -rf cache/*
+  418  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  419  kubectl config set-credentials oidc 	  --exec-api-version=client.authentication.k8s.io/v1beta1 	  --exec-command=kubectl 	  --exec-arg=oidc-login 	  --exec-arg=get-token 	  --exec-arg=--oidc-issuer-url=https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s 	  --exec-arg=--oidc-client-id=k3s 	  --exec-arg=--oidc-client-secret=X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  420  vim config
+  421  	kubectl --user=oidc get nodes
+  422  rm -rf cache/*
+  423  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  424  kubectl config set-credentials oidc 	  --exec-api-version=client.authentication.k8s.io/v1beta1 	  --exec-command=kubectl 	  --exec-arg=oidc-login 	  --exec-arg=get-token 	  --exec-arg=--oidc-issuer-url=https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s 	  --exec-arg=--oidc-client-id=k3s 	  --exec-arg=--oidc-client-secret=X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  425  vim config
+  426  	kubectl --user=oidc get nodes
+  427  rm -f cache/*
+  428  rm -rf cache/*
+  429  	kubectl --user=oidc get nodes
+  430  vim config
+  431  	kubectl  get nodes
+  432  vim config
+  433  	kubectl  get nodes
+  434  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  435  kubectl config set-credentials oidc 	  --exec-api-version=client.authentication.k8s.io/v1beta1 	  --exec-command=kubectl 	  --exec-arg=oidc-login 	  --exec-arg=get-token 	  --exec-arg=--oidc-issuer-url=https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s 	  --exec-arg=--oidc-client-id=k3s 	  --exec-arg=--oidc-client-secret=X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  436  vim config
+  437  kubectl get nodes
+  438  vim config
+  439  kubectl get nodes
+  440  rm -rf cache/*
+  441  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  442  kubectl get nodes
+  443  	kubectl config set-credentials oidc 	  --exec-api-version=client.authentication.k8s.io/v1beta1 	  --exec-command=kubectl 	  --exec-arg=oidc-login 	  --exec-arg=get-token 	  --exec-arg=--oidc-issuer-url=https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s 	  --exec-arg=--oidc-client-id=k3s 	  --exec-arg=--oidc-client-secret=X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  444  kubectl get nodes
+  445  vim config
+  446  	kubectl --user=oidc get nodes
+  447  rm -rf cache/*
+  448  	kubectl --user=oidc get nodes
+  449  	kubectl  get nodes
+  450  vim config
+  451  	kubectl  get nodes
+  452  rm -rf cache/*
+  453  ll
+  454  vim config
+  455  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  456  rm -rf cache/*
+  457  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  458  kubectl config set-credentials oidc 	  --exec-api-version=client.authentication.k8s.io/v1beta1 	  --exec-command=kubectl 	  --exec-arg=oidc-login 	  --exec-arg=get-token 	  --exec-arg=--oidc-issuer-url=https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s 	  --exec-arg=--oidc-client-id=k3s 	  --exec-arg=--oidc-client-secret=X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  459  kubectl get pods
+  460  rm -rf cache/*
+  461  kubectl get pods
+  462  rm -rf cache/*
+  463  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  464  	kubectl --user=oidc get nodes
+  465  	kubectl --user=oidc get pods
+  466  	kubectl --user=oidc get nodes
+  467  rm -rf cache/*
+  468  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  469  	kubectl --user=oidc get nodes
+  470  	kubectl --user=oidc get secret
+  471  vim config
+  472  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  473  rm -rf cache/*
+  474  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  475  	kubectl --user=oidc get secret
+  476  vim config
+  477  	kubectl --user=oidc get secret
+  478  	kubectl get pods
+  479  rm -rf cache/*
+  480  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  481  	kubectl --user=oidc get nodes
+  482  rm -rf cache/*
+  483  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  484  	kubectl --user=oidc get nodes
+  485  rm -rf cache/*
+  486  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  487  	kubectl --user=oidc get nodes
+  488  vim config
+  489  	kubectl --user=oidc get nodes
+  490  	kubectl --user=oidc get list watch
+  491  	kubectl --user=oidc get secret
+  492  	kubectl --user=oidc get pods
+  493  	kubectl --user=oidc get nodes
+  494  	kubectl --user=oidc get secret
+  495  	kubectl --user=oidc get nodes
+  496  rm -rf cache/*
+  497  	kubectl --user=oidc get nodes
+  498  rm -rf cache/*
+  499  kubectl oidc-login setup --oidc-issuer-url https://albam-keycloak.dev01.ovh.smile.ci/realms/k3s --oidc-client-id k3s --oidc-client-secret X0R3HHv0pyldC6QZr5K4Qh5qcEF8EGhk
+  500  	kubectl --user=oidc get nodes
+  501  	kubectl --user=oidc get pods
+  502  	kubectl --user=oidc get secrets
+  503  	kubectl --user=oidc get pods
+  504  	kubectl --user=oidc get nodes
+  505  ssh albam@192.168.0.128
+  506  ssh albam@192.168.0.128
+  507  kubectl krew install oidc-login
+  508  cd .kube/
+  509  cat config 
+  510  vim config 
+  511  cp config config.old
+  512  vim config 
+  513  kubectl get nodes
+  514  cat config
+  515  ls
+  516  cat config
+  517  ls
+  518  rm rf cache/*
+  519  sudo rm rf cache/*
+  520  kubectl get nodes
+  521  ls
+  522  vim config
+  523  kubectl switch context
+  524  kubectl --user=albam get nodes
+  525  sudo rm rf cache/*
+  526  vim config
+  527  kubectl --user=albam get nodes
+  528  ls
+  529  kubectl get node
+  530  ls
+  531  kubectl --user=albam get nodes
+  532  cat config
+  533  kubectl --user=albam get nodes
+  534  vim config
+  535  kubectl --user=albam get nodes
+  536  vim config
+  537  kubectl --user=albam get nodes
+  538  vim config
+  539  kubectl --user=albam get nodes
+  540  vim config
+  541  nc -vz 192.168.0.128 6443
+  542  kubectl --user=albam get nodes
+  543  ssh albam@192.168.0.128
+  544  kubectl --user=albam get nodes
+  545  ls
+  546  rm -rf cache/*
+  547  kubectl --user=albam get nodes
+  548  rm -rf cache/*
+  549  kubectl --user=albam get nodes
+  550  kubectl --user=albam get podscd
+  551  kubectl get nodes -v=10
+  552  cd 
+  553  ll
+  554  kubectl --user=albam get pod
+  555  cd .kube/
+  556  kubectl --user=albam get pod
+  557  rm -rf cache/*
+  558  ll cache/
+  559  kubectl --user=albam get pod
+  560  kubectl --user=albam get nodes -v=10
+  561  l4
+  562  rm -rf cache/*
+  563  kubectl --user=lazok get nodes -v=10
+  564  cat config
+  565  kubectl --user=lazok get nodes -v=10
+  566  rm -rf cache/*
+  567  kubectl --user=lazok get nodes -v=10
+  568  curl http://localhost:8000/
+  569  kubectl --user=lazok get nodes -v=10
+  570  rm -rf cache/*
+  571  kubectl --user=lazok get nodes -v=10
+  572  rm -rf cache/*
+  573  kubectl --user=lazok get nodes -v=10
+  574  dev01
+  575  ssh albam@dev01.ovh.smile.ci
+  576  ping dev01.ovh.smile.ci
+  577  ping albam-keycloak.dev01.ovh.smile.ci
+  578  cd .kube/
+  579  sudo chown $(id -u):$(id -g) config
+  580  ls -al
+  581  kubectl --user=lazok get nodes -v=10
+  582  rm -rfv cache/*
+  583  kubectl --user=lazok get nodes -v=10
+  584  ls
+  585  rm -rfv cache/*
+  586  ls
+  587  cat config
+  588  kubectl config view 
+  589  kubectl --user=lazok get nodes -v=15
+  590  kubectl krew install oidc-login
+  591  sudo -i
+  592  sudo (
+  593  )
+  594  ll
+  595  history > cmd-history
+
+
+
+
+
+--------------------
+
+=== server kubernetes ===
+
+
+
+
+1  2023/09/28 - 13:49:53 curl https://releases.rancher.com/install-docker/20.10.sh | sh
+	2  2023/09/28 - 13:51:38 sudo systemctl enable docker 
+	3  2023/09/28 - 13:51:38 sudo systemctl start docker
+	4  2023/09/28 - 13:51:39 sudo systemctl status docker
+	5  2023/09/28 - 13:52:01 sudo usermod -aG docker albam
+	6  2023/09/28 - 13:52:07 docker ps
+	7  2023/09/28 - 13:52:16 sudo usermod -aG docker albam
+	8  2023/09/28 - 13:52:23 docker ps
+	9  2023/09/28 - 13:54:31 export INSTALL_K3S_VERSION=v1.23.16+k3s1
+   10  2023/09/28 - 13:54:36 curl -sfL https://get.k3s.io | sh -s - --docker
+   11  2023/09/28 - 13:56:50 echo "export PATH=\$PATH:/usr/local/bin" | sudo tee -a /etc/profile
+   12  2023/09/28 - 13:56:52 source /etc/profile
+   13  2023/09/28 - 13:57:01 mkdir -p /root/.kube
+   14  2023/09/28 - 13:57:08 ln -s /etc/rancher/k3s/k3s.yaml /root/.kube/config
+   15  2023/09/28 - 13:57:13 sudo -i
+   16  2023/09/28 - 13:57:26 sudo firewall-cmd --zone=trusted --add-interface=cni0 --permanent
+   17  2023/09/28 - 13:57:26 sudo firewall-cmd --add-port=8090/tcp --permanent
+   18  2023/09/28 - 13:57:27 sudo firewall-cmd --add-port=10250/tcp --permanent
+   19  2023/09/28 - 13:57:27 sudo firewall-cmd --add-port=10255/tcp --permanent
+   20  2023/09/28 - 13:57:27 sudo firewall-cmd --add-port=8472/udp --permanent
+   21  2023/09/28 - 13:57:27 sudo firewall-cmd --add-port=6443/tcp --permanent
+   22  2023/09/28 - 13:57:28 sudo firewall-cmd --add-port=9443/tcp --permanent
+   23  2023/09/28 - 13:57:30 sudo firewall-cmd --reload
+   24  2023/09/28 - 13:57:37 sudo systemctl start k3s
+   25  2023/09/28 - 13:57:37 sudo systemctl enable k3s
+   26  2023/09/28 - 13:57:38 sudo systemctl status k3s
+   27  2023/09/28 - 13:58:03 sudo cat /var/lib/rancher/k3s/server/node-token
+   28  2023/09/28 - 13:59:36 ifconfig 
+   29  2023/09/28 - 14:00:19 export  K3S_URL=https://192.168.0.128:6443 
+   30  2023/09/28 - 14:00:19 export INSTALL_K3S_VERSION=v1.23.16+k3s1
+   31  2023/09/28 - 14:00:19 export K3S_TOKEN=K10ef08abf620e5310e1f8630fac12d65257c1784c720a13a80010f183b74fd7ec2::server:b937816c6a826e8bbe220468b6c1eb74
+   32  2023/09/28 - 14:00:25 curl -sfL https://get.k3s.io | sh -s - --docker
+   33  2023/09/28 - 14:01:05 kubectl get nodes
+   34  2023/09/28 - 14:01:22 sudo dnf install bash-completion
+   35  2023/09/28 - 14:01:24 echo "source <(kubectl completion bash)" >> ~/.bashrc
+   36  2023/09/28 - 14:01:25 source .bashrc
+   37  2023/09/28 - 14:01:34 sudo chmod 644 /etc/rancher/k3s/k3s.yaml
+   38  2023/09/28 - 14:01:45 kubectl get nodes
+   39  2023/09/28 - 14:37:57 sudo o-i 
+   40  2023/09/28 - 14:38:01 sudo -i
+   41  2023/09/28 - 14:57:27 cd /etc/docker/
+   42  2023/09/28 - 14:57:28 ll
+   43  2023/09/28 - 14:58:07 vim daemon.json
+   44  2023/09/28 - 15:01:19 sudo daemon.json
+   45  2023/09/28 - 15:01:25 sudo vim daemon.json
+   46  2023/09/28 - 15:02:06 cat daemon.json 
+   47  2023/09/28 - 15:02:14 sudo vim daemon.json
+   48  2023/09/28 - 15:04:30 systemctl restart dockerd
+   49  2023/09/28 - 15:04:40 sudo systemctl restart dockerd
+   50  2023/09/28 - 15:05:12 sudo systemctl restart docker
+   51  2023/09/28 - 15:05:32 sudo systemctl status docker
+   52  2023/09/28 - 15:17:15 cd 
+   53  2023/09/28 - 15:17:25 kubectl get all 
+   54  2023/09/28 - 15:17:51 kubectl create secret docker-registry nexus-registry   --docker-server=http://192.168.0.112:8081   --docker-username=admin   --docker-password=allassaneBamba  --docker-email=allassane.bamba@smile.ci  --insecure-skip-tls-verify   -n default
+   55  2023/09/29 - 11:04:43 docker ps
+   56  2023/09/29 - 11:09:08 sudo chmod 644 /etc/rancher/k3s/k3s.yaml 
+   57  2023/09/29 - 11:09:18 kubectl get nodes
+   58  2023/09/29 - 11:09:24 kubectl get secret
+   59  2023/09/29 - 11:11:28 cat /etc/docker/daemon.json 
+   60  2023/09/29 - 11:29:07 kubectl get nodes
+   61  2023/09/29 - 11:29:14 docker ps
+   62  2023/09/29 - 11:31:54 sudo -i
+   63  2023/10/02 - 18:09:07 sudo chmod 644 /etc/rancher/k3s/k3s.yaml 
+   64  2023/10/02 - 18:09:13 kubectl get nodes
+   65  2023/10/02 - 18:09:27 docker ps 
+   66  2023/10/02 - 18:16:07 cat /etc/docker/daemon.json 
+   67  2023/10/02 - 18:46:40 sudo -i
+   68  2023/10/05 - 13:16:12 sudo chmod 644 /etc/rancher/k3s/k3s.yaml 
+   69  2023/10/05 - 13:16:24 kubectl get nodes
+   70  2023/10/05 - 15:03:37 kubectl get secrets 
+   71  2023/10/05 - 17:23:30 helm lis
+   72  2023/10/05 - 17:23:35 suod -i 
+   73  2023/10/05 - 17:23:39 sudo -i
+   74  2023/10/05 - 17:38:59 kubectl get pod --all-namespaces 
+   75  2023/10/05 - 17:40:10 kubectl get svc --all-namespaces 
+   76  2023/10/05 - 19:39:14 kubectl get pod --all-namespaces 
+   77  2023/10/05 - 20:13:44 helm
+   78  2023/10/05 - 20:17:03 kubectl get pod --all-namespaces 
+   79  2023/10/05 - 20:17:42 sudo -i
+   80  2023/10/06 - 10:51:28 kubectl -n cert-manager get all
+   81  2023/10/06 - 10:51:35 watch kubectl -n cert-manager get all
+   82  2023/10/06 - 11:34:15 watch kubectl get pod --all-namespaces 
+   83  2023/10/06 - 09:32:12 sudo chmod 644 /etc/rancher/k3s/k3s.yaml 
+   84  2023/10/06 - 09:32:29 kubectl get pod
+   85  2023/10/06 - 09:32:56 curl http:google.com
+   86  2023/10/06 - 09:33:05 curl http://google.com
+   87  2023/10/06 - 09:34:12 curl http://albam-traefik.lan/dashboard/
+   88  2023/10/06 - 09:34:30 ping albam-traefik.lan 
+   89  2023/10/06 - 09:35:17 curl 192.168.0.128:9000/dashboard/
+   90  2023/10/06 - 09:44:52 sudo -i
+   91  2023/10/06 - 09:50:08 kubectl create deployment demo --image=httpd --port=80
+   92  2023/10/06 - 09:50:33 kubectl create service clusterip demo --tcp=80:80
+   93  2023/10/06 - 09:50:47 kubectl get pod
+   94  2023/10/06 - 09:51:28 kubectl create ingress demo-web --class=traefik  --rule=demo.lan/*=demo:80
+   95  2023/10/06 - 09:59:31 kubectl create deploy webapp --image nginx
+   96  2023/10/06 - 09:59:52 kubectl create service clusterip webapp --tcp=8080:80
+   97  2023/10/06 - 10:00:18 vim myingress.yml
+   98  2023/10/06 - 10:05:09 kubectl apply -f myingress.yml
+   99  2023/10/06 - 10:10:13 curl -H "Host:myapp.lan" http://10.1.4.153/webapp
+  100  2023/10/06 - 10:13:56 kubectl get pod
+  101  2023/10/06 - 10:18:22 sudo vim /etc/hosts
+  102  2023/10/06 - 10:19:24 curl -H "Host:myapp.lan" http://192.168.0.128/webapp
+  103  2023/10/06 - 10:30:06 helm repo add jetstack https://charts.jetstack.io
+  104  2023/10/06 - 10:30:56 sudo -i
+  105  2023/10/06 - 10:44:54 kubectl -n cert-manager delete deployments cert-manager-v1.7.1*
+  106  2023/10/06 - 10:45:12 kubectl -n cert-manager delete deployments cert-manager-v1.7.1-cainjector 
+  107  2023/10/06 - 10:46:24 kubectl -n cert-manager delete deployments cert-manager-v1.7.1-webhook cert-manager-v1.7.1
+  108  2023/10/06 - 10:46:54 kubectl -n cert-manager get all
+  109  2023/10/06 - 10:47:43 kubectl -n cert-manager delete deployments cert-manager-cainjector cert-manager-webhook cert-manager 
+  110  2023/10/06 - 10:48:34 kubectl -n cert-manager delete svc cert-manager-webhook cert-manager 
+  111  2023/10/06 - 10:48:40 kubectl -n cert-manager get all
+  112  2023/10/06 - 10:49:21 kubectl -n cert-manager delete jobs.batch cert-manager-startupapicheck 
+  113  2023/10/06 - 10:49:27 kubectl -n cert-manager get all
+  114  2023/10/06 - 10:49:42 helm repo update
+  115  2023/10/06 - 10:49:53 sudo -i
+  116  2023/10/06 - 11:12:47 kubectl get secret -n <namespace> rancher-admin-secret -o jsonpath="{.data.password}" | base64 --decode
+  117  2023/10/06 - 11:13:09 kubectl get pod
+  118  2023/10/06 - 11:13:22 kubectl get pod --all-namespaces 
+  119  2023/10/06 - 11:17:03 kubectl get secret -n cattle-system rancher-admin-secret -o jsonpath="{.data.password}" | base64 --decode
+  120  2023/10/06 - 11:18:54 kubectl get secret --all-namespaces
+  121  2023/10/06 - 11:31:20 kubectl get secret --namespace cattle-system bootstrap-secret -o go-template='{{ .data.bootstrapPassword|base64decode}}{{ "\n" }}'
+  122  2023/10/06 - 11:36:16 kubectl get pod --all-namespaces 
+  123  2023/10/06 - 14:27:46 VERSION=1.9.0
+  124  2023/10/06 - 14:27:56 sudo wget https://github.com/vmware-tanzu/velero/releases/download/v${VERSION}/velero-v${VERSION}-linux-amd64.tar.gz
+  125  2023/10/06 - 14:28:14 dnf install wget
+  126  2023/10/06 - 14:28:23 sudo dnf install wget
+  127  2023/10/06 - 14:30:17 VERSION=1.9.0
+  128  2023/10/06 - 14:30:22 sudo wget https://github.com/vmware-tanzu/velero/releases/download/v${VERSION}/velero-v${VERSION}-linux-amd64.tar.gz
+  129  2023/10/06 - 14:30:47 tar -xvf velero-v${VERSION}-linux-amd64.tar.gz
+  130  2023/10/06 - 14:30:58 sudo cp velero-v${VERSION}-linux-amd64/velero /usr/local/sbin/
+  131  2023/10/06 - 14:31:09 dnf install bash-completion -y
+  132  2023/10/06 - 14:31:19 sudo dnf install bash-completion -y
+  133  2023/10/06 - 14:32:22 echo 'source <(velero completion bash)' >>~/.bashrc
+  134  2023/10/06 - 14:32:29 velero completion bash >/etc/bash_completion.d/velero
+  135  2023/10/06 - 14:32:36 sudo velero completion bash >/etc/bash_completion.d/velero
+  136  2023/10/06 - 14:32:59 sudo -i
+  137  2023/10/06 - 14:33:15 velero completion bash > /usr/local/etc/bash_completion.d/velero
+  138  2023/10/06 - 14:33:53 tee credentials-velero <<EOF
+[default]
+aws_access_key_id = 7XLZBC5JZ1XH61ZTNHR
+aws_secret_access_key = Q1J6mtZm20QmMaZ2jneKWdADvPahAAtzBvJgitwv
+EOF
+  139  2023/10/06 - 14:34:12 velero install --provider aws --plugins velero/velero-plugin-for-aws:v1.5.0 --bucket velero --use-restic --secret-file ./credentials-velero --use-volume-snapshots=false --backup-location-config region=default,s3ForcePathStyle="true",s3Url=http://192.168.0.112:8080 --wait
+  140  2023/10/06 - 14:34:48 kubectl get pod 
+  141  2023/10/06 - 14:36:46 velero install --provider aws --plugins velero/velero-plugin-for-aws:v1.5.0 --bucket velero --use-restic --secret-file ./credentials-velero --use-volume-snapshots=false --backup-location-config region=default,s3ForcePathStyle="true",s3Url=http://192.168.0.113:8080 --wait
+  142  2023/10/06 - 17:54:52 kubectl get pods
+  143  2023/10/06 - 17:55:11 kubectl get pods --all-namespaces 
+  144  2023/10/06 - 17:59:08 velero backup-location get
+  145  2023/10/06 - 18:00:11 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml 
+  146  2023/10/06 - 18:00:15 velero backup-location get
+  147  2023/10/06 - 18:00:47 velero schedule get
+  148  2023/10/06 - 18:01:16 watch velero schedule get
+  149  2023/10/06 - 18:14:32 kubectl get pod --all-namespaces 
+  150  2023/10/06 - 18:14:56 helm list -n velero
+  151  2023/10/06 - 18:52:12 velero schedule get
+  152  2023/10/06 - 18:52:47 velero backup logs first-backup
+  153  2023/10/06 - 18:52:58 velero backup logs test
+  154  2023/10/06 - 18:53:17 velero backup describe test
+  155  2023/10/06 - 19:15:33 kubectl get deployments
+  156  2023/10/06 - 19:16:03 kubectl delete deployments.apps app1 
+  157  2023/10/06 - 17:38:59 velero install --provider aws --plugins velero/velero-plugin-for-aws:v1.5.0 --bucket velero --use-restic --secret-file ./credentials-velero --use-volume-snapshots=false --backup-location-config region=default,s3ForcePathStyle="true",s3Url=http://192.168.0.113:8080 --wait
+  158  2023/10/06 - 17:39:09 sudo -i
+  159  2023/10/06 - 17:50:48 echo $KUBECONFIG
+  160  2023/10/06 - 17:51:04 export KUBECONFIG=/root/.kube/config 
+  161  2023/10/06 - 17:51:11 echo $KUBECONFIG
+  162  2023/10/06 - 17:51:22 velero install --provider aws --plugins velero/velero-plugin-for-aws:v1.5.0 --bucket velero --use-restic --secret-file ./credentials-velero --use-volume-snapshots=false --backup-location-config region=default,s3ForcePathStyle="true",s3Url=http://192.168.0.113:8080 --wait
+  163  2023/10/06 - 17:52:53 cat /etc/rancher/k3s/k3s.yaml 
+  164  2023/10/06 - 17:53:30 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml 
+  165  2023/10/06 - 17:53:38 echo $KUBECONFIG
+  166  2023/10/06 - 17:54:04 velero install \
+  167  2023/10/06 - 17:56:50 velero backup-location get
+  168  2023/10/06 - 17:58:43 velero schedule create sauve-01 --schedule "0 16 * * *"
+  169  2023/10/06 - 17:59:21 velero backup-location get
+  170  2023/10/06 - 18:02:22 velero get backups 
+  171  2023/10/06 - 18:02:54 kubectl logs deployment/velero -n velero
+  172  2023/10/06 - 18:07:26 velero get backups 
+  173  2023/10/06 - 18:08:31 velero backup create first-backup
+  174  2023/10/06 - 18:09:02 velero backup logs first-backup
+  175  2023/10/06 - 18:10:26 velero config view
+  176  2023/10/06 - 18:15:29 helm list -n velero
+  177  2023/10/06 - 18:16:39 helm list
+  178  2023/10/06 - 18:17:15 kubectl get namespaces 
+  179  2023/10/06 - 18:17:45 helm list i-n velero
+  180  2023/10/06 - 18:18:30 helm list -n velero
+  181  2023/10/06 - 18:18:47 helm list -n cattle-dashboards
+  182  2023/10/06 - 18:19:02 helm list -n cert-manager
+  183  2023/10/06 - 18:25:16 velero config view
+  184  2023/10/06 - 18:25:32 velero restart
+  185  2023/10/06 - 18:26:34 kubectl get deployments -n velero
+  186  2023/10/06 - 18:26:55 kubectl get services -n velero
+  187  2023/10/06 - 18:27:32 velero get config
+  188  2023/10/06 - 18:28:42 kubectl get pods -n velero
+  189  2023/10/06 - 18:29:06 kubectl get deployments -n velero
+  190  2023/10/06 - 18:30:20 kubectl -n velero delete deployments velero 
+  191  2023/10/06 - 18:30:25 kubectl get deployments -n velero
+  192  2023/10/06 - 18:30:31 kubectl get pods -n velero
+  193  2023/10/06 - 18:31:09 kubectl get all --all-namespaces 
+  194  2023/10/06 - 18:31:34 kubectl get all -n velero 
+  195  2023/10/06 - 18:32:34 kubectl -n velero delete daemonsets.apps restic 
+  196  2023/10/06 - 18:32:38 kubectl get all -n velero 
+  197  2023/10/06 - 18:33:01 kubectl delete namespaces velero 
+  198  2023/10/06 - 18:33:57 velero schedule get
+  199  2023/10/06 - 18:34:38 tee credentials-velero <<EOF
+[default]
+aws_access_key_id = 7XLZBC5JZ1XH61ZTNHR
+aws_secret_access_key = Q1J6mtZm20QmMaZ2jneKWdADvPahAAtzBvJgitwv
+EOF
+  200  2023/10/06 - 18:34:57 velero install --provider aws --plugins velero/velero-plugin-for-aws:v1.5.0 --bucket velero --use-restic --secret-file ./credentials-velero --use-volume-snapshots=false --backup-location-config region=default,s3ForcePathStyle="true",s3Url=http://192.168.0.113:8080 --wait
+  201  2023/10/06 - 18:35:48 kubectl logs deployment/velero -n velero
+  202  2023/10/06 - 18:36:15 velero schedule get
+  203  2023/10/06 - 18:36:36 velero backup create first-backup
+  204  2023/10/06 - 18:36:47 velero backup describe first-backup
+  205  2023/10/06 - 18:37:06 watch velero backup describe first-backup
+  206  2023/10/06 - 18:37:47 velero backup logs first-backup
+  207  2023/10/06 - 18:39:01 kubectl delete namespaces velero 
+  208  2023/10/06 - 18:39:36 kubectl -n velero delete daemonsets.apps restic 
+  209  2023/10/06 - 18:40:00 kubectl get pod --all-namespaces 
+  210  2023/10/06 - 18:47:20 tee credentials-velero <<EOF
+[default]
+aws_access_key_id = SNEC6JE2XVA7F2XJRKV5
+aws_secret_access_key = dGrAilvpw5heqTzoX3gjSDoGayB6r5E0lYro5lz8
+EOF
+  211  2023/10/06 - 18:48:32 velero install --provider aws --plugins velero/velero-plugin-for-aws:v1.5.0 --bucket velero --use-restic --secret-file ./credentials-velero --use-volume-snapshots=false --backup-location-config region=default,s3ForcePathStyle="true",s3Url=http://192.168.0.113:8080 --wait
+  212  2023/10/06 - 18:49:40 kubectl logs deployment/velero -n velero
+  213  2023/10/06 - 18:50:57 velero backup-location get
+  214  2023/10/06 - 18:51:57 velero schedule create sauve --schedule "0 17 * * *"
+  215  2023/10/06 - 18:52:38 velero backup create test
+  216  2023/10/06 - 19:14:09 kubectl get pod 
+  217  2023/10/06 - 19:38:21 kubectl describe pods app1-df6958546-87k96 
+  218  2023/10/06 - 19:40:32 kubectl get pod 
+  219  2023/10/06 - 19:41:54  kubectl describe pod app1-b7dc7f4b9-5j5ld
+  220  2023/10/06 - 19:52:07 kubectl get pod 
+  221  2023/10/09 - 14:17:45 sudo chmod 644 /etc/rancher/k3s/k3s.yaml 
+  222  2023/10/09 - 14:18:54 docker ps
+  223  2023/10/09 - 14:19:42 velero get backups
+  224  2023/10/09 - 14:20:07 velero get backup
+  225  2023/10/09 - 14:44:20 kubectl get nodes
+  226  2023/10/09 - 14:44:35 velero get schedules 
+  227  2023/10/09 - 14:50:50 echo $KUBECONFIG
+  228  2023/10/09 - 14:53:00 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml 
+  229  2023/10/09 - 14:53:02 echo $KUBECONFIG
+  230  2023/10/09 - 14:53:11 velero get schedules 
+  231  2023/10/09 - 14:53:26 velero get backups
+  232  2023/10/09 - 14:54:29 docker ps
+  233  2023/10/09 - 16:24:31 cat << EOF > .env
+DB_NAME=keycloak
+DB_USER=keycloak
+DB_PASS=keycloak
+EOF
+  234  2023/10/09 - 16:24:42 ll
+  235  2023/10/09 - 16:24:47 ll -s
+  236  2023/10/09 - 16:24:52 ll -a
+  237  2023/10/09 - 16:24:59 cat .env 
+  238  2023/10/09 - 16:26:14 rm .env 
+  239  2023/10/09 - 16:26:23 cat .env 
+  240  2023/10/17 - 17:24:45 sudo -i
+  241  2023/10/17 - 17:25:11 kubectl get pod
+  242  2023/10/17 - 17:25:32 kubectl get all --all-namespaces 
+  243  2023/10/17 - 17:25:45 kubectl get all
+  244  2023/10/17 - 17:26:11 kubectl delete deploy app1 
+  245  2023/10/17 - 17:26:28 kubectl get svc
+  246  2023/10/17 - 17:26:49 cat /etc/hosts
+  247  2023/10/17 - 18:08:52 cd .kube/
+  248  2023/10/17 - 18:08:53 ll
+  249  2023/10/17 - 18:09:11 ls -al
+  250  2023/10/17 - 18:09:22 kubectl get pod
+  251  2023/10/17 - 19:13:11 sudo -i
+  252  2023/10/17 - 19:24:42 ll -a
+  253  2023/10/17 - 19:24:49 cd .kube/
+  254  2023/10/17 - 19:24:50 ll
+  255  2023/10/17 - 19:24:55 ll -a
+  256  2023/10/17 - 19:25:32 sudo -i
+  257  2023/10/17 - 19:59:35 kubectl get pod
+  258  2023/10/17 - 19:59:44 sudo -i
+  259  2023/10/18 - 10:57:24 kubectl get node
+  260  2023/10/18 - 10:58:09 sudo -i
+  261  2023/10/18 - 14:13:00 kubectl get pod
+  262  2023/10/18 - 14:13:14 kubectl get node
+  263  2023/10/18 - 14:22:59 kubectl get pod
+  264  2023/10/18 - 14:23:02 kubectl get node
+  265  2023/10/18 - 19:46:38 cat /var/lib/keycloack-ca.pem
+  266  2023/10/18 - 19:47:33 systemctl daemon-reload
+  267  2023/10/18 - 19:47:43 sudo systemctl daemon-reload
+  268  2023/10/18 - 19:48:49 sudo systemctl restart k3s.service 
+  269  2023/10/18 - 20:26:40 sudo -i
+  270  2023/10/18 - 19:33:55 kubectl get pod
+  271  2023/10/18 - 19:34:01 sudo chmod 644 /etc/rancher/k3s/k3s.yaml 
+  272  2023/10/18 - 19:34:04 kubectl get pod
+  273  2023/10/18 - 19:45:18 systemctl status k3s.service 
+  274  2023/10/18 - 19:45:28 vim /etc/systemd/system/k3s.service
+  275  2023/10/18 - 19:49:08 systemctl status k3s.service 
+  276  2023/10/18 - 17:41:08 dedbeidebbidbeibiu
+  277  2023/10/18 - 17:41:09 debvjcezkzechbkjcebkecbcebkcebkcebkjbkjcekbjcbjkce
+  278  2023/10/18 - 17:41:13 sudo --i 
+  279  2023/10/18 - 17:41:17 sudo -i 
+  280  2023/10/18 - 22:24:39 history

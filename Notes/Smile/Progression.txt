@@ -1,0 +1,111 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-18T10:41:48+01:00
+
+====== Progression ======
+Créée le Tuesday 18 July 2023
+
+===== 17/07/2023 - 21/07/2023 =====
+
+lundi 
+	* créer un machine rocky linux 9.
+	* cloner les playbooks et les roles de smile.ci sur machine physique.
+	* lances les playbooks basic-server, mariadb, apache, tomcat et centreon.
+	* corriger les erreurs rencontrer.
+	* Fait des tests pour ces playbooks: redis, docker, elk, galera, drbdh, haproxy, kafka, mongodb, nodejs, nfs, pcs
+mardi 
+	* Découvrir les conteneurs
+	* docker ?
+	* installe docker 
+	* lancer mon premier conteneur en local
+	* créer un Dockerfile
+
+mercredi
+	* Créez votre fichier .dockerignore
+	* utiliser des images grace au partage sur le Docker Hub
+	* Découvrir et installer Docker Compose
+	* créer un fichier docker-compose pour orchestrer les conteneurs
+jeudi 
+	* introduction kubernetes
+	* notion
+	* Prérequis
+	kodecloud
+		- docker vs conteneur
+		- kubernetes
+		- composant de K8S
+		
+vendredi 
+	* kubeadm
+	* etapes à suivre pour mettre en place un closter
+	* pod
+	* fichier ymal dans kubernetes
+
+
+
+
+===== 24/07/2023 - 28/07/2023 =====
+Mardi 
+	Replication Controller (réplication controller)
+	Replica Set (Ensemble de répliques)
+	Deployment
+	mise à jour et restauration
+
+jeudi
+	cluster networking
+	service (NodePort, ClusterIP, LoadBalancer)
+	
+	
+	
+
+===== 31/07/2023 - 04/08/2023 =====
+
+lab kubernetes
+lecture de la documentation officielle de kubernetes
+installation , sauvegarde et restauration de pfsense
+depannage SMART-FINANCE (changer disque dur , sauvegarde et restauration de Pfsense)
+
+===== 08/08/2023 - 11/08/2023 =====
+
+
+
+
+
+
+
+===== 14/08/2023 - 18/08/2023 =====
+
+lundi 
+	* Dépannage interne (changer de RAM)
+	* Dépannage externe (prise d'information sur les boxes)
+	* Utilisation de Docker comme Container Runtime
+
+
+
+creé un service  de type  RGW  
+création d'un pool  qui utilisera  comme application RGW
+création d'un utilisateur  pour l'interface S3
+création d'un  Bucket velero
+
+
+
+depanner traefik
+		  rancher
+
+installer velero
+realiser un backup du cluster
+
+
+
+
+
+
+
+
+--------------------
+
+===== 09/10/2023 - 13/10/2023 =====
+
+
+
+
+

@@ -1,0 +1,105 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-12T09:35:10+01:00
+
+====== Doc ======
+Créée le Wednesday 12 July 2023
+
+===== # Premiers pas avec Ansible =====
+	Ansible automatise la gestion des systèmes distants et contrôle leur état souhaité. Un environnement Ansible de base 
+	comporte trois composants principaux :
+
+	__# Nœud de contrôle :__
+Un système sur lequel Ansible est installé. Vous exécutez des commandes Ansible telles que ansibleou ansible-inventorysur un nœud de contrôle.
+
+	__# Nœud géré :__
+Un système distant, ou hôte, contrôlé par Ansible.
+
+	__# Inventaire :__
+Une liste de nœuds gérés organisés de manière logique. Vous créez un inventaire sur le nœud de contrôle pour décrire les déploiements d'hôtes à Ansible.
+
+	__# Fichier 'hosts' ansible : /etc/ansible/hosts.__
+	
+	- Les groupes d'hôtes sont délimités par des éléments [header]
+	- Vous pouvez entrer des noms d'hôte ou des adresses IP
+	- Un nom d'hôte/ip peut être membre de plusieurs groupes
+
+== ### Construire un inventaire ==
+
+Les fichiers d'inventaire peuvent être au format INI ou YAML
+
+''```''
+'''
+virtualmachines:
+  hosts:
+	vm01:
+	  ansible_host: 192.0.2.50
+	vm02:
+	  ansible_host: 192.0.2.51
+'''
+
+''```''
+
+	__# verifier l'inventaire__
+'''
+```
+	ansible-inventory -i inventory.yaml --list
+```
+'''
+
+	__# Envoyez un ping aux nœuds gérés dans l'inventaire__
+'''
+```
+	ansible name-group -m ping -i inventory.yaml
+```
+'''
+
+== ### Création d'un playbook ==
+
+	__# Créez un nouveau fichier de playbook__ 
+'''
+```
+- name: My first play
+  hosts: virtualmachines
+  tasks:
+   - name: Ping my hosts
+	 ansible.builtin.ping:
+   - name: Print message
+	 ansible.builtin.debug:
+	   msg: Hello world
+```
+'''
+
+//**Dans les versions précédentes d'Ansible, le module "ping" était situé dans le namespace "ansible" et était donc utilisé comme "ansible.ping". Cependant, à partir d'Ansible 2.10, un effort a été fait pour déplacer les modules internes vers un nouveau namespace appelé "ansible.builtin".**//
+
+
+
+	__# Exécutez votre playbook__
+'''
+```
+	ansible-playbook -i inventory.yaml playbook.yaml
+```
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,23 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-07T18:53:08+01:00
+
+====== tshoot ======
+Créée le Friday 07 July 2023
+
+#Accéder à l'interface web de rundeck
+	
+	le probleme survient surement de la DB
+connecter vous à la base de donnée
+
+vérifier le contenu de la DB
+	USE rundeck; 
+	select * from DATABASECHANGELOGLOCK;
+	{{~/Images/Captures d’écran/Capture d’écran du 2023-07-07 18-16-18.png}}
+	mettre à jour la table 
+		```
+		update DATABASECHANGELOGLOCK set LOCKED="", LOCKGRANTED=null, LOCKEDBY=null where ID=1;
+		``
+	Redémarrer le serveur Rundeck
+ 
+

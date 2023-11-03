@@ -1,0 +1,438 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-08-09T09:20:24+01:00
+
+====== Taches ======
+Créée le Wednesday 09 August 2023
+
+===== Installer des outils =====
+
+__kubectl__
+	L'outil de ligne de commande Kubernetes, kubectl , vous permet d'exécuter des commandes sur des clusters Kubernetes. Vous pouvez utiliser kubectl pour déployer des applications, inspecter et gérer les ressources du cluster et afficher les journaux.
+
+__Installer à l'aide de la gestion native des packages__ 
+	'''
+	cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+	[kubernetes]
+	name=Kubernetes
+	baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+	enabled=1
+	gpgcheck=1
+	gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+	EOF
+	sudo yum install -y kubectl
+	'''
+
+
+
+kubectl version --client
+kubectl version --client --output=yaml
+
+__Vérifier la configuration de kubectl__ 
+	kubectl cluster-info
+	kubectl cluster-info dump
+	
+__Activer l'auto-complétion du shell__ 
+	yum install bash-completion
+	source /usr/share/bash-completion/bash_completion
+	echo 'source <(kubectl completion bash)' >>~/.bashrc
+	source ~/.bashrc
+	
+	
+
+==== Administrer un cluster ====
+
+=== #Gérer les ressources de mémoire, de processeur et d'API ===
+__Configurer les demandes et les limites de mémoire par défaut pour un espace de noms__
+
+	__Créer un espace de noms__
+		''kubectl create namespace smile-test''
+		
+	__Créer une LimitRange et un Pod__ 
+
+``` 
+'''
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: limit-range
+spec:
+  limits:
+  - default:
+	  memory: 512Mi
+	defaultRequest:
+	  memory: 256Mi
+	type: Container
+'''
+
+```
+''kubectl apply -f [--] --namespace=smile-test''
+
+```
+'''
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-demo
+spec:
+  containers:
+  - name: test-container
+	image: nginx
+'''
+
+```
+''kubectl apply -f [--] --namespace=smile-test''
+
+
+''kubectl get pod pod-demo --output=yaml --namespace=smile-test''
+
+''kubectl delete pod pod-demo --output=yaml --namespace=smile-test''
+
+__Que se passe-t-il si vous spécifiez la limite d'un conteneur, mais pas sa demande ?__
+```
+'''
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-02
+spec:
+  containers:
+  - name: default-mem-demo-2-ctr
+	image: nginx
+	resources:
+	  limits:
+		memory: "1Gi"
+'''
+
+```
+''kubectl apply -f [--] --namespace=smile-test''
+
+''kubectl get pod pod-02 --output=yaml --namespace=smile-test''
+
+
+__Que se passe-t-il si vous spécifiez la demande d'un conteneur, mais pas sa limite ?__ 
+```
+'''
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-03
+spec:
+  containers:
+  - name: default-mem-demo-3-ctr
+	image: nginx
+	resources:
+	  requests:
+		memory: "128Mi"
+'''
+```
+''kubectl apply -f [--] --namespace=smile-test''
+
+''kubectl get pod pod-03 --output=yaml --namespace=smile-test''
+
+__Supprimez votre espace de noms :__
+''kubectl delete namespace default-mem-example''
+
+
+=== Configurer les demandes et les limites de CPU par défaut pour un espace de noms ===
+
+kubectl create namespace cpu-demo
+```
+'''
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-limit-range
+spec:
+  limits:
+  - default:
+	  cpu: 1
+	defaultRequest:
+	  cpu: 0.5
+	type: Container
+'''
+
+```
+''kubectl apply -f [--] --namespace=cpu-demo''
+
+```
+'''
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-01
+spec:
+  containers:
+  - name: default-cpu-demo-ctr
+	image: nginx
+'''
+```
+''kubectl apply -f [--] --namespace=cpu-demo''
+''kubectl get pod cpu-01 --output=yaml --namespace=cpu-demo''
+
+__Que se passe-t-il si vous spécifiez la limite d'un conteneur, mais pas sa demande ?__ 
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-02
+spec:
+  containers:
+  - name: default-cpu-demo-2-ctr
+	image: nginx
+	resources:
+	  limits:
+		cpu: "1"
+```
+''kubectl apply -f [--] --namespace=cpu-demo''
+''kubectl get pod cpu-02 --output=yaml --namespace=cpu-demo''
+
+
+__Que se passe-t-il si vous spécifiez la demande d'un conteneur, mais pas sa limite ?__ 
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: default-cpu-demo-3
+spec:
+  containers:
+  - name: default-cpu-demo-3-ctr
+	image: nginx
+	resources:
+	  requests:
+		cpu: "0.75"
+```
+''kubectl apply -f [--] --namespace=cpu-demo''
+''kubectl get pod cpu-03 --output=yaml --namespace=cpu-demo''
+
+
+
+__Supprimez votre espace de noms :__
+	''kubectl delete namespace cpu-demo''
+	
+
+=== Configurer les contraintes de mémoire minimales et maximales pour un espace de noms ===
+
+''kubectl create namespace ressources''
+```
+'''
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: min-max-demo
+spec:
+  limits:
+  - max:
+	  memory: 1Gi
+	min:
+	  memory: 500Mi
+	type: Container
+'''
+
+```
+
+''kubectl apply -f [--] --namespace=ressources''
+''kubectl get limitrange min-max-demo --namespace=ressources --output=yaml''
+
+```
+'''
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-demo
+spec:
+  containers:
+  - name: constraints-mem-demo-ctr
+	image: nginx
+	resources:
+	  limits:
+		memory: "800Mi"
+	  requests:
+		memory: "600Mi"
+'''
+
+```
+
+''kubectl apply -f [--] --namespace=cpu-demo''
+''kubectl get pod pod-demo --output=yaml --namespace=ressources''
+
+__Configurer les contraintes CPU minimales et maximales pour un espace de noms__
+
+
+```
+'''
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-min-max
+spec:
+  limits:
+  - max:
+	  cpu: "800m"
+	min:
+	  cpu: "200m"
+	type: Container
+'''
+
+```
+''kubectl apply -f [--] --namespace=cpu-demo''
+''kubectl get limitrange cpu-min-max --namespace=ressources --output=yaml''
+
+```
+'''
+apiVersion: v1
+kind: Pod
+metadata:
+  name: constraints-cpu
+spec:
+  containers:
+  - name: constraints-cpu-demo-ctr
+	image: nginx
+	resources:
+	  limits:
+		cpu: "800m"
+	  requests:
+		cpu: "500m"
+'''
+
+```
+''kubectl apply -f [--] --namespace=ressources''
+''kubectl get pod constraints-cpu --output=yaml --namespace=ressources''
+
+__Configurer les quotas de mémoire et de CPU pour un espace de noms__
+
+	//définir des quotas pour la quantité totale de mémoire et de CPU pouvant être utilisée par tous les pods exécutés dans unespace de noms//
+
+''kubectl create namespace quota-cpu''
+
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: cpu-quota
+spec:
+  hard:
+	requests.cpu: "1"
+	requests.memory: 1Gi
+	limits.cpu: "2"
+	limits.memory: 2Gi
+
+
+''kubectl apply -f [--] --namespace=quota-cpu''
+''kubectl get resourcequota cpu-quota --namespace=quota-cpu --output=yaml''
+
+
+
+
+	* Pour chaque pod de l'espace de noms, chaque conteneur doit avoir une demande de mémoire, une limite de mémoire, une demande de processeur et une limite de processeur.
+	* Le total des demandes de mémoire pour tous les pods de cet espace de noms ne doit pas dépasser 1 Gio.
+	* La limite de mémoire totale pour tous les pods de cet espace de noms ne doit pas dépasser 2 Gio.
+	* Le nombre total de requêtes CPU pour tous les pods de cet espace de noms ne doit pas dépasser 1 cpu.
+	* La limite totale de CPU pour tous les pods de cet espace de noms ne doit pas dépasser 2 cpu.
+
+	__création d'un pod__ 
+
+'''
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quota-cpu
+spec:
+  containers:
+  - name: quota-mem-cpu-demo-ctr
+	image: nginx
+	resources:
+	  limits:
+		memory: "800Mi"
+		cpu: "800m"
+	  requests:
+		memory: "600Mi"
+		cpu: "400m"
+'''
+
+
+
+''kubectl apply -f [--] --namespace=quota-cpu''
+''kubectl get pod quota-cpu --output=yaml --namespace=quota-cpu''
+
+	__Tentative de création d'un deuxième pod__ 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: quota-cpu--2
+spec:
+  containers:
+  - name: quota-mem-cpu-demo-2-ctr
+	image: redis
+	resources:
+	  limits:
+		memory: "1Gi"
+		cpu: "800m"
+	  requests:
+		memory: "700Mi"
+		cpu: "400m"
+
+''kubectl apply -f [--] --namespace=quota-cpu''
+''kubectl delete namespace=quota-cpu''
+
+
+__Configurer un quota de pod pour un espace de noms__
+
+''kubectl create namespace quota-pod''
+
+'''
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: pod-demo
+spec:
+  hard:
+	pods: "2"
+'''
+
+
+''kubectl apply -f [--] --namespace=quota-pod''
+kubectl get resourcequota pod-demo --namespace=quota-pod --output=yaml
+
+
+'''
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-quota
+spec:
+  selector:
+	matchLabels:
+	  purpose: quota-demo
+  replicas: 3
+  template:
+	metadata:
+	  labels:
+		purpose: quota-demo
+	spec:
+	  containers:
+	  - name: pod-quota-demo
+		image: nginx
+'''
+
+
+'''
+kubectl apply -f [--] --namespace=quota-pod
+kubectl get deployment pod-quota --namespace=quota-pod --output=yaml
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

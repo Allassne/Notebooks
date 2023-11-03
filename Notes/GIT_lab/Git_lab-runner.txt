@@ -1,0 +1,72 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-09-06T12:23:16+01:00
+
+====== Git lab-runner ======
+Créée le Wednesday 06 September 2023
+
+__GitLab Runner__ est le projet open source utilisé pour exécuter des travaux et renvoyer les résultats à GitLab. Il est utilisé en conjonction avec GitLab CI / CD , le service d'intégration continue open source inclus avec GitLab qui coordonne les travaux.
+Il permet:
+
+l'exécution simultanée de plusieurs travaux.
+l'utilisation de plusieurs jetons avec plusieurs serveurs (même par projet).
+la limitation du nombre de travaux simultanés par jeton.
+
+
+
+
+
+Pour installer GitLab Runner avec l'executor Docker et une image par défaut basée sur CentOS 7, vous pouvez suivre ces étapes :
+
+1. **Prérequis :**
+
+   Assurez-vous que Docker est déjà installé sur la machine où vous souhaitez exécuter GitLab Runner.
+
+2. **Installation de GitLab Runner :**
+
+   Vous pouvez installer GitLab Runner en suivant les instructions fournies sur le site officiel de GitLab : https://docs.gitlab.com/runner/install/
+
+   Pour les systèmes 
+
+   
+   # Ajoutez le dépôt GitLab Runner
+   curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.rpm.sh | sudo bash
+
+   # Installez GitLab Runner
+   sudo dnf install gitlab-runner
+   ```
+
+3. **Configuration de GitLab Runner :**
+
+   Une fois GitLab Runner installé, vous devez le configurer pour utiliser l'executor Docker avec l'image par défaut CentOS 7.
+
+   - Enregistrez le runner avec votre GitLab. Assurez-vous d'avoir le token d'enregistrement de votre projet GitLab à portée de main.
+
+	 ```bash
+
+	 sudo gitlab-runner register
+	 ```
+
+
+sudo gitlab-runner register --url http://gitlab.albam.lan/ --registration-token JSzwdm8_Xewfq8E3TJKo
+
+   - Suivez les étapes de configuration interactives. Voici comment vous pouvez les remplir :
+
+	 - URL de GitLab : Entrez l'URL de votre instance GitLab.
+	 - Token d'enregistrement : Utilisez le token d'enregistrement de votre projet GitLab.
+	 - Description : Donnez une description à votre runner (par exemple, "Docker Runner with CentOS 7").
+	 - Tags : Vous pouvez ajouter des tags pour identifier ce runner, si nécessaire.
+	 - Executor : Sélectionnez "docker".
+	 - Image par défaut : Entrez "centos:7" pour utiliser l'image CentOS 7 par défaut.
+
+   Une fois que vous avez terminé la configuration, le runner sera enregistré et prêt à être utilisé.
+
+4. **Démarrage du runner :**
+
+   Vous pouvez maintenant démarrer le runner avec la commande suivante :
+
+   ```bash
+   sudo gitlab-runner start
+   ```
+
+   Votre GitLab Runner est maintenant prêt à exécuter des travaux utilisant Docker avec l'image CentOS 7 par défaut. Assurez-vous que la machine où vous avez installé le runner a accès à Internet pour télécharger les images Docker au besoin.

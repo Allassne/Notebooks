@@ -1,0 +1,17 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-08-17T20:35:11+01:00
+
+====== dépannage ======
+Créée le Thursday 17 August 2023
+
+advanced system repair pro (1720-erreur)
+https://windowsbulletin.com/fr/troubleshooting-error-1720-smart-hard-drive-detects-imminent-failure/
+
+
+== Connecter au swicth ==
+sudo apt install tio
+sudo tio -b 9600 /dev/ttyUSB0
+
+
+Matis2003

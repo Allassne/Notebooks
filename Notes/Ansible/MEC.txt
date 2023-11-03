@@ -1,0 +1,158 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-06-29T12:20:57+01:00
+
+====== MEC ======
+Créée le Thursday 29 June 2023
+
+__0-c'est quoi  C'est quoi ansible ? il sert à quoi ? quels sont ses alternatives ?__
+	Ansible est un outil Open Source d'automatisation informatique qui automatise le provisionnement, la gestion des configurations, le déploiement des applications, l'orchestration et bien d'autres processus informatiques manuels. 
+	À la différence des outils de gestion plus simples, avec Ansible les utilisateurs (administrateurs système, développeurs, architectes) peuvent recourir aux fonctions d'automatisation pour installer des logiciels, automatiser des tâches quotidiennes, provisionner une infrastructure, améliorer le niveau de sécurité et de conformité, appliquer des correctifs système et partager leurs processus automatisés avec toute l'entreprise.
+
+__1- C'est quoi un rôle ansible ?__
+
+__2- C'est quoi un playbook ansible ?__
+
+__3- Quelle est la différence entre un playbook et un rôle ?__
+
+__4- Faire des recherches sur les commandes ansible ad hoc __
+
+__5- Créer un fichier ""jupiter"" dans le répertoire tmp d'une machine distante grâce à une commande ad hoc. Il faudra utiliser le module ""file"" et par suite utiliser le module ""shell"" pour créer un fichier ""jupiter2""__
+	''ansible web -m file -a "path=/tmp/jupiter state=touch"''
+		
+	''ansible web -m shell -a "touch /tmp/jupiter2"''
+	
+
+__6- Créer un fichier ""mars"" dans le répertoire personnel du root  de deux machines distante grâce à une commande ad hoc__
+	''ansible web -b -m file -a "path=/root/mars state=touch"'' 
+
+
+__7- Copier un fichier depuis votre pc vers une machine distante grâce à une commande ad hoc__
+	''ansible web -m copy -a "src=/home/ansible/ansible/file.txt dest=~/file/"''
+
+__8- Copier un fichier depuis votre pc vers une machine distante grâce à un playbook__
+```
+'''
+- name: Copier un fichier vers un nœud distant
+  hosts: web
+  tasks:
+	- name: Copier le fichier
+	  copy:
+		src: /home/ansible/ansible/log.sh
+		dest: ~/file/
+'''
+
+``
+
+__9- Lancer le playbook apache de smile. Il doit pourvoir mettre en place un vhost.__
+
+__10- Créer un playbook qui permettra d'installer tomcat via un binaire. Le playbook devra créer aussi le fichier de service systemd pour tomcat__
+
+__11- Créer un rôle ansible qui installera tomcat__
+
+
+
+
+
+
+
+---
+- name: Installation et désinstallation d'Apache HTTP Server
+  hosts: web_servers
+  become: yes
+  tasks:
+	- name: Arrêter le service Apache
+	  systemd:
+		name: httpd
+		state: stopped
+	  notify:
+		- Désactiver le démarrage automatique d'Apache
+
+	- name: Désactiver le démarrage automatique d'Apache
+	  systemd:
+		name: httpd
+		enabled: no
+	  when: apache_installed.changed
+
+	- name: Désinstaller Apache
+	  yum:
+		name: httpd
+		state: absent
+	  notify:
+		- Supprimer les fichiers de configuration d'Apache
+
+	- name: Supprimer les fichiers de configuration d'Apache
+	  file:
+		path: /etc/httpd
+		state: absent
+
+	- name: Supprimer les fichiers de contenu d'Apache (optionnel)
+	  file:
+		path: /var/www/html
+		state: absent
+	  when: remove_apache_content_files | default(false)
+
+	- name: Recharger le pare-feu
+	  service:
+		name: firewalld
+		state: reloaded
+	  notify:
+		- Désactiver la règle autorisant le trafic HTTP
+
+	- name: Désactiver la règle autorisant le trafic HTTP
+	  firewalld:
+		service: http
+		permanent: yes
+		state: disabled
+
+	- name: Afficher un message de confirmation
+	  debug:
+		msg: "Apache a été désinstallé avec succès."
+
+	- name: Afficher un message de confirmation
+	  debug:
+		msg: "Le trafic HTTP a été désactivé avec succès."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+find /chemin/vers/repertoire -type f -exec cat {} \; | grep "ligne recherchée"
+
+
+
+
+====== Playbooks SMILE ======
+
+
+root@albam:/etc/ansible/playbooks# __ansible-playbook centreon.yaml -u root -b -k -i 10.1.4.187,__
+
+fatal: [10.1.4.187]: FAILED! => {"msg": "No file was found when using first_found."}
+fatal : [10.1.4.187] : ÉCHEC ! => {"msg": "Aucun fichier n'a été trouvé lors de l'utilisation de first_found."}
+
+

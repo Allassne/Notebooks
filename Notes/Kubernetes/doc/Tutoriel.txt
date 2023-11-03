@@ -1,0 +1,104 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-08-09T17:55:21+01:00
+
+====== Tutoriel ======
+Créée le Wednesday 09 August 2023
+
+==== Créer un déploiement ====
+
+
+__Utilisez la kubectl create commande pour créer un déploiement qui gère un pod. Le pod exécute un conteneur basé sur l'image Docker fournie.__
+
+	''kubectl create deployment hello-node --image=registry.k8s.io/e2e-test-images/agnhost:2.39 -- /agnhost netexec --http-port=8080''
+
+__Afficher le déploiement :__
+	''kubectl get deployments''
+
+__Afficher le pod :__
+	''kubectl get pods''
+
+__Afficher les événements du cluster :__
+	''kubectl get events''
+
+__Afficher la kubectlconfiguration :__
+	''kubectl config view''
+
+
+==== Créer un service ====
+
+__Exposez le pod au public__
+
+kubectl expose deployment hello-node --type=LoadBalancer --port=8080
+
+	''kubectl expose deployment hello-node --type=NodePort --port=8080''
+
+__Affichez le service__ 
+''kubectl get services''
+
+==== Nettoyer ====
+'''
+kubectl delete service hello-node
+kubectl delete deployment hello-node
+'''
+
+
+
+
+[ ] Déployez une application conteneurisée sur un cluster.
+[ ] Faites évoluer le déploiement.
+[ ] Mettez à jour l'application conteneurisée avec une nouvelle version du logiciel.
+[ ] Déboguez l'application conteneurisée.
+
+===== ''Modules de base de Kubernetes'' =====
+
+{{~/Images/Captures d’écran/Capture d’écran du 2023-08-09 18-42-36.png}}
+
+
+
+=== Créer un cluster ===
+
+{{~/Images/Captures d’écran/Capture d’écran du 2023-08-09 18-49-56.png}}
+
+=== Déployer une application ===
+
+{{~/Images/Captures d’écran/Capture d’écran du 2023-08-09 19-02-50.png}}
+
+
+
+
+''kubectl create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1''
+
+''kubectl get deployments''
+
+
+
+
+kubectl proxy
+
+curl http://localhost:8001/version
+export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}')
+echo Name of the Pod: $POD_NAME
+
+curl http://localhost:8001/api/v1/namespaces/default/pods/$POD_NAME/
+
+
+//__configuré le cluster pour replanifier l'instance sur un nouveau nœud en cas de besoin__//
+
+
+Un pod est une abstraction Kubernetes qui représente un groupe d'un ou plusieurs conteneurs d'application (tels que Docker) et certaines ressources partagées pour ces conteneurs.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

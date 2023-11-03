@@ -1,0 +1,13 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-06-29T12:33:50+01:00
+
+====== MEC ======
+Créée le Thursday 29 June 2023
+
+1- Créer un job de type commande qui s'execute en local
+2- Créer un job de type commande qui s'execute en local chaque 2 minutes
+3- Créer un job de type script qui s'execute sur une machine distante
+4- Créer un job qui lance un script qui se trouve sur une machine distante
+5- Lancer un job à partir d'un webhook
+6- Où se trouve les logs de rundeck ?

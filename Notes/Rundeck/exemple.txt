@@ -1,0 +1,72 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-05T13:07:55+01:00
+
+====== exemple ======
+Créée le Wednesday 05 July 2023
+
+	```
+description: Admin, all access.
+context:
+  project: '.*' # all projects
+for:
+  resource:
+	- allow: '*' # allow read/create all kinds
+  adhoc:
+	- allow: '*' # allow read/running/killing adhoc jobs
+  job: 
+	- allow: '*' # allow read/write/delete/run/kill of all jobs
+  node:
+	- allow: '*' # allow read/run for all nodes
+by:
+  group: admin
+
+---
+
+description: Admin, all access.
+context:						      
+  application: 'rundeck'
+for:
+  resource:
+	- allow: '*' # allow create of projects
+  project:
+	- allow: '*' # allow view/admin of all projects
+  project_acl:
+	- allow: '*' # allow admin of all project-level ACL policies
+  storage:
+	- allow: '*' # allow read/create/update/delete for all /keys/* storage content
+by:
+  group: admin
+
+---
+
+description: acces de user all.	# une description de l'accès utilisateur pour le contexte spécifié.
+context:							# Le contexte spécifié est le projet "Smile"
+ project: Smile
+for:								# Dans le contexte du projet "Smile",
+ resource:							#  l'accès est accordé pour exécuter (run) et lire (read) les ressources.
+   - allow: [run,read]
+ job:								# " " pour lire, afficher, mettre à jour et exécuter les jobs.
+   - allow: [read,view,update,run]
+ node:								# " " pour lire et exécuter les nœuds.
+   - allow: [read,run]
+by:									# l'accès est accordé à l'utilisateur .
+ username: all
+
+---
+
+description: app context.	# une description du contexte d'application.
+context:						# Le contexte spécifié est l'application "rundeck".
+ application: 'rundeck'
+for:
+ project:						# L'accès est accordé pour lire le projet
+ - allow: read
+   match:						# Le nom du projet doit correspondre exactement à "Smile" pour accorder l'accès.
+	 name: Smile
+ storage:						# L'accès est accordé pour lire (read) le stockage.
+	- allow: [read]
+by:								# l'accès est accordé à tous les utilisateurs (username: all).
+ username: all
+	
+	```
+&

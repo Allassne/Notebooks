@@ -1,0 +1,796 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-10-23T16:29:25+01:00
+
+====== Tome1 ======
+Créée le Monday 23 October 2023
+
+===== Présentation Linux =====
+
+
+* Caractéristiques :
+
+	-systèmes multi-tache, multi-user.
+	-Fichiers répartis dans une arborescence de fichiers et de répertoires.
+	-shell et commande en mode texte
+	-Kernel responsable de la gestion des ressources systèmes.
+	-système ouvert (Application s'appuient sur une API normalisée en language C pour accéder au noyau)
+
+API=Apllication Programming Interface =Bibliothèque de fonctions
+
+* Les UNIX les plus connus:
+
+	- AIX (IBM)
+	-Solaris (Sun)
+	-HP-UX (HP)
+	-BSD (de luniversité de Berkeley)
+	-Linux (linus Torvald) 1991 --> Minix
+
+
+
+=== HISTOIRE ===
+
+
+	ken Thompson et Denis Ritchie(Unix 1969)
+	OS portable --> Créer le Language C 
+	
+	1984 Richard Stallman --> GNU --> OS compatible Unix mais libre
+	Open source (Logiciel libre)
+
+* __Principaux distributions :__
+
+	- RedHat Federo et Centos 
+	- SUSE et OpenSUSE
+	- Debian et Ubuntu
+
+__Autres__ :
+	- Knoppix,MAndriva,SLackware,Gentoo,DAmn Small
+
+
+
+__CMD:__
+
+- uname -a						--> version du noyau
+- lsb_release -a				--> distribution et noyau
+- cat /etc/issue 				--> idem mais modifiable
+- date 							--> date et heure système
+- who							--> liste desUser connecter
+- whoami						--> user actuel
+- cal							--> calendrier
+- id								--> identité de l'user
+- su							--> changer user
+- sudo 							--> passer root pour l'execution d'une cmd
+- passwd 						--> changer de mdp
+- exit 							--> Fermer une session shell
+* script						--> Enregistre la session shell dans un fichier  
+- script -a						--> Enregistre la session shell dans un fichier sans l'écraser   
+
+
+__CMD Doc:__
+
+https://tldp.org/HOWTO/HOWTO-INDEX/howtos.html
+Howto				→ fournit des instructions étape par étape pour accomplir une tâche spécifique			
+
+	* info					--> print le manuel (Unix)
+	- man					--> print le manuel (Gnu)
+	* /usr/share/doc/<package>	--> ???
+	- apropos				--> equivalent à man --k
+	- whatis 				--> idem
+	
+
+
+===== Les Commandes =====
+
+
+__/bin__ : Contient les fichiers binaires essentiels nécessaires au démarrage et à la récupération du système.
+
+__/boot__ : Contient les fichiers nécessaires au démarrage du système, tels que le noyau Linux.
+
+__/dev__ : Contient les fichiers de périphériques, qui représentent les périphériques matériels du système, tels que les disques, les lecteurs de CD-ROM, etc.
+
+__/etc__ : Contient les fichiers de configuration système et les scripts de démarrage.
+
+__/home__ : Les répertoires personnels des utilisateurs sont généralement stockés ici.
+
+__/lib__ : Contient les bibliothèques partagées utilisées par les programmes du système.
+
+__/lib64__ : Similaire à /lib, mais pour les bibliothèques 64 bits.
+
+__/lost+found__ : Un répertoire système où les fichiers perdus ou corrompus récupérés par le système de fichiers sont placés.
+
+__/media__ : Utilisé pour monter temporairement des médias amovibles tels que des clés USB ou des disques externes.
+
+__/mnt__ : Un emplacement pour monter temporairement d'autres systèmes de fichiers, tels que des disques réseau.
+
+__/opt__ : Contient généralement des logiciels tiers installés localement.
+
+__/proc__ : Un système de fichiers virtuel qui expose des informations sur le noyau, les processus et d'autres éléments du système.
+
+__/root__ : Le répertoire personnel de l'utilisateur root, qui est l'administrateur du système.
+
+__/run :__ Contient des fichiers de système d'exploitation générés au moment de l'exécution.
+
+__/sbin__ : Contient des commandes système essentielles utilisées pour la maintenance et l'administration du système.
+
+__/srv__ : Souvent utilisé pour stocker des données que le serveur du système expose.
+
+__/sys__ : Un système de fichiers virtuel utilisé pour interagir avec le noyau Linux.
+
+__/tmp__ : Un répertoire temporaire où les fichiers temporaires sont stockés.
+
+__/usr__ : Contient des fichiers et des répertoires partagés en lecture seule, y compris des programmes et des bibliothèques.
+
+__/var__ : Contient des données variables telles que des journaux, des fichiers de base de données, des spools d'impression, etc.
+
+
+=== CMD: ===
+__Recherche__ 
+- tree 			→ Affiche une aborescence de fichier sous forme d'abre
+- find 			→ Recherche de fichier ou repertoire
+- ls -R 			→ Afficher le contenu d'une arborescence de fichier
+
+__Type de fichier__ 
+
+Ordinaire (-)
+Répertoire (d)
+Périphérique (c,b)
+Lien symbolique (l)
+Fichier IPC, tube et socket (p,s)
+__Fichier IPC__ (Inter Process Communication) permettent la communication entre applications.
+
+
+
+__Gestion de fichier et repertoire__
+ls				→ lister les fichier et repertoire
+cp				→ copier des fichiers ou des repertoires
+rm				→ supprimer un fichier
+mv				→ deplacer desrepertoires ou des fichiers
+ln				→ Créer un lien (Physique ou synbolique)
+pwd			→ affichier le chemin du repertoire courant
+cd				→ changer de repertoire
+mkdir			→ Créer un repertoire
+cat,more,less → afficher le contenu des fichiers
+file				→ affiche le type de fichier
+
+
+__Utilitaire__
+grep			→ recherche de chaine de caractère dans un fichier ou une sortie de commande 
+sort			→ trie les lignes d'un fichier ou sortie
+tail			→ afficher la fin d'un fichier
+head			→ afficher le debut d'un ficher
+wc				→ afficher le nombre de ligne, de mots et caractères d'un fichier
+
+__joker__
+	'*' 			→ une suite quelcomque de caractères
+	?			→ un caractère quelconque
+	[...]		→ un des caractères compris entre les crochets
+
+
+__les scripts de demarrage__
+[[/etc/profile]]  				→ script de démarrage commun 
+[[~/.bash_profile]]			→ script de démarrage spécifique à un user
+[[~/.profile]]					→ idem , pris en compte si [[~/.bash_profile]] n'existe plus
+
+whereis  		→ recherche l'emplacement d'une commande
+alias 			→ Créer un synonyme d'une commande
+unalias		→ supprime un alias
+type 			→ affichie la nature d'une commande 
+
+* vim
+	 - j		→ jointure de la ligne courante et la ligne suivante
+	 - x		→ supprimer un caractère courant
+
+* find : recherche des fichier dans une aborescence et affiche le chemin trouvés. Elle peut aussi exécuter des commandes sur chacun des fichiers trouvés
+__Critère de selection__
+	- name
+	- type
+	- size
+	- group
+	- user
+	- perm  			→ droit 
+	- mtime			
+
+__Critère d'action__
+	- print
+	- exec
+	- ok
+__Operateurs__
+	- a 			→ et
+	- o			→ ou
+	- !			→ negation
+	
+
+
+''cal 2000 | more''
+ ''ls  [!a-v]*''
+
+ 
+
+
+===== Script =====
+
+sh 						→ shell standard
+bash					→ le bash
+ksh					→ Kron-Shell
+csh					→ C-Shell
+.						→ exécution d'un script sans activation d'un new processus shell
+eval					→ Recommence la phase d'interprétation
+wait					→ sysnchronisation du shell par rapport aux taches de fond
+let						→ Evalue une expression arithmétrique
+
+__caractères spéciaux__
+# 				→ commenatire
+;				→ Séparateur de commande (comme le saut de ligne)
+&				→ Séparateur de commande mais la commande est exécuter en tache de fond.
+
+__Les variables__ 
+
+set						→ Affiche l'ensemble des variables
+env					→ Affiche uniquement les variables d'environnement
+unset					→ Détruit une variable
+export					→ Met une variable du shell dans l'espace d'environnement
+echo,printf			→ affiche un message, une variable 
+read					→ lecture d'une variable au clavier
+$						→ Réference une variable
+
+
+
+===== Gestion Des Utilisateurs =====
+__fichier__
+[[/etc/nsswitch.conf]]			→ Indique dans quels annuaires locaux ou réseaux 
+[[/etc/passwd]] 					→ base locale des comptes users
+[[/etc/group]]					→ base locale des comptes groupe
+[[/etc/shadow]]					→ contient le mdp local et leur durée de vie
+
+__commandes__
+useradd, usermod,userdel
+groupadd,groupmod,groupdel
+passwd
+chpasswd						→ Changer un mdp de manière scriptable
+chsh,chfn						→ modifier le shell, le commentaire d'un compte user
+getent							→ Affiche les données d'un annuaire
+pwck,grpck					→ Vérifie la syntaxe des files passwd et group
+
+
+__sticky bit__ : Avec le sticky bit il faut etre propriétaire d'un fichier pour avoir le droit de le détruire 
+
+__les droits d'endossement (SUID,SGID):__
+	 SUID (Set User ID)
+		Il permet à l'utilisateur qui lance ce fichier d'exécuter le programme avec les permissions du propriétaire du fichier, plutôt qu'avec ses propres permissions.
+
+	SGID (Set Group ID) :
+		il permet à l'utilisateur qui lance le fichier ou accède au répertoire d'exécuter des opérations avec les permissions du groupe propriétaire, au lieu de son propre groupe.
+		
+__les droits en octal__
+	------------------------------------------------------------
+	|	octal	|		Signification		|
+	-------------------------------------------------------------
+	|	4000	|	SUID	|endossement|
+	|	2000	|	SGID	|				|
+	-------------------------------------------------------------
+	|	1000	|	Sticky bit				|
+	-------------------------------------------------------------
+
+chmod			→ modifie les droits d'un fichier
+chgrp				→ changer le groupe d'un file
+chown				→ changer le propiétaire d'un fichier
+umask				→ fixe les droits retirés automatiquement lors de la création d'un file
+cp -p     			→ copier de fichier avec conservation des attributs
+
+
+
+===== Les Disque Et les Systèmes de fichiers =====
+
+{{../Capture d’écran du 2023-10-25 12-02-30.png}}
+
+
+fdisk					→ L'outil de partitionnement des disques 
+sfdisk					→  commande de partionnement scriptable
+parted				→ commande de partionnement, permet de conserver les données
+gparted				→ Forme graphique de la commande précédente
+cfdisk					→ commande de partionnement en mode texte plein écran
+partprobe 			→ Informe le système que les tables de partition ont été modifiées
+
+
+
+* fdisk
+	-p			→ Afficher la table des partitions		
+	-n			→ Ajouter une nouvelle partition
+	-d			→ Détruire une partition
+	-o			→ Créer une table de partition vide, pour une nouveau disque
+	-t			→ changer le type d'une partition
+	-a			Mettre/enlever le drapeau partition active
+
+=== LVM ===
+
+{{../Capture d’écran du 2023-10-25 17-18-03.png}}
+LV=  Logical Volume
+PV =  Physical Volume
+VG=  Volume Group
+
+
+pvs 			→ Liste les pv 
+pvcreate 		→ Crée (format) un PV, c'est a dire écrit un en-tete sur le PV 
+
+vgs
+vgcreate		→ Crée un VG. On spécifie un ou plusieurs PV
+vgdisplay 		→ Affiche la liste des VG et leur caractéristiques. -v
+vgextend		→ Agrandit un VG: on lui ajoute des PV
+
+lvcreate		
+lvs				→  Liste les caractéristiques d'un LV
+lvextend
+
+mkfs			→ Crée un FS , par défaut ol occupe la totalité de lespace disponible.
+resize2fs		→  Modifie la taille d'un FS ext2/ext3
+
+fsck  			→ Vérifie/répare un FS
+mount 		→ Monte un FS 
+			__/etc/fstab__ 
+			Il fournit des informations au système sur la façon dont les systèmes de fichiers FS et les périphériques de stockage doivent être montés et utilisés au démarrage
+
+umount 		→  Démonte un FS 
+df 				→ Liste les FS montés, la place libre par fs
+du				→ Taille uccupée par une arborescence
+lsof			→ Liste les fichiers ouverts, permet de connaitre les applications accédant à un FS
+e2label		→  Affiche ou met une étiquette (label) a un FS
+blkid [vol_id]	→ Affiche le type d'un FS, son étiquette et son UUID 
+
+stat			→ Affiche les attributs d'un fichier
+
+
+
+
+
+
+===== La Sauvegarde =====
+
+touch 			→  Met à jour la date de dernière modification d'un fichier
+mt 			→ Permet de naviguer sur une cartouche : rembobiner, aller à la fin logique de la bande, etc
+rmt,rshd		→ Commandes standards présent sur un serveur permettent une sauvegarde en réseau
+gzip,gunzip	→ Compressent ou décompressent des fichiers au format Gnu-Zip
+bzip2,bunzip2 → Compressent ou décompressent des fichiers au format bzip2
+
+* tar
+	-c				→ sauvegarde
+	-x				→  Restauration
+	-t				→ Liste le contenu de l'archive
+	-f				→ Précise le chemin de l'archive
+	-z				→ compression (ou déxompression) Gnu Zip
+	-h				→ sauvegarde les fichier liés et non les liens symboliques
+	-m				→ Ne pas restaurer la date de denière modification 
+	-P				→ Les chemins absolus sont conservés
+	-T				→ Introduit un fichier qui contient la liste des fichier à sauvegarder
+	--excude		→ exclut un fichier
+
+* cpio
+	-o				→ sauvegarde 
+	-it				→ Liste le contenu d'une archive
+	-i				→ Restauration
+	-d				→ Recrée les répertoire lors de la restauration 
+	-u				→ Restauration inconditionnelle
+	-m				→ Conserve la date de la dernière modificationlors de la restauration
+	-v				→ verbose
+	
+
+* pax
+	-w				→ sauvegarde
+	-r				→ restauration
+
+
+Variable
+	TAPE: 	Mémorise le chemin du fichier d'archive
+	
+
+
+
+===== Les Applications =====
+
+
+=== Processus ===
+
+
+ps				→ 
+pstree			→ 
+kill				→ 
+pkill			→ 
+killall			→ 
+pgrep			→ 
+lsof			→ 
+fuser			→ 
+export			→ 
+env			→ 
+ldd			→ 
+nice,renice	→ 
+free			→ 
+uptime		→ 
+top			→ 
+
+
+__file__
+	[[/etc/init.d/]]		→ Repertoire qui contient les services (RC	[Run Command])
+
+__les principaux signaux__
+
+1,HUP			→ demande la réinitialisation d'un RC 
+2,INT			→ Interruption d'une tache
+9,KILL			→ provoque la mort d'un processus
+15,TERM		→ demande à processus de se terminer
+
+* ps
+	-e			→ 
+	-f			→ 
+	-j			→ 
+	-L			→ 
+	-l			→ 
+	-u util		→ 
+	
+[[/etc/ld.so.cache]]	→ 
+
+=== Crontab ===
+
+crontab [file]		→ soumet un nouveau fichier de requete. Il efface l'ancien 
+crontab -e			→ Edite son fichier de requete
+crontab -l			→ Liste son fichier de requete
+crontab -r			→ supprime son fichier de requete
+
+__file__
+
+[[/var/spool/cron/crontabs]]			→ 
+[[/etc/crontab]]							→ 
+[[/etc/cron.d/]]							→ 
+/etc/cron.allow , [[/etc/cron.deny]]		→ 
+[[/var/log/cron]]							→ 
+
+=== le RC Syslog ===
+
+logger				→ 
+logwatch			→ 
+logrotate			→ 
+
+514/udp			→ le protocole Syslog
+
+
+===== Installer des app =====
+
+__Installation d'app Gnu à partir des source__
+
+1) Décompresser et détacher le tarball (tar -xvfz <tarball>)
+2) Se positionner dans l'arborescence et crée le makefile (cd <repertoire>; ./configure)
+3) Compiler l'application (make)
+4)Installer l'app (make install )
+
+__les paquetages [[RedHat]]__
+
+rpm -i			→ 
+rpm -U			→ 
+rpm -F			→ 
+rpm -e			→ 
+rpm -qa		→ 
+rpm -qi		→ 
+rpm -qip		→ 
+rpm -ql		→ 
+rpm -qf		→ 
+rpm -V			→ 
+
+
+[[/var/lib/rpm/]]			la base de données RPM
+
+__les paquetages Debian__
+
+dpkg				→ 
+dpkg-deb 			→ 
+dpkg-reconfigure	→ 
+	-i			→ 
+	-r			→ 
+	-l			→ 
+	--get-selections	→ 
+	-s			→ 
+	-L			→ 
+	-S			→ 
+[[/var/lib/dpkg/]]
+
+
+__Apt__	Debian,ubuntu
+(Advanced Packaging Tool)
+
+[[/etc/apt/sources.list]]			→  liste des dépots
+
+apt-get update			→ 
+apt-cache- search			→ 
+apt-cache show			→ 
+apt-get install				→ 
+apt-get upgrade			→ 
+apt-get clean				→ 
+apt-get -s install			→ 
+apt-get -d install			→ 
+apt-get -u upgrade		→ 
+apt-get -u dist-upgrade	→ 
+apt-get --purge remove	→ 
+apt-file					→ 
+apt-key					→ 
+
+
+
+__Yum__	[[RedHat]] fedora,Centos
+
+[[/etc/sysconfig/rhn/systemid]]
+
+yum search				→ 
+yum info					→ 
+yum -C search				→ 
+yum list					→ 
+yum install				→ 
+yum update				→ 
+yum clean all				→ 
+yum localinstall			→ 
+yum check-update		→ 
+yum provides				→ 
+yum grouplist				→ 
+yum groupinfo			→ 
+yum groupremove		→ 
+yum remove				→ 
+yum repolist				→ 
+
+
+up2date	[anciènne version de [[RedHat]] entreprise Linux]
+zypper	[openSUSE et SUSE linux]
+urpmi		[Mandriva → mageia]
+
+
+===== L'arret/démarrage =====
+
+[[/sbin/init]] 		→  premier programme, dont le PID est égal à 1
+
+__Init__ est l'ancetre de tous les processus
+
+__différents niveaux__
+0			→ Le système va s'arreter
+S,1			→ Modes maintenance (ou mono-user)
+2,3,4,5		→ Modes normaux d'exploitation (ou multi-user)
+6			→ Redémarrage
+
+[[/etc/inittab]]	→ Ce fichier d'écrit les applications activées par init en fonction du niveau choisi
+
+runlevel, who -r		→ 
+telinit,init 				→ 
+
+[[/etc/init.d/]]			→ 
+[[/etc/rc2.d/]]			→ 
+
+chkconfig				→ active ou désactive un service pour le prochain démarrage [RedHat,SuSE,Mandriva]
+update-rc.d			→ [Debian,Ubuntu]
+service 				→ Active ou arrete un service	
+
+[[/etc/nologin]]				→ l'existence de ce fichier interdit de nouvelles connexions
+[[/etc/shutdown.allow]] -a	→ Liste les users autorisés à activer un shutdown
+
+shutdown			→ arret,redémarre le syteme ou passe en mode maintenance
+halt,poweroff		→ arret du systeme
+telinit,init			→ change de niveau d'init, ce qui peut entrainer
+reboot			→ Redémarrage
+
+
+eth0				→ 
+eth1				→ 
+eth0:1				→ Une carte virtuelle associée à la carte physique eth0
+lo					→ loopback , l'adresse IP associée est 127.0.0.1 (localhost)
+ppp0				→ la première liaison PPP. elle permet une connexion à un réseau distant en point-à-point
+tk0				→ la première carte du token-ring
+isdn0				→ connexion avec un modem Numeris(ISDN)
+
+[[/etc/nsswitch.conf]]		→ file indiquant les RC de nom utilisés et dans que ordre ils sont utilisés
+[[/etc/hosts]]				→ configuration du RC de nom local
+[[/etc/resolv.conf]]			→ Liste les adresses des serveurs DNS
+
+ifconfig			→ 
+iwconfig			→ 
+ifup,ifdown		→ 
+dhclient			→ 
+route				→ 
+hostname			→ 
+netstat -r			→ 
+netstat -i			→ 
+netstat -a			→ Liste les sockets actifs
+ping				→ 
+traceroute		→ 
+nslookup			→ 
+ethtool			→ 
+
+[[/etc/services]]				→  Liste des ports UDP et TCP publique (ceux des services apps serveur)
+nmap 				→ liste les ports ouverts d'un post distant
+
+__[[RedHat]]__
+system-config-network	→ Cette commande configure le reseau
+[[/etc/sysconfig/network]]	→ Paramètre généraux du réseau (hostname...)
+[[/etc/sysconfig/network-scripts/ifcfg-eth0]]	→ La configuration de la carte eth0
+
+__Debian,Ubuntu__
+[[/etc/hostname]]				→ le nom réseau du système
+[[/etc/network/interfaces]]		→ La configuration des cartes réseau
+
+__Suse__
+yast						→ l'outil général d'administration 
+[[/etc/HOSTNAME]]			→ le nom réseau du système
+[[/etc/sysconfig/network/]] 	→ Répertoire contenantla configuration réseau
+[[/etc/sysconfig/network/ifcfg-eth-id-00:40:ca:ca:b1:26:ef]]	→ configuration d'une carte réseau identifiée par son add MAC
+
+__Mandriva__
+drakconf										→ L'outil général d'administration
+[[/etc/syscinfig/network-scripts/ifcfg-eth0]]	→ configuration de la carte eth0
+
+
+
+
+
+[[/etc/inetd.conf]]		→ fichier de paramétrage d'ineted
+[[/etc/init.d/inetd]]	Le RC qui active ou arrete le démon
+
+[[/etc/xinetd.conf]]		→ le fichier maitre. On le modifie rarement
+[[/etc/xinetd.d/]]		→ Répertoire qui contient la configuration des services
+[[/etc/services]]			→ Spécifie la valeur numérique des ports
+
+[[/etc/init.d/xinetd]]		→ Le Rc qui gère le service xinetd
+xconv.pl				→ convertit un fichier inetd.conf en xinetd.conf
+
+
+[[/etc/hosts.allow]]
+[[/etc/hosts.deny]]			→ ces fichiers contiennent les règle de sécurité.
+
+
+__les outils traditionnels TCP/IP__
+telnet		→ 
+ftp			→ 
+
+__Les CMD remote (université de berkeley)__
+rlogin		→ 
+rcp		→ 
+rsh			→ 
+
+__CMD ssh__
+wget,curl		→ 
+rsync			→ 
+lynx			→ 
+putty			→ 
+cygwin			→ 
+[[WinSCP]]		→ 
+[[FileZilla]]		→ 
+
+__Les Protocoles__
+tcp/21,tcp/20			→ FTP 
+tcp/22					→ SSH
+tcp/23					→ Telnet
+tcp/80					→ HTTP
+tcp/443				→ SSL
+tcp/513				→ protocole Login (rlogin)
+tcp/514				→ protocole Sell (rsh,rcp)
+tcp/udp/873			→ Rsync
+--------------------
+tcp/515				→ Le protocole Printer (ou BSD ou LPR/LPD)
+tcp/udp/631			→ le protocole IPP est le nouveau standard d'impression
+tcp/9100				→ le protocole [[JetDirect]] utilisé par les imprimante réseau HP  
+--------------------
+tcp/6000				→ le protocole X
+tcp/7100				→ le protocole xfs
+tcp/5900				→ le protocole VNC
+tcp/3389				→ le protocole RDP
+
+
+[[~/.ssh/known_hosts]]		→ Mémorise les clés publiques des serveurs
+
+ssh <serveur>				→ connexion distante sur le serveur
+ssh -l <user> <serveur> 	→ connexion sous le compte utilisateur
+ssh <serveur><cmd>		→ execute une commande sur le serveur distant
+
+scp			→ Transfert de fichier entre machines
+
+
+
+
+
+===== l'impression =====
+
+CUPS (common Unix Printing System) est un gestionnaire d'impression conçu pour les systèmes Unix basé sur [IPP ]Internet Printing Protocol
+
+PPD (PostScript printer Description) correspond à la description d'une imprimante [[PostScript]] (PS)
+
+__cmd utilisation__
+lp,lpr 			→ Crée une requete d'impression
+xpp			→ crée une requete d'impression . cliet IPP en mode graphique
+cancel			→ supprime une requete d'impression
+lpstat			→ liste le contenu des files d'attente, affiche (-t) le paramètre de service
+
+__CMD d'administration__
+
+lpadmin		→ 
+accept			→ 
+lpmove		→ 
+lppasswd		→ 
+lpinfo -m		→ liste des pilotes (filtre) disponible
+lpinfo -v		→ liste des frontaux (backend) disponible
+gs				→ 
+cups-lpd		→ 
+cups-polld	→ 
+cupsenable	→ Active une file d'attente
+cupsdisable	→ Désactive une file d'attente
+
+[[/etc/cups/cupsd.conf]]	→ 
+[[/etc/cups/printers.conf]]	→ 
+[[/etc/cups/classes.conf]]	→ 
+[[/etc/cups/client.conf]]		→ 
+[[/etc/cups/ppd/]]			→ 
+[[/var/log/cups]]				→ les fichiers journaux de bord
+[[/usr/share/cups/model/]]	→ les fichiers PPD disponibles
+
+===== L'environnement graphique =====
+
+
+__CMD X Window__
+X,Xorg				→ le serveur X
+Xnest				→ Serveur X fonctionnant sous forme de femetre X
+xfs					→ 
+Xorg -configure 	→ 
+xterm				→ 
+xclock				→ 
+twm				→ 
+xhosts				→ 
+xinit,startx		→ 
+xrdb				→ 
+xlsfonts			→ 
+fc-list				→ 
+fc-cache			→ Force la mise à jour de la listedes polices Xft disponibles.
+
+__Les CMD RDP et VNC__
+tsclient 			→ 
+rdesktop			→ 
+vncviewer			→ 
+Xvnc				→ 
+vncpasswd		→ 
+
+__file__
+
+[[/etc/X11/xorg.conf]]		→ le file de configuration du serveur X Xorg.
+[[/etc/X11/xinitrc.d/]]		→ contient les script qui sont éxécutés par administrateur avant ceux de l'user
+[[/usr/share/fonts/]]			→ Emplacement des pilotes
+[[/etc/fonts/]]				→ Emplacement de la configuration  de la bibliothèque [[FontConfig]]
+[[~/.xinitrc]]					→ le file qui controle une session graphique activée par xinit.
+[[~/.Xclients]]				→ le file qui controle une session graphique activée par startx en l'absence de .xinitrc
+[[~/i.Xdefaults]]				→  le file de ressource des clients X
+
+__variable 'environnement__
+DISPLAY 				→ contient l'adresse (appelée DISPLAY) du serveur X
+
+
+__[[RedHat]]__
+system-config-display	→ 
+sysrem-config-keyboard	→ 
+system-config-display --noui --reconfig → Reconfiguration de l'environnement graphique (dans le niveau 3d'init)
+
+__SUSE__
+sax2
+
+__Debian,Ubuntu__
+dpkg-reconfigure xserver-xorg	→ configure l'environement graphique
+
+
+X [display] -query <serveur>  → 
+Xnest [display] -query <serveur> → 
+gdmsetup					→ 
+
+
+
+
+
+
+
+
+--------------------
+
+c'est quoi une variable d'environnement ?
+swap ?
+
+
+
+
+
+

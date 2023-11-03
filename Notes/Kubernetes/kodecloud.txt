@@ -1,0 +1,402 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-20T17:19:26+01:00
+
+====== kodecloud ======
+Créée le Thursday 20 July 2023
+
+=== Docker vs Virtual Machines ===
+
+	Docker est moins isolé car plus de ressources sont partagé entre des conteneurs comme le noyau, etc. Alors que les machines virtuelles ont une isolation complète
+	de chacun d'eux. Étant donné que les machines virtuelles ne reposent pas sur le système d'exploitation ou le noyau sous-jacent, vous pouvez exécuter
+	différents types de systèmes d'exploitation tels que Linux ou Windows basés sur le même hyperviseur.
+	Voici donc quelques différences entre les deux.
+	
+	
+	
+	
+			//__Dans Kubernetes, un conteneur et un nœud sont deux concepts différents et ne peuvent pas être considérés comme équivalents.__//
+			
+			//__Un conteneur est une unité logicielle légère et portable qui contient une application et toutes ses dépendances, permettant de l'exécuter de manière cohérente sur différents environnements. Les conteneurs sont généralement utilisés pour empaqueter et distribuer des applications.__//
+			
+			//__Un nœud (Node en anglais) est une machine physique ou virtuelle sur lequel s'exécutent les conteneurs. Kubernetes gère et planifie le déploiement des conteneurs sur les nœuds disponibles dans un cluster. Chaque nœud a une capacité de calcul et de ressources disponibles (CPU, mémoire, etc.) pour exécuter les conteneurs.__//
+
+
+=== kubernetes ===
+
+__Kubernetes__ : Il s'agit d'une technologie d'orchestration de conteneurs utilisée pour
+orchestrer le déploiement et la gestion de centaines et de milliers de conteneurs dans un
+environnement groupé.
+
+__les nœuds__ : Un nœud est une machine – physique ou virtuelle – sur laquelle
+kubernetes est installé. Un nœud est une machine de travail et c'est là que les conteneurs seront
+lancé par kubernetes.
+Il était également connu sous le nom de Minions dans le passé.
+
+__Cluster__ : est un ensemble de nœuds regroupés. De cette façon, même si un nœud tombe en panne, vous avez
+votre application toujours accessible depuis les autres nœuds. De plus ayant plusieurs
+les nœuds aident également à partager la charge.
+
+__Le maître__ : veille sur les nœuds du cluster et est responsable de l'orchestration réelle de conteneurs sur les noeuds worker.
+
+=== Composants de K8S ===
+
+	* __Un serveur API.__
+		agit comme le front-end pour kubernetes.
+		
+	* __Un service ETCD.__ 
+		stocke toutes les données utilisées pour gérer le cluster.
+		responsable de la mise en œuvre de verrous au sein du cluster pour s'assurer qu'il n'y a pas de conflits
+
+	* __Un service kubelet.__ 
+		agent qui s'exécute sur chaque nœud du cluster.
+		responsable de s'assurer que les conteneurs s'exécutent sur les nœuds comme attendu.
+
+	* __Un runtime de conteneur__
+		logiciel sous-jacent utilisé pour exécuter les conteneurs. " Docker"
+
+	* __Contrôleurs__  
+		Ils sont chargés de remarquer et répondre lorsque des nœuds, des conteneurs ou des terminaux tombent en panne.
+		il prend des décisions pour apporter de nouveaux conteneurs dans de tels cas.
+
+	* __planificateurs__.
+		chargé de répartir le travail ou les conteneurs sur plusieurs noeuds.
+		Il recherche les conteneurs nouvellement créés et les affecte aux nœuds.
+
+-----------------------------------                                              -----------------------------------
+	__master__                   |				                  |    __worker__ __Node__           |
+					 |                                              |                                            |
+ </> kube-apiserver   |				                     |         </> kubelet          |
+		  etcd		   |				                  |           	    				|
+		 controller	      |				             |	   				           |
+		  sheduler	              |			                     |  container run time  |
+------------------------------------                                              ----------------------------------
+
+
+__kube ou kubectl ou kube control__
+
+	__kubectl run__ → est utilisée pour déployer une application sur le cluster. 
+	__kubectl cluster-info__ → est utilisée pour afficher des informations sur le cluster 
+	__kubectl get pod__ → est utilisée pour répertorier tous les nœuds faisant partie du cluster.
+
+
+__minikube __: vous ne pouvez configurer qu'un cluster kubernetes à un seul nœud.
+
+=== #kubeadm ===
+__kubeadm__ : nous aide à configurer un cluster multi-nœuds avec le maître et les travailleurs sur
+						machines séparées
+
+
+
+=== Steps ===
+	1. créés les systèmes , désignez l'un en tant que maître et les autres en tant que nœuds de travail
+	2. installer un environnement d'exécution de conteneur sur les hôtes"Docker".
+	3. installer l'outil kubeadm sur tous les nœuds.
+	4. initailise (les composants sont installés et configurés sur le serveur maître)
+	5. réseau spécial entre les nœuds maître et travailleur, appelé réseau POD.
+	6. joindre les nœuds de travail au nœud maître.
+
+
+
+
+=== POD ===
+	Un __POD__ est une instance unique d'une application
+
+	kubernetes ne déploie pas directement les conteneurs sur les noeuds worker. 
+	Les conteneurs sont encapsulés dans un objet Kubernetes connus sous le nom de POD.
+
+=== #kubectl ===
+	__kubectl__ : elle déploie un conteneur Docker en création d'un POD
+
+''kubectl run nginx –-image nginx''
+
+
+=== YAML dans Kubernetes ===
+
+	Kubernetes utilise __des fichiers YAML__ comme entrée pour la création d'objets tels que : 
+	* des POD, 
+	* des répliques, 
+	* des déploiements, 
+	* des services, etc.
+
+
+Un fichier de définition kubernetes contient toujours 4 top
+champs de niveau. 
+	* __L'apiVersion,__ 
+		la version de l'API kubernetes
+
+	* __le genre,__ 
+		fait référence au type d'objet que nous essayons de créer (un POD, ReplicaSet, Deployment, Service)
+
+	* __les métadonnées__
+		sont des données sur l'objet comme son nom, ses étiquettes, etc.
+
+	* __la spécification.__
+		écrite sous la forme spec. En fonction de la objet que nous allons créer, c'est là que nous fournissons des informations supplémentaires pour kubernetes appartenant à cet objet. Cela va être différent pour différents objets,
+		
+		
+		
+{{~/Images/Captures d’écran/Capture d’écran du 2023-07-21 17-15-43.png}}
+
+{{~/Images/Captures d’écran/Capture d’écran du 2023-07-21 17-20-46.png}}
+
+
+'''
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+    tier: frontend
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+```
+'''
+
+
+
+
+
+
+
+Une fois que nous avons créé le pod
+	* __''kubectl get pods''__'' : ''voir la liste des pods disponibles
+	* __''kubectl describe''__'' pod'' : voir des informations détaillées sur le pod 
+
+
+''kubectl run nginx --image=nginx''
+''kubectl describe pod nginx''
+''kubectl get pods-o wide''
+__''kubectl delete pod nginx''__
+
+''kubectl run redis --image=redis123 --dry-run=client -o yaml > redis.yaml''
+''kubectl create -f pod-definition.yml''
+''kubectl apply -f pod.yaml''
+
+
+	Pour __créer un déploiement__ à l'aide de la commande impérative, utilisez kubectl create :
+	//''kubectl create deployment nginx --image=nginx''//
+
+
+
+
+
+
+
+
+
+=== Replication Controller (réplication controller) ===
+	__Controller__ : Ce sont des processus qui surveillent les objets kubernetes et réagissent en conséquence
+	
+__Qu'est-ce qu'une réplique et pourquoi avons-nous besoin d'un contrôleur de réplication ?__ 
+	* La réplication controller nous aide à exécuter plusieurs instances d'un seul POD dans le cluster kubernetes offrant ainsi une haute disponibilité.
+
+	* //Même si vous n'avez qu'un seul POD, le contrôleur de réplication peut vous aider en//
+	//automatiquement un nouveau POD lorsque celui existant échoue. Ainsi la réplication//
+	//contrôleur //__garantit que le nombre spécifié de POD s'exécutent à tout moment.__// Même si//
+	//c'est juste 1 ou 100.//
+
+	* créer plusieurs POD pour partager le charger à travers eux. (le contrôleur de réplication s'étend sur plusieurs nœuds du cluster)
+
+
+{{~/Images/Captures d’écran/Capture d’écran du 2023-07-25 12-56-14.png}}
+
+
+'''
+```
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: myapp-rc
+  labels:
+    app: myapp
+    tier: frontend
+spec:
+  template:
+    metadata:
+      name: nginx
+      labels:
+        app: nginx
+        tier: frontend
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+  replicas: 3
+```
+
+'''
+* ''kubectl create -f rc-definition.yml''
+* ''kubectl get replicationcontroller''
+* ''kubectl get pods''
+
+=== Replica Set (Ensemble de répliques) ===
+
+'''
+```
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myapp-replicatset
+  labels:
+    app: myapp
+    tier: frontend
+spec:
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp
+        type: front-end
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      type: front-end
+```
+'''
+
+
+
+
+
+
+* ''kubectl create -f replicatset-definition.ym''
+* ''kubectl get replicaset''
+* ''kubectl describe replicaset myapp-replicaset''
+* ''kubectl delete replicatset myapp-replicaset''
+* ''kubectl replace -f replicatset-definition.yml''
+* ''kubectl scale --replicas=6 -f replicaset-definition.yml''
+* ''kubectl edit replicaset myapp-replicaset''
+* ''kubectl scale replicaset myapp-replicaset --replicas=2''
+
+
+=== Deployment ===
+
+__Un déploiement est le processus de déployer ou mettre à niveau progressivement vos conteneurs d'applications.__
+
+* ''kubectl create deploymen httpd-frontend --image=httpd:2.4-alpine --replicas=3''
+
+	Le déploiement nous offre la possibilité de mettre à niveau le sous-jacent
+	instances de manière transparente à l'aide de mises à jour continues, d'annulation de modifications, de pause et de reprise
+	modifications apportées aux déploiements.
+
+
+=== Rollback ===
+
+__mise à jour et restauration__ 
+
+strategy (rollingUpdate & recreate)
+
+	- __rollingUpdate__ (mises à jour continues) : supprimer l'ancienne version et afficher une version plus récente une par une. De cette façon la mise à niveau est transparente. (valeur par défaut)
+
+	- __recreate__ : détruisez d'abord les instances en cours d'exécution, puis déployez les nouvelles instances de la nouvelle version de l'application.
+
+
+* ''kubectl create -f deployment-definition.yml''
+* ''kubectl get deployments''
+* ''kubectl apply -f deployment-definition.yml''
+* ''kubectl set image deployment/myapp-deployment container-name=nginx:1.9.1''
+* ''kubectl rollout status deployment/myapp-deployment''
+* ''kubectl rollout history deployment/myapp-deployment''
+* ''kubectl rollout undo deployment/myapp-deployment''
+
+
+
+''kubectl create deployment/pod name --image=name --replicas=number --dry-run=client -o yaml > name.yaml''
+
+
+=== Service ===
+
+	Le service est en fait comme un serveur virtuel à l'intérieur du nœud.
+
+Cisco ACI, Cilium, Big Cloud
+Tissu, Flanelle, Vmware NSX-t et Calico
+
+__Types Services__ 
+
+	[[NodePort]] : consiste à écouter un port sur le nœud et à transmettre les demandes sur ce port à un port 
+					   sur le POD exécutant l'application Web.  
+					 [mapper un port sur le nœud à un port sur le POD.]
+		//''plage valide comprise entre 30000 et 32767.''//
+		
+		__targetPort__ : c'est là que le service transfère les demandes.
+		__port__ : le port sur le service lui-même
+		
+		
+		
+		
+		
+	__ClosterIP__ : regrouper des POD et à fournir une seul interface pour accéder aux POD d'un groupe
+	
+	[[LoadBalancer]] : 
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+  namespace: default
+spec:
+  ports:
+  - nodePort: 30080
+	port: 8080
+	targetPort: 8080
+  selector:
+	name: simple-webapp
+  type: NodePort
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

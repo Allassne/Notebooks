@@ -1,0 +1,107 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-10-18T16:20:50+01:00
+
+====== tshoot ======
+Créée le Wednesday 18 October 2023
+
+
+
+
+
+
+kubectl --user=albam get nodes -v=10
+I1018 16:19:58.197036   30075 loader.go:395] Config loaded from file:  /home/alex/.kube/config
+I1018 16:19:58.197446   30075 round_trippers.go:466] curl -v -XGET  -H "Accept: application/json;g=apidiscovery.k8s.io;v=v2beta1;as=APIGroupDiscoveryList,application/json" -H "User-Agent: kubectl/v1.28.2 (linux/amd64) kubernetes/89a4ea3" 'https://192.168.0.128:6443/api?timeout=32s'
+Ouverture dans une session de navigateur existante.
+I1018 16:20:08.307957   30075 round_trippers.go:510] HTTP Trace: Dial to tcp:192.168.0.128:6443 succeed
+I1018 16:20:08.584821   30075 round_trippers.go:553] GET https://192.168.0.128:6443/api?timeout=32s 401 Unauthorized in 10387 milliseconds
+I1018 16:20:08.584844   30075 round_trippers.go:570] HTTP Statistics: DNSLookup 0 ms Dial 0 ms TLSHandshake 107 ms ServerProcessing 148 ms Duration 10387 ms
+I1018 16:20:08.584850   30075 round_trippers.go:577] Response Headers:
+I1018 16:20:08.584855   30075 round_trippers.go:580]     Content-Length: 129
+I1018 16:20:08.584860   30075 round_trippers.go:580]     Date: Wed, 18 Oct 2023 15:20:08 GMT
+I1018 16:20:08.584865   30075 round_trippers.go:580]     Audit-Id: b1bd76e6-6149-4433-b393-8c02b8f2a4b4
+I1018 16:20:08.584870   30075 round_trippers.go:580]     Cache-Control: no-cache, private
+I1018 16:20:08.584875   30075 round_trippers.go:580]     Content-Type: application/json
+I1018 16:20:08.585041   30075 request.go:1212] Response Body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"Unauthorized","reason":"Unauthorized","code":401}
+E1018 16:20:08.585158   30075 memcache.go:265] couldn't get current server API group list: the server has asked for the client to provide credentials
+I1018 16:20:08.585166   30075 cached_discovery.go:120] skipped caching discovery info due to the server has asked for the client to provide credentials
+I1018 16:20:08.585224   30075 round_trippers.go:466] curl -v -XGET  -H "Accept: application/json;g=apidiscovery.k8s.io;v=v2beta1;as=APIGroupDiscoveryList,application/json" -H "User-Agent: kubectl/v1.28.2 (linux/amd64) kubernetes/89a4ea3" 'https://192.168.0.128:6443/api?timeout=32s'
+I1018 16:20:08.704785   30075 round_trippers.go:553] GET https://192.168.0.128:6443/api?timeout=32s 401 Unauthorized in 119 milliseconds
+I1018 16:20:08.704807   30075 round_trippers.go:570] HTTP Statistics: GetConnection 0 ms ServerProcessing 98 ms Duration 119 ms
+I1018 16:20:08.704817   30075 round_trippers.go:577] Response Headers:
+I1018 16:20:08.704833   30075 round_trippers.go:580]     Audit-Id: 150908a2-3f12-4200-a2f9-031666e283bc
+I1018 16:20:08.704841   30075 round_trippers.go:580]     Cache-Control: no-cache, private
+I1018 16:20:08.704849   30075 round_trippers.go:580]     Content-Type: application/json
+I1018 16:20:08.704857   30075 round_trippers.go:580]     Content-Length: 129
+I1018 16:20:08.704865   30075 round_trippers.go:580]     Date: Wed, 18 Oct 2023 15:20:08 GMT
+I1018 16:20:08.704982   30075 request.go:1212] Response Body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"Unauthorized","reason":"Unauthorized","code":401}
+E1018 16:20:08.705091   30075 memcache.go:265] couldn't get current server API group list: the server has asked for the client to provide credentials
+I1018 16:20:08.705099   30075 cached_discovery.go:120] skipped caching discovery info due to the server has asked for the client to provide credentials
+I1018 16:20:08.705105   30075 shortcut.go:100] Error loading discovery information: the server has asked for the client to provide credentials
+I1018 16:20:08.705151   30075 round_trippers.go:466] curl -v -XGET  -H "Accept: application/json;g=apidiscovery.k8s.io;v=v2beta1;as=APIGroupDiscoveryList,application/json" -H "User-Agent: kubectl/v1.28.2 (linux/amd64) kubernetes/89a4ea3" 'https://192.168.0.128:6443/api?timeout=32s'
+I1018 16:20:08.822706   30075 round_trippers.go:553] GET https://192.168.0.128:6443/api?timeout=32s 401 Unauthorized in 117 milliseconds
+I1018 16:20:08.822723   30075 round_trippers.go:570] HTTP Statistics: GetConnection 0 ms ServerProcessing 96 ms Duration 117 ms
+I1018 16:20:08.822728   30075 round_trippers.go:577] Response Headers:
+I1018 16:20:08.822734   30075 round_trippers.go:580]     Audit-Id: 60a431ff-ce14-4fc9-b6b9-06b4f3a44c71
+I1018 16:20:08.822738   30075 round_trippers.go:580]     Cache-Control: no-cache, private
+I1018 16:20:08.822742   30075 round_trippers.go:580]     Content-Type: application/json
+I1018 16:20:08.822746   30075 round_trippers.go:580]     Content-Length: 129
+I1018 16:20:08.822751   30075 round_trippers.go:580]     Date: Wed, 18 Oct 2023 15:20:08 GMT
+I1018 16:20:08.822864   30075 request.go:1212] Response Body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"Unauthorized","reason":"Unauthorized","code":401}
+E1018 16:20:08.822987   30075 memcache.go:265] couldn't get current server API group list: the server has asked for the client to provide credentials
+I1018 16:20:08.822994   30075 cached_discovery.go:120] skipped caching discovery info due to the server has asked for the client to provide credentials
+I1018 16:20:08.823046   30075 round_trippers.go:466] curl -v -XGET  -H "Accept: application/json;g=apidiscovery.k8s.io;v=v2beta1;as=APIGroupDiscoveryList,application/json" -H "User-Agent: kubectl/v1.28.2 (linux/amd64) kubernetes/89a4ea3" 'https://192.168.0.128:6443/api?timeout=32s'
+I1018 16:20:08.942305   30075 round_trippers.go:553] GET https://192.168.0.128:6443/api?timeout=32s 401 Unauthorized in 119 milliseconds
+I1018 16:20:08.942331   30075 round_trippers.go:570] HTTP Statistics: GetConnection 0 ms ServerProcessing 95 ms Duration 119 ms
+I1018 16:20:08.942341   30075 round_trippers.go:577] Response Headers:
+I1018 16:20:08.942351   30075 round_trippers.go:580]     Content-Type: application/json
+I1018 16:20:08.942360   30075 round_trippers.go:580]     Content-Length: 129
+I1018 16:20:08.942370   30075 round_trippers.go:580]     Date: Wed, 18 Oct 2023 15:20:08 GMT
+I1018 16:20:08.942380   30075 round_trippers.go:580]     Audit-Id: 51ddfbdb-66d6-49a9-84fc-2596f3dad9bc
+I1018 16:20:08.942389   30075 round_trippers.go:580]     Cache-Control: no-cache, private
+I1018 16:20:08.942526   30075 request.go:1212] Response Body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"Unauthorized","reason":"Unauthorized","code":401}
+E1018 16:20:08.942628   30075 memcache.go:265] couldn't get current server API group list: the server has asked for the client to provide credentials
+I1018 16:20:08.942637   30075 cached_discovery.go:120] skipped caching discovery info due to the server has asked for the client to provide credentials
+I1018 16:20:08.942687   30075 round_trippers.go:466] curl -v -XGET  -H "Accept: application/json;g=apidiscovery.k8s.io;v=v2beta1;as=APIGroupDiscoveryList,application/json" -H "User-Agent: kubectl/v1.28.2 (linux/amd64) kubernetes/89a4ea3" 'https://192.168.0.128:6443/api?timeout=32s'
+I1018 16:20:09.062071   30075 round_trippers.go:553] GET https://192.168.0.128:6443/api?timeout=32s 401 Unauthorized in 119 milliseconds
+I1018 16:20:09.062091   30075 round_trippers.go:570] HTTP Statistics: GetConnection 0 ms ServerProcessing 97 ms Duration 119 ms
+I1018 16:20:09.062098   30075 round_trippers.go:577] Response Headers:
+I1018 16:20:09.062105   30075 round_trippers.go:580]     Date: Wed, 18 Oct 2023 15:20:08 GMT
+I1018 16:20:09.062112   30075 round_trippers.go:580]     Audit-Id: 3de96e02-3b9c-4a2b-990b-6b7940371252
+I1018 16:20:09.062126   30075 round_trippers.go:580]     Cache-Control: no-cache, private
+I1018 16:20:09.062132   30075 round_trippers.go:580]     Content-Type: application/json
+I1018 16:20:09.062138   30075 round_trippers.go:580]     Content-Length: 129
+I1018 16:20:09.062257   30075 request.go:1212] Response Body: {"kind":"Status","apiVersion":"v1","metadata":{},"status":"Failure","message":"Unauthorized","reason":"Unauthorized","code":401}
+E1018 16:20:09.062369   30075 memcache.go:265] couldn't get current server API group list: the server has asked for the client to provide credentials
+I1018 16:20:09.062377   30075 cached_discovery.go:120] skipped caching discovery info due to the server has asked for the client to provide credentials
+I1018 16:20:09.062484   30075 helpers.go:246] server response object: [{
+  "metadata": {},
+  "status": "Failure",
+  "message": "the server has asked for the client to provide credentials",
+  "reason": "Unauthorized",
+  "details": {
+	"causes": [
+	  {
+		"reason": "UnexpectedServerResponse",
+		"message": "unknown"
+	  }
+	]
+  },
+  "code": 401
+}]
+error: You must be logged in to the server (the server has asked for the client to provide credentials)
+
+
+
+
+
+kubectl --user=albam get pod
+Ouverture dans une session de navigateur existante.
+E1018 19:22:52.631339   39541 memcache.go:265] couldn't get current server API group list: the server has asked for the client to provide credentials
+E1018 19:22:52.750764   39541 memcache.go:265] couldn't get current server API group list: the server has asked for the client to provide credentials
+E1018 19:22:52.868710   39541 memcache.go:265] couldn't get current server API group list: the server has asked for the client to provide credentials
+E1018 19:22:52.984730   39541 memcache.go:265] couldn't get current server API group list: the server has asked for the client to provide credentials
+E1018 19:22:53.101229   39541 memcache.go:265] couldn't get current server API group list: the server has asked for the client to provide credentials
+error: You must be logged in to the server (the server has asked for the client to provide credentials)
+alex@albam:~/.kube$ 

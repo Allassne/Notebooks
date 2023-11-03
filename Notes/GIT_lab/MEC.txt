@@ -1,0 +1,189 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-09-06T12:30:10+01:00
+
+====== MEC ======
+Créée le Wednesday 06 September 2023
+
+
+**1- C’est quoi Gitlab ? **
+
+GitLab est une plateforme de développement collaborative open source éditée par la société américaine du même nom. Elle couvre l’ensemble des étapes du DevOps. Se basant sur les fonctionnalités du logiciel Git, elle permet de piloter des dépôts de code source et de gérer leurs différentes versions. Son usage est particulièrement indiqué pour les développeurs qui souhaitent disposer d’un outil réactif et accessible.
+
+**2- C'est quoi Gitlab CI/CD ? Quelle est la différence entre CI et CD ? **
+
+__GitLab CI/CD__ est une fonctionnalité de GitLab qui permet de mettre en place des pipelines de CI/CD pour n'importe quel projet, qu'il soit nouveau ou existant, pourvu qu'il utilise Git.
+
+
+__CI__ (Intégration Continue) consiste à automatiser le processus de construction, de test et de vérification du code source à chaque modification, assurant ainsi une cohérence constante du code.
+
+__CD__ (Déploiement Continu) étend CI en automatisant également le déploiement du code vers des environnements de production ou de pré-production, permettant une livraison régulière et fiable des nouvelles fonctionnalités aux utilisateurs finaux.
+
+**3- Quelles sont les alternatives à Gitlab CI/CD ?**
+
+Il existe plusieurs alternatives populaires à GitLab CI/CD, chacune ayant ses propres caractéristiques et avantages. Voici quelques-unes des principales alternatives :
+
+__Jenkins__ : Jenkins est une solution d'intégration continue open source très populaire qui offre une grande flexibilité et une vaste bibliothèque de plugins pour personnaliser les pipelines CI/CD.
+
+__Travis CI__ : Travis CI est un service d'intégration continue cloud qui prend en charge l'intégration directe avec GitHub et d'autres référentiels Git. Il est apprécié pour sa facilité d'utilisation.
+
+__CircleCI__ : CircleCI est un service cloud d'intégration continue et de déploiement continu qui propose des fonctionnalités avancées pour automatiser les tests et les déploiements.
+
+__Jenkins X__ : Jenkins X est une extension de Jenkins conçue pour prendre en charge les pipelines CI/CD spécifiques aux applications cloud natives et aux conteneurs, en mettant l'accent sur Kubernetes.
+
+__GitHub Actions__ : GitHub Actions est une solution d'automatisation intégrée directement dans GitHub, offrant des capacités d'intégration continue et de déploiement continu pour les référentiels GitHub.
+
+__TeamCity__ : TeamCity est un serveur d'intégration continue de JetBrains avec des fonctionnalités avancées pour l'automatisation des pipelines CI/CD.
+
+__Bamboo__ : Bamboo est une solution d'intégration continue et de déploiement continu de Atlassian, adaptée aux équipes qui utilisent d'autres produits Atlassian tels que Jira et Bitbucket.
+
+
+**4-  Qu’est ce qu’un runner Gitlab ? **
+
+Un runner GitLab est un agent logiciel qui exécute les travaux (jobs) définis dans les pipelines CI/CD de GitLab, permettant l'automatisation des tâches de construction, de test et de déploiement.
+
+**5- Faire des recherches sur les differents types d’executeurs (docker, SSH, Shell, Parallels ...) (Important !!!!!!!!)**
+
+
+__Exécuteur Docker__ : Ces runners exécutent des travaux dans des conteneurs Docker, offrant un environnement isolé pour chaque travail. Cela permet de gérer facilement les dépendances et garantit la cohérence de l'environnement d'exécution.
+
+__Exécuteur SSH__ : Les runners SSH exécutent les travaux sur des machines distantes via SSH. Cela peut être utile pour les projets qui nécessitent l'accès à des machines spécifiques ou à des ressources externes.
+
+__Exécuteur Shell__ : Les runners Shell exécutent des travaux sur la machine où le runner est installé. Cela peut être pratique pour les travaux simples qui ne nécessitent pas d'isolation d'environnement.
+
+__Exécuteur Parallels__ : Ces runners utilisent la virtualisation Parallels Desktop pour exécuter des travaux dans des machines virtuelles Parallels. Cela permet de tester des applications sur différentes plateformes et configurations.
+
+__Exécuteur Kubernetes__ : Les runners Kubernetes utilisent des clusters Kubernetes pour exécuter des travaux. Ils offrent une grande extensibilité et la possibilité de créer des environnements d'exécution évolutifs.
+
+__Exécuteur VirtualBox__ : Ces runners utilisent la virtualisation VirtualBox pour exécuter des travaux dans des machines virtuelles. Cela peut être utile pour les tests d'intégration ou de compatibilité.
+
+__Exécuteur Docker Machine__ : Les runners Docker Machine utilisent Docker Machine pour créer des machines virtuelles Docker et exécuter des travaux dans ces machines. Cela facilite l'exécution de travaux dans des environnements Docker sur des machines distantes.
+
+__Exécuteur Custom__ : Vous pouvez également créer des runners personnalisés en utilisant le protocole d'exécution personnalisé de GitLab. Cela vous permet de définir des exécuteurs adaptés à vos besoins spécifiques.
+
+
+
+
+**6- C'est quoi une pipeline ? Quels sont les composants d'une pipeline ?**
+
+Une pipeline (ou pipeline CI/CD) est un ensemble d'étapes automatisées qui permettent de construire, tester, déployer et surveiller un logiciel de manière cohérente et reproductible. 
+
+__Un pipeline__ est constitué de différentes étapes séquentielles nommées stage et chaque stage pourra contenir N tâches que l'on appelera job dans le contexte GitLab, qui pourront s'exécuter en parallèle au sein d'un stage.
+
+Les pipelines CI/CD visent à automatiser autant que possible le processus de développement logiciel, à réduire les erreurs humaines et à permettre des déploiements plus fréquents et plus fiables. 
+
+Les composants d'une pipeline CI/CD typique comprennent :
+
+1. //**Déclencheur (Trigger) :** Il s'agit de l'événement qui déclenche le démarrage de la pipeline. Cela peut être un commit de code, une demande de fusion (pull request), une fusion (merge) dans une branche, ou tout autre événement spécifié.//
+2. //**Stades (Stages) :** Les stades sont des étapes logiques de la pipeline, chacun représentant une phase spécifique du processus de développement. Les stades courants incluent la construction, les tests, le déploiement et la surveillance.//
+3. //**Travaux (Jobs) :** Chaque stade de la pipeline peut contenir un ou plusieurs travaux. Les travaux sont des unités d'exécution individuelles qui accomplissent une tâche spécifique, comme la compilation du code, l'exécution des tests unitaires ou le déploiement d'une application.//
+4. //**Scripts :** Les scripts définissent les actions spécifiques à effectuer à chaque étape du travail. Ces scripts peuvent être écrits dans différents langages de script, en fonction des besoins, et ils automatisent les tâches liées au développement.//
+5. //**Dépendances :** Les travaux peuvent avoir des dépendances les uns sur les autres. Cela signifie que certains travaux ne seront exécutés que si les travaux précédents réussissent. Les dépendances garantissent l'ordre d'exécution approprié des travaux.//
+6. //**Environnements :** Les environnements représentent les destinations où les applications sont déployées. Par exemple, vous pouvez avoir un environnement de développement, un environnement de test et un environnement de production, chacun avec des travaux de déploiement spécifiques.//
+7. //**Notifications :** Les pipelines CI/CD peuvent générer des notifications pour informer les développeurs et les membres de l'équipe des résultats des travaux, des erreurs ou des problèmes éventuels.//
+8. //**Intégration continue (CI) :** Cette phase de la pipeline consiste généralement à compiler le code source, à exécuter des tests unitaires et à effectuer des analyses statiques du code pour détecter d'éventuelles erreurs.//
+9. //**Déploiement continu (CD) :** La phase CD comprend le déploiement des applications ou des mises à jour sur des environnements de test, de pré-production et de production. Cela peut inclure la mise en place de conteneurs, la configuration de serveurs, etc.//
+10. //**Surveillance et rétroaction :** Une fois le déploiement effectué, la pipeline peut être configurée pour surveiller les performances de l'application en production, collecter des métriques et fournir des informations pour la rétroaction continue.//
+
+
+**7- Faire un tour sur la documentaion de gitlab**
+
+
+
+**8- Installer un serveur gitlab et un serveur gitlab runner (Executor = docker | image par défaut = centos:7) Il faudra installer docker sur votre serveur gitlab runner.**
+
+
+
+**9- Créer un projet ""Intro 1"" (garder le fichier readme) et  Écriver une pipeline qui a une seule étape (stage) ""test"", **
+**un seul job ""todo"" et qui nous permet de:**
+		* **Afficher le mot bonjour dans la console**
+		* **Créer un fichier bonsoir **
+		* **Lister les fichiers présent dans le répertoire courant**
+		* **Affiche les informations concernant la distribution utilisé durant la pipeline (cat /etc/*release) **
+
+
+
+**10- Créer un projet ""Intro 2"" (garder le fichier readme) et Ecriver une pipeline qui a deux étapes (stages): creation **
+**et packaging. Chaque étapes devra contenir un seul job. **
+		**Dans le 1er stage il faudra:**
+				* **Lister les fichiers présent dans le répertoire courant**
+				* **Créer un fichier salutation qui contiendra ""hello world""**
+		**Dans le 2e stage il faudra:**
+				* **Archiver le fichier salutation en tar**
+
+
+
+**11- Créer un projet ""Intro 4"", Ajouter un fichier qui s'appelera superfichier (il devra contenir un contenu) et  écriver**
+** une pipeline qui a 2 stages: packaging et deploy. Cette pipeline doit permettre de compresser le fichier superfichier **
+**puis de le déposer dans le répertoire tmp d'un serveur distant par scp. Chaque stage devra contenir un seul job.**
+		**Infos supplémentaires:**
+				* **Vous devez utiliser l'image docker ""fs0ci3ty/centos7-ansible-new"" au niveau de la stage ""deploy""**
+				* **Assurer vous que votre Gitlab runner arrive à communiquer avec le serveur de destination**
+				* **Assurer vous que l'utilisateur que vous allez utiliser durant le scp existe bien sur le serveur de destination**
+
+
+
+
+**12- Créer un projet ""website"", ajouter un fichier index.html et écriver une pipeline qui permettra de:**
+		**a- Compresser le fichier index.html **
+		**b- Déposer le fichier compressé dans le répertoire tmp du serveur distant (il faudra que apache soit installer sur **
+**ce serveur). Il faudra faire tout cela avec l'outil ansible et non scp.**
+		**c- Décompresser et copier le fichier index.html qui se trouve sur le serveur distant vers le répertoire de votre **
+**virtualhost. Il faudra s'assurer que votre site web soit fonctionnel correctement, il devra normalement afficher le contenu **
+**du index.html. Il faudra faire tout cela avec l'outil ansible.**
+
+
+
+
+**13- **
+		** a- Créer un projet ""tomcat app""**
+		** b- Cloner ce repo https://github.com/efsavage/hello-world-war.git et Supprimer le dossier dist**
+		** c-  Metter le contenu du dossier hello-world-war sur votre repo ""tomcat app"".**
+		** d- Ajouter une variable au niveau de votre projet dans les paramètres CI/CD. La variable devra **
+**s'appeler ""APP_NAME"". Mettez une valeur de votre choix.**
+		** e- Créer une pipeline qui permettra de builder le code java contenu dans votre repo afin d'obtenir **
+**un fichier war (hello-world-war-1.0.0.war) qui se trouvera dans un dossier target et par suite de deployer **
+**cette application sur votre serveur tomcat à l'aide  de ansible.**
+				**Infos supplémentaires:**
+								**  * Il faudra avoir tomcat sur son serveur de destination**
+								**  * La pipeline devra avoir 2 stages. Build et Deploy.**
+								**  * Vous utiliserez l'image docker maven:3-jdk-8 au niveau du stage de Build et l'image **
+**docker fs0ci3ty/centos7-ansible-new au niveau du stage Deploy**
+								**  * Vous pouvez builder le code java avec cette commande: mvn clean install**
+								**  * Il faudra renommer le nom du fichier war en fonction de la variable APP_NAME **
+**avant  deployer le war. Si la valeur de la variable APP_NAME est ""bonjour"" alors votre fichier war s'appelera bonjour.war. **
+**L'objectif est d'être capable de changer le nom du fichier war sans modifier la pipeline mais plus tôt la valeur de la variable APP_NAME.**
+
+
+
+**14- Voir un admin pour plus d'approndissement !"**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+dnf install -y curl policycoreutils-python openssh-server perl
+
+firewall-cmd --permanent --add-service=http
+firewall-cmd --permanent --add-service=https
+systemctl reload firewalld
+
+dnf install postfix
+systemctl enable --now postfix
+
+curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash
+EXTERNAL_URL="http://gitlab.albam.lan" dnf install -y gitlab-ce
+
+http://gitlab.albam.lan

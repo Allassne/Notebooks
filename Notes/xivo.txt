@@ -1,0 +1,262 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-10-12T10:25:41+01:00
+
+====== Xivo ======
+Créée le Thursday 12 October 2023
+
+Pour créer un service permettant d'automatiser la resynchronisation des clés xivo-auth :
+
+=== Créez un script de resynchronisation des clés xivo-auth : ===
+
+vim [[/usr/local/bin/xivo-auth-resync.sh]]
+
+```
+#!/bin/bash
+
+# Arrêter les services Xivo
+xivo-service stop
+
+# Resynchroniser les clés xivo-auth
+xivo-update-keys
+
+# Mettre à jour la configuration d'exécution de systemd
+source /etc/profile.d/xivo_uuid.sh
+systemctl set-environment XIVO_UUID=$XIVO_UUID
+systemctl daemon-reload
+
+# Redémarrer les services nécessaires
+xivo-service start
+```
+
+chmod +x /usr/local/bin/xivo-auth-resync.sh
+
+=== Créez un fichier de service systemd : ===
+
+vim /etc/systemd/system/albam.service
+
+```
+[Unit]
+Description=Service de resynchronisation des clés xivo-auth
+
+[Service]
+ExecStart=/usr/local/bin/xivo-auth-resync.sh
+
+[Install]
+WantedBy=multi-user.target
+```
+
+== Mettez à jour la liste des services systemd : ==
+ systemctl daemon-reload
+
+== Activez le service pour qu'il démarre automatiquement au démarrage : ==
+systemctl enable albam.service
+
+== Démarrez le service : ==
+systemctl start albam.service
+
+systemctl status albam.service
+
+--------------------
+
+
+adduser albam
+echo "albam ALL=(ALL) NOPASSWD:ALL" > [[/etc/sudoers.d/albam]]
+
+ssh albam@10.1.28.10
+cd 
+
+mkdir /home/albam/.ssh/ 
+touch [[/home/albam/.ssh/authorized_keys]]
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDXPv8xwB8NMtoAPro66Tl5GDvQccm8vqLWcm8V2HwZirXZh2cPEkN6yaS1YSt3j66zWl6EM1zg0973NvYvHLhmf2q7H+EQ/ZDtB8ydbyByH6gerB7ZyIOegnAs+ScwhT7hro6mnfokSiOr98f5bCpPoElq1mKGm/n4Tx0RQQO6lVuU9h9mhI6LOEC0vW7VuKtTHdpsLz9+bSa6VzTjy2tedMFowYhi0moz1rx0HeTp3dVzSOG2pqbKNJFGRAenU3v7gmfb2FYPTTIVTJRuItpS9RcWgD5QxT6VLfYZ+bptaaTNE+v6VGN08QjB1iNN488kLhEGd6+jzUWM59qHOtw/yJlx1K0tG30wQVa/4l0iTZcFI8DN7+yzuSiuh5RZgyMMMTuOWrt3ML5EJ3z5bBVZTUFIgMWs0GpCv8krelUrPx4GnBVZC7P7cxqJr5vdib3+hMKRHOrX1hWYSvSojuMXJRv8v9Jv+spxZU1jGdVKN45FCo5enjWlQvAAqa6+UJmYRNpgjti+uTuQPjj3YFbUDqRedMueM4SKRpkDiOiC0ow3BoUiyf0X3nXv3P0NCYG5/rQ4/LVmog9Dd3TyhanJ8PsvXnXk3t55hMKBuRG5slGrPa9qZa/HTGMOUnKL1I50I2x7LzSjkrPCq1ZYKG3nZAdMt4vD+hWXhVYqU78IxQ== alex@albam" > [[/home/albam/.ssh/authorized_keys]]
+
+echo "" > [[/home/albam/.ssh/authorized_keys]]
+
+chown -R albam:albam /home/albam/.ssh/
+chmod 700 /home/albam/.ssh/
+chmod 600 /home/albam/.ssh/authorized_keys
+--------------------
+
+
+adduser isfof
+echo "isfof ALL=(ALL) NOPASSWD:ALL" > [[/etc/sudoers.d/isfof]]
+
+
+mkdir /home/isfof/.ssh/ 
+touch [[/home/isfof/.ssh/authorized_keys]]
+
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDXX/vH1hfjkdz20k9XY0VWrZKy7rvXEfyrLzJwzEqddz57L7qrPBdSuC9ZX2CfcFK9ej01jvxW9iHUGOab/35pzcelSyYRx1Dl4hy/BpUqev+gmmVG0p135UuHlVKCfcntpc4xSXr9E0Rg1+iparlEIaho3Jki0FWdfSXryWQwBeNX0flqA77hewdovNNVFqkL4B8zObjsboAzC/byP2BJxKNiGi/OulrgggpOmKeGfJRNgXB1+qacvrV0CErv7tR0hAiFGO8rzAh/UQWnaCkQ7tNOvkPBMAsWUpaXNJlFKZ+sLSh7qsl0XahLhQiVZj5FSabQ4F2It1whGGFYNDYt2mjoofjb4ZR7xwOnBfY8FyOhd2eGzBy/dzH5g2H+KaVL5ocKLmlbnCq1B+LCIUUngMB1V6HuhlEpWBcsEvNND+7eh5mLRqTi3kQSBYmbHQxj5nbPmfsqa5+Yb/SB5JSrD3QTkD8fvILCAhWcgNlJzpAF++8uk31iJTWWz7r4YDE= ismael.fofana@smile.ci" > [[/home/isfof/.ssh/authorized_keys]]
+
+chown -R isfof:isfof /home/isfof/.ssh/
+chmod 700 /home/isfof/.ssh/
+chmod 600 /home/isfof/.ssh/authorized_keys
+
+
+--------------------
+
+adduser juvro
+echo "juvro ALL=(ALL) NOPASSWD:ALL" > [[/etc/sudoers.d/juvro]]
+
+
+mkdir /home/juvro/.ssh/ 
+touch [[/home/juvro/.ssh/authorized_keys]]
+
+
+
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDxVsVAhJJk1bXo4NRt4OOV4bNTdIDVT5yZUSHHp0CdbOujI4h9I2qJG4JeWHhb2JM1yzAyHcOhQRgIBOO56MRzugUHZdlvYsA8P/54Hag/GDII+9CM6leL14zc8XMgNy/EwSP4ztDNxoZumPZnCALTYwDHjEvpGuNQB3oTvoCd5AP7xQUMbHpn/zuUh5WHqStz2SpDN3133o2kywsr4n+Bo9tqb/jmdJEHTIDdjHKIaajcw44mO3r8czWTJ66mvDiibFnCInz+mWtydwqOA9XBaLzsQpEcU7aAZVnH6vZNc56VPt3+xHQbJCDVbsWH3AMMvlYsJrTQ6mvR5HXkCrJsrGIT2TOPOkeu0JOrddqQcqnGxFhi/rzX9meQNYbzYYZL4Gay5ORU0aeCyzWg51l0y90j+nMDeTIunXIOBtI56wirK0NSDd4XT08iZsEF3JLmWXQSwjI9bfpIkwipnp5MkT7Ay0pTdJnLPR3ylfD94rng8xxFBlyl8CiwDPr2yoOzt0XaztQSTM6o/iyOEIziVcKWPuRlIra+MV/iZnQlkUH4+e/lVLUl2Cs99B1Jos4/5ntNJEvgbEhyc53lUjGCEgfz4V82L+14gTwhB7oMZs9oLdVDfjf3ozAnnG4rEMlYndgkTY2ouDsmu9Uvn7WnbmYw8/WUWBdlReopkA5APQ== junior.vro@smile.ci" > [[/home/juvro/.ssh/authorized_keys]]
+
+chown -R juvro:juvro /home/juvro/.ssh/
+chmod 700 /home/juvro/.ssh/
+chmod 600 /home/juvro/.ssh/authorized_keys
+
+
+
+--------------------
+adduser widal
+echo "widal ALL=(ALL) NOPASSWD:ALL" > [[/etc/sudoers.d/widal]]
+
+
+mkdir /home/widal/.ssh/ 
+touch [[/home/widal/.ssh/authorized_keys]]
+
+
+
+echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDs5crmuvUC9mHEMs7eDijHl3/oB3RubgBs/lN3DZvom endeavor@ZETSU" > [[/home/widal/.ssh/authorized_keys]]
+
+chown -R widal:widal /home/widal/.ssh/
+chmod 700 /home/widal/.ssh/
+chmod 600 /home/widal/.ssh/authorized_keys
+
+
+--------------------
+
+adduser rogna
+echo "rogna ALL=(ALL) NOPASSWD:ALL" > [[/etc/sudoers.d/rogna]]
+
+
+mkdir /home/rogna/.ssh/ 
+touch [[/home/rogna/.ssh/authorized_keys]]
+
+
+
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDMJWP9jTkE0icSasXW1Do8Bvp/y3YV0Ivw7mtr0TG/9hmaXFpWpnPWl+b8JsLlzAkhB8ZHHSwk8yS7+RkAWBBYK17fCwv+Zu56nqpQTcBflZwM4DOpBRZY93FAZqrV+YE+xz1RjOajJq1yZjsnW8w0jFAecSPyi3Vlt47ZwGg7iCJK7G6Vpnb3+39AECC58bi7/hB5Kwro3i9SpiD5xrhJgn+w63F5xnDLRsD25sw5JN0a/QaJXh1A1o6eFBvXJ+yjoedh4X82r2lBx6UJ+ifi2JwVqhJMCi/livm0HcETlUICW4LY4zV51La1qGYIviJUJlp7sRUDR65c36ltBFur rose-tokou@rosetokou-HP-Pavilion-Laptop-15-eg0xxx" > [[/home/rogna/.ssh/authorized_keys]]
+
+chown -R rogna:rogna /home/rogna/.ssh/
+chmod 700 /home/rogna/.ssh/
+chmod 600 [[/home/rogna/.ssh/authorized_keys]]
+
+
+--------------------
+adduser yecou
+echo "yecou ALL=(ALL) NOPASSWD:ALL" > [[/etc/sudoers.d/yecou]]
+
+
+mkdir /home/yecou/.ssh/ 
+touch [[/home/yecou/.ssh/authorized_keys]]
+
+
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAB/ylboYty8WjUH/0e6UagbTJMATfR3NjrZwkU03w6r1H94FSh7NwpNyTQ9+h3+YYTfrlyq9Nj8PDJe/uINTqAaxXinvLE4axlEeGcMcGCoFfqyFFFXyWjNCSwcD1CGMQPvwCm3wzu6MSnKhSTEP1iMZf/+UVdMAT9K9/nYGRuPdCD/w706x3TleunazRF2axwWWJLEa3Katv7lUU6OJ7n/m3TuskT2+7gbVlko6r5P5/CY/u/3fB6EPyJkTOTn9+5teRUqIQDU5EmB3+csUzQBImzouj4/WRC+VOR3m6M/PWR92jXezPlzG61pViz/9m+hAiBOoCRH+5HQ+1PSmnkMBQwDiNHpy02y8i4JOOBRUlSqd7Saw+USFyrSAX0F0RYLeM9jgJMQ9IsKWFUO0jJE3gJOg7Hq11sGsrXpFlSCJj8zFXqRGlpT9ycKJgORpoGrXCAEIOK2I5n2ujr1fNeAdgpd5YBCjWafnNX1Cd6tXq0xPd61OVs6zn/VEQYkQyVgqRLgg++Lanafoz4Dt9osoZyHb9IhLDjf2EZvDbg2WvB0p+pz894Hs6lwTRlL12EPxO+qiJ1sAY0sW2cCrVC3J0aj8UOTxQ7k8bbUKiVkIT1QREn0TdiSBQh5+LkM5gKAgtR5QFTo4UDvvHRtpEhaWlJbCRY9Ed1P96KZKBOGts= katy@kali" > [[/home/yecou/.ssh/authorized_keys]]
+
+chown -R yecou:yecou /home/yecou/.ssh/
+chmod 700 /home/yecou/.ssh/
+chmod 600 [[/home/yecou/.ssh/authorized_keys]]
+
+--------------------
+adduser lazok
+echo "lazok ALL=(ALL) NOPASSWD:ALL" > [[/etc/sudoers.d/lazok]]
+
+
+mkdir /home/lazok/.ssh/ 
+touch [[/home/lazok/.ssh/authorized_keys]]
+
+
+
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDkYpVsx+HLnsOK6i81PIwo6KNOYRghPNi3MwPPKzZeA/iIccstaTqKKeCycyGKLJQJ7Pwn5mo/MGEs4M0j7mgOaWktosLjrlUSo3DWFTJMASkBjKg7m3+B5+mwVcL4n2ptaAmL69iW+VBg5ToB+llkoR35/9BGf8HpgA9OhPYVrGIDYf9eEx9VNxD4dPJFvQ9w9phU9TbFJXza/ivoAVjoQdET00KQkQ3m2DWC+SHPGA7ubBe5ywgaj16pFuhGup5qMNbhvybOJmNjp4tvYeFq0hceo3w0kPwI46H6YaNS0CQTVVgw8T+1qGKv+LP6PwkNVM8YakKvttCqoEIyQmTdW5Z2HGi+RrJQGaqDTgktQuHW70SCBuru0bwyoSiwuVMvgqUdz7lUMo0cBTj2TeACW05K5KEGrLxuNIgVjfLVYpOljqvTPfKXuXVe26lxj7UfREok5WE5dIY3k+2NHoMrXGDKgKFA915DbSLoxJDSAoMO0tIwSSZiy119uhcoobU= zokou@zokou" > [[/home/lazok/.ssh/authorized_keys]]
+
+chown -R lazok:lazok /home/lazok/.ssh/
+chmod 700 /home/lazok/.ssh/
+chmod 600 /home/lazok/.ssh/authorized_keys
+
+--------------------
+
+
+2. Accédez au répertoire de configuration réseau :
+
+   ```
+   cd /etc/network
+   ```
+
+3. Vous trouverez généralement deux fichiers importants pour la configuration réseau : `/etc/network/interfaces` et `/etc/network/interfaces.d/`.
+
+   - `/etc/network/interfaces` : Ce fichier peut contenir des informations de configuration réseau statique, mais il est recommandé de ne pas le modifier directement. Vous pouvez plutôt créer des fichiers de configuration dans le répertoire `/etc/network/interfaces.d/` pour une gestion plus propre et modulaire.
+
+4. Créez un fichier de configuration pour votre interface réseau dans le répertoire `/etc/network/interfaces.d/`. Vous pouvez nommer ce fichier comme vous le souhaitez, mais il est courant d'utiliser le nom de l'interface, par exemple `eth0` pour une connexion Ethernet.
+
+   ```
+   nano /etc/network/interfaces.d/eth0
+   ```
+
+   Remplacez `eth0` par le nom de votre interface réseau.
+
+5. Dans ce fichier, ajoutez les informations de configuration réseau appropriées. Voici un exemple pour une configuration DHCP (obtention automatique de l'adresse IP) :
+
+   ```
+   auto eth0
+   iface eth0 inet dhcp
+   ```
+
+   Si vous souhaitez configurer une adresse IP statique, voici un exemple :
+
+   ```
+   auto eth0
+   iface eth0 inet static
+	 address 192.168.1.2
+	 netmask 255.255.255.0
+	 gateway 192.168.1.1
+	 dns-nameservers 8.8.8.8 8.8.4.4
+   ```
+
+   Assurez-vous d'adapter ces valeurs en fonction de votre réseau.
+
+6. Enregistrez le fichier de configuration (dans Nano, appuyez sur Ctrl+O, puis appuyez sur Entrée pour confirmer, puis Ctrl+X pour quitter Nano).
+
+7. Redémarrez le service réseau pour appliquer les modifications :
+
+   ```
+   systemctl restart networking
+   ```
+
+
+--------------------
+
+
+Si vous ne pouvez pas télécharger le firmware car le problème empêche le démarrage du service networking, vous pouvez essayer les étapes suivantes pour résoudre le problème :
+
+1. **Téléchargez le firmware depuis un autre système :** Utilisez un autre système connecté à Internet pour télécharger le firmware manquant (`bnx2/bnx2-mips-09-6.2.1bfw`) depuis le site officiel de Debian ou un autre emplacement de confiance. Enregistrez le fichier sur une clé USB ou un support de stockage externe.
+
+2. **Transférez le firmware sur le système problématique :** Insérez la clé USB ou le support de stockage externe dans le système Debian affecté par le problème. Montez la clé USB ou le support de stockage pour accéder au firmware téléchargé.
+
+   Par exemple, si vous avez une clé USB, vous pouvez utiliser les commandes suivantes pour monter la clé et accéder à son contenu :
+
+   ```
+   sudo mkdir /mnt/usb
+   sudo mount /dev/sdX1 /mnt/usb
+   ```
+
+   Assurez-vous de remplacer `/dev/sdX1` par le chemin correct de votre clé USB.
+
+3. **Copiez le firmware dans le répertoire approprié :** Copiez le firmware téléchargé dans le répertoire de firmware de Debian. Utilisez la commande suivante pour copier le fichier firmware :
+
+   ```
+   sudo cp /mnt/usb/bnx2-mips-09-6.2.1bfw /lib/firmware/bnx2/
+   ```
+
+   Assurez-vous de remplacer `/mnt/usb/bnx2-mips-09-6.2.1bfw` par le chemin correct vers le firmware sur votre clé USB.
+
+4. **Redémarrez le système :** Après avoir copié le firmware, démontez la clé USB (si nécessaire) et redémarrez le système Debian :
+
+   ```
+   sudo reboot
+   ```
+
+Après le redémarrage, le firmware devrait être disponible pour le pilote bnx2, ce qui pourrait résoudre le problème. Assurez-vous de surveiller les messages du noyau au démarrage pour voir si l'erreur liée au firmware a disparu.

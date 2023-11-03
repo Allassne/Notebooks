@@ -1,0 +1,385 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-08-31T11:48:14+01:00
+
+====== Defi ======
+Créée le Thursday 31 August 2023
+
+=== ''martin'' ===
+  
+__Build user information for martin in the default kubeconfig file: User = martin , client-key = /root/martin.key and client-certificate = /root/martin.crt (Ensure don't embed within the kubeconfig file)__
+
+__Create a new context called 'developer' in the default kubeconfig file with 'user = martin' and 'cluster = kubernetes'__
+
+
+
+
+Utilisez la commande kubectl pour créer un contexte séparé avec les informations utilisateur pour "martin", sans les incorporer dans le kubeconfig par défaut :
+
+
+__''kubectl config set-credentials martin --client-key=/root/martin.key --client-certificate=/root/martin.crt --embed-certs=false''__
+
+Cela crée un nouvel utilisateur appelé "martin" avec la clé client et le certificat client spécifiés. L'option --embed-certs=false indique de ne pas incorporer les certificats dans le kubeconfig.
+
+Ensuite, pour créer un nouveau contexte appelé "developer" dans le fichier kubeconfig par défaut avec "utilisateur = martin" et "cluster = kubernetes", exécutez la commande suivante :
+
+__''kubectl config set-context developer --cluster=kubernetes --user=martin''__
+
+Cela crée un contexte nommé "developer" qui relie l'utilisateur "martin" au cluster "kubernetes".
+
+Ces étapes devraient vous permettre de construire les informations utilisateur pour "martin" et de créer un nouveau contexte sans incorporer les informations sensibles dans le fichier kubeconfig par défaut.
+
+
+
+
+
+
+
+kubectl config --kubeconfig=martin-config set-cluster developer --server=https://192.28.189.6
+kubectl config --kubeconfig=martin-config set-credentials martin --client-key=/root/martin.key --client-certificate=/root/martin.crt
+kubectl config --kubeconfig=martin-config set-context martin-context --cluster=developer --user=martin
+kubectl config --kubeconfig=martin-config use-context martin-context
+
+kubectl --kubeconfig=martin-config config view
+
+kubectl --kubeconfig=martin-config get pods
+
+
+apiVersion: v1
+kind: Config
+preferences: {}
+users:
+- name: martin
+  user:
+	client-key: /root/martin.key
+	client-certificate: /root/martin.crt
+clusters:
+- cluster:
+	# Configuration du cluster...
+  name: kubernetes
+contexts:
+- context:
+	cluster: kubernetes
+	user: martin
+  name: developer
+current-context: developer
+
+
+
+
+=== ''developer-role'' ===
+
+__'developer-role', should have all(*) permissions for services in development namespace__
+
+__'developer-role', should have all permissions(*) for persistentvolumeclaims in development namespace__
+
+__'developer-role', should have all(*) permissions for pods in development namespace__
+
+''Créer le Rôle et les Rôles Liés :''
+
+'''
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: development # Remplacez par le nom de l'espace de noms
+  name: developer-role
+rules:
+- apiGroups: [""]
+  resources: ["services", "pods", "persistentvolumeclaims"]
+  verbs: ["*"]
+'''
+
+
+Appliquer le Rôle dans le Cluster :
+Utilisez la commande kubectl apply pour appliquer le rôle dans le cluster Kubernetes :
+
+kubectl apply -f developer-role.yam	l
+
+''Créer une Liaison entre le Rôle et l'Utilisateur :''
+
+Ensuite, vous devez lier le rôle de développeur à un utilisateur ou à un groupe. Créez un fichier YAML (par exemple, developer-role-binding.yaml) pour cela :
+
+
+'''
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer-rolebinding
+  namespace: development # Remplacez par le nom de l'espace de noms
+subjects:
+- kind: User
+  name: martin # Remplacez par le nom de l'utilisateur
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: developer-role
+  apiGroup: rbac.authorization.k8s.io
+'''
+
+
+
+kubectl apply -f developer-role-binding.yaml
+
+
+=== ''developer-rolebinding'' ===
+
+__create rolebinding = developer-rolebinding, role= 'developer-role', namespace = development__
+
+__rolebinding = developer-rolebinding associated with user = 'martin'__
+
+
+=== ''Kubeconfig'' ===
+
+__set context 'developer' with user = 'martin' and cluster = 'kubernetes' as the current context.__
+
+kubectl config set-context developer --user=martin --cluster=kubernetes
+
+kubectl config use-context developer
+
+kubectl config current-context
+
+
+
+=== ''jeklly-node-service'' ===
+
+__Service 'jekyll' uses targetPort: '4000', namespace: 'development'__
+
+__Service 'jekyll' uses Port: '8080', namespace: 'development'__
+
+__Service 'jekyll' uses NodePort: '30097', namespace: 'development'__
+
+
+
+
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: jekyll
+  namespace: development
+spec:
+  selector:
+	app: jekyll
+  ports:
+	- name: target-port
+	  port: 4000
+	  targetPort: 4000
+	- name: port
+	  port: 8080
+	  targetPort: 8080
+	  protocol: TCP
+  type: NodePort
+  externalTrafficPolicy: Cluster
+  ports:
+	- port: 8080
+	  nodePort: 30097
+	  protocol: TCP
+
+```
+
+kubectl apply -f svc-jekyll.yaml
+
+
+=== ''jeklly'' ===
+
+
+__pod: 'jekyll' has an initContainer, name: 'copy-jekyll-site', image: 'kodekloud/jekyll'__
+
+__initContainer: 'copy-jekyll-site', command: [ "jekyll", "new", "/site" ] (command to run: jekyll new /site)__
+
+__pod: 'jekyll', initContainer: 'copy-jekyll-site', mountPath = '/site'__
+
+__pod: 'jekyll', initContainer: 'copy-jekyll-site', volume name = 'site'__
+
+__pod: 'jekyll', container: 'jekyll', volume name = 'site'__
+
+__pod: 'jekyll', container: 'jekyll', mountPath = '/site'__
+
+__pod: 'jekyll', container: 'jekyll', image = 'kodekloud/jekyll-serve'__
+
+__pod: 'jekyll', uses volume called 'site' with pvc = 'jekyll-site'__
+
+__pod: 'jekyll' uses label 'run=jekyll'__
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: development
+  name: jekyll-deployment
+  labels:
+	app: jekyll
+spec:
+  replicas: 1
+  selector:
+	matchLabels:
+	  app: jekyll
+  template:
+	metadata:
+	  labels:
+		app: jekyll
+	spec:
+	  initContainers:
+	  - name: copy-jekyll-site
+		image: kodekloud/jekyll
+		command: ["jekyll", "new", "/site"]
+		volumeMounts:
+		- name: site-volume
+		  mountPath: /site
+	  containers:
+	  - name: jekyll
+		image: kodekloud/jekyll-serve
+		volumeMounts:
+		- name: site-volume
+		  mountPath: /site
+	  volumes:
+	  - name: site-volume
+		emptyDir: {}
+
+kubectl apply -f deploy.yaml
+
+
+=== ''jeklly-pvc'' ===
+
+__Storage Request: 1Gi__
+
+__Access modes: ReadWriteMany__
+
+__pvc name = jekyll-site__
+__namespace = development__
+
+__'jekyll-site' PVC should be bound to the PersistentVolume called 'jekyll-site'.__
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: development
+  name: jekyll-site
+spec:
+  accessModes:
+	- ReadWriteOnce
+  resources:
+	requests:
+	  storage: 1Gi
+
+
+
+kubectl apply -f pvc.yaml
+
+
+--------------------
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: development
+  name: developer-role
+rules:
+- apiGroups: [""]
+  resources: ["services", "pods", "persistentvolumeclaims"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer-rolebinding
+  namespace: development
+subjects:
+- kind: User
+  name: martin
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: developer-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jekyll
+  namespace: development
+spec:
+  selector:
+	app: jekyll
+  ports:
+	- name: target-port
+	  port: 4000
+	  targetPort: 4000
+	- name: port
+	  port: 8080
+	  targetPort: 8080
+	  protocol: TCP
+	  nodePort: 30097
+  type: NodePort
+  externalTrafficPolicy: Cluster
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  namespace: development
+  name: jekyll-site
+spec:
+  accessModes:
+	- ReadWriteMany
+  resources:
+	requests:
+	  storage: 1Gi
+  volumeName: jekyll-site
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: development 
+  name: jekyll
+  labels:
+	run: jekyll
+spec:
+  initContainers:
+	- name: copy-jekyll-site
+	  image: kodekloud/jekyll
+	  command: ["jekyll", "new", "/site"]
+	  volumeMounts:
+		- name: site
+		  mountPath: /site
+  containers:
+	- name: jekyll
+	  image: kodekloud/jekyll-serve
+	  volumeMounts:
+		- name: site
+		  mountPath: /site
+  volumes:
+	- name: site
+	  persistentVolumeClaim:
+		claimName: jekyll-site
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Le résultat de la commande kubectl -n development get pvc montre que le PersistentVolumeClaim (PVC) nommé "jekyll-site" dans l'espace de noms "development" a un statut "Pending". Cela signifie que le PVC est en attente d'être lié à un PersistentVolume (PV) correspondant.
+
+Le statut "Pending" pour un PVC peut être dû à plusieurs raisons, notamment :
+
+Aucun PersistentVolume disponible ne répond aux critères spécifiés dans le PVC.
+Le stockage demandé dans le PVC n'est pas disponible dans le cluster.
+Des contraintes d'accès ou de classe de stockage ne sont pas satisfaites.
+Des problèmes de planification ou d'allocation de ressources.
+Pour résoudre ce problème, vous devez vérifier :
+
+Si un PersistentVolume correspondant est disponible et répond aux spécifications du PVC.
+Si le PersistentVolume correspondant est correctement configuré pour satisfaire les demandes du PVC en termes de capacité, d'accès et de classe de stockage.
+Si les nœuds du cluster ont les ressources nécessaires pour accueillir le PVC.
+Une fois que les conditions sont remplies, le PVC passera de l'état "Pending" à l'état "Bound", indiquant qu'il a été lié à un PersistentVolume correspondant. Assurez-vous que le PersistentVolume est correctement configuré et disponible dans votre cluster.

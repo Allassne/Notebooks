@@ -1,0 +1,48 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-10T19:36:19+01:00
+
+====== site ======
+Créée le Monday 10 July 2023
+
+https://linux.goffinet.org/ansible/taches-ansible-ad-hoc-linux/
+
+https://sysreseau.net/ansible-10-commandes-ad-hc/
+
+https://geekflare.com/fr/ansible-ad-hoc-command/
+
+
+
+
+Bien sûr ! Voici un exemple de playbook Ansible qui peut mettre en place un virtual host (vhost) Apache sur une machine cible :
+
+```yaml
+- name: Configuration du vhost Apache
+  hosts: web_servers
+  become: true
+  tasks:
+	- name: Copier le fichier de configuration du vhost
+	  template:
+		src: templates/vhost.conf.j2
+		dest: /etc/httpd/conf.d/vhost.conf
+	  notify:
+		- Reload Apache Service
+
+  handlers:
+	- name: Reload Apache Service
+	  service:
+		name: httpd
+		state: reloaded
+```
+
+Dans cet exemple, nous utilisons un playbook pour copier un fichier de configuration de vhost préalablement défini (`vhost.conf.j2`) vers la machine cible spécifiée dans le groupe `web_servers`. Le module `template` est utilisé pour cela.
+
+Assure-toi de créer le fichier de configuration du vhost `vhost.conf.j2` dans le dossier `templates` de ton répertoire de projet Ansible. Ce fichier sera utilisé comme modèle pour générer le fichier de configuration final sur la machine cible. Tu peux personnaliser le contenu du fichier de configuration en utilisant le langage de modèle Jinja2.
+
+Lorsque le fichier de configuration du vhost est copié avec succès, le handler `Reload Apache Service` est déclenché, ce qui utilise le module `service` pour recharger le service Apache (`httpd`) afin que les modifications prennent effet.
+
+Assure-toi que le groupe `web_servers` contient les machines cibles appropriées et qu'elles sont accessibles via SSH. Veille également à ce que les noms des services Apache (`httpd`) correspondent à ceux de ton environnement.
+
+N'hésite pas à personnaliser le playbook et le fichier de configuration du vhost selon tes besoins spécifiques.
+
+J'espère que cela t'aide ! Si tu as d'autres questions, n'hésite pas à demander.

@@ -1,0 +1,179 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-08-03T15:25:48+01:00
+
+====== Notion ======
+Créée le Thursday 03 August 2023
+
+
+
+=== Historique ===
+
+__Remonter dans le temps__
+{{~/Images/Captures d’écran/Capture d’écran du 2023-08-03 15-27-23.png}}
+
+
+Google a rendu open-source le projet Kubernetes en 2014. Le développement de Kubernetes est basé sur une décennie et demie d’expérience de Google avec la gestion de la charge et de la mise à l'échelle (scale) en production, associée aux meilleures idées et pratiques de la communauté.
+
+=== Qu'est-ce-que Kubernetes ? ===
+
+Kubernetes est une plateforme open-source de gestion d'orchestration de conteneurs qui permet de déployer, gérer et mettre à l'échelle des applications conteneurisées de manière efficace et automatisée. 
+
+Il peut être considéré comme:
+	* une plate-forme de conteneurs
+	* une plate-forme de microservices
+	* une plate-forme cloud portable et beaucoup plus.
+
+
+=== Pourquoi vous avez besoin de Kubernetes et ce qu'il peut faire ===
+
+déployer, gérer et mettre à l'échelle des applications conteneurisées de manière efficace et automatisée. 
+
+
+déploiement, la mise à l'échelle, l'équilibrage de charge (load balancing), la journalisation (logging) et la surveillance (monitoring).
+
+	Kubernetes vous offre :
+		* __Découverte de service et équilibrage de charge__ Kubernetes peut exposer un conteneur en utilisant le nom DNS ou en utilisant sa propre adresse IP.
+		* __Orchestration du stockage__ Kubernetes vous permet de monter automatiquement un système de stockage de votre choix, tel que des stockages locaux, des fournisseurs de cloud public, etc.
+		* __Déploiements et restaurations automatisés__ Vous pouvez décrire l'état souhaité pour vos conteneurs déployés à l'aide de Kubernetes, et cela peut changer l'état réel à l'état souhaité à un rythme contrôlé.
+		* __Binpacking automatique__ Vous fournissez à Kubernetes un cluster de nœuds qu'il peut utiliser pour exécuter des tâches conteneurisées. Vous indiquez à Kubernetes la quantité de CPU et de mémoire (RAM) dont chaque conteneur a besoin. 
+		* R__éparation automatique__ redémarre les conteneurs qui échouent, remplace les conteneurs, tue les conteneurs qui ne répondent pas à votre vérification de l'état définie par l'utilisateur.
+		* __Gestion des secrets et de la configuration__ Kubernetes vous permet de stocker et de gérer des informations sensibles, telles que les mots de passe, les jetons OAuth et les clés SSH. Vous pouvez déployer et mettre à jour les secrets et la configuration de l'application sans reconstruire vos images de conteneur et sans exposer les secrets dans votre configuration de pile.
+
+
+=== Qu'est-ce-que Kubernetes signifie ? K8s ? ===
+
+	Le nom Kubernetes tire son origine du grec ancien, signifiant capitaine ou pilote et est la racine de gouverneur et cybernetic. K8s est l'abbréviation dérivée par le remplacement des 8 lettres "ubernete" par "8".
+
+
+
+
+
+
+
+=== Composants Kubernetes ===
+
+	Lorsque vous déployez Kubernetes, vous obtenez un cluster.
+	Un cluster Kubernetes se compose d'un ensemble de machines de travail, appelées nœuds, qui exécutent des applications conteneurisées. 
+	Chaque cluster a au moins un noeud worker.
+	
+	
+	{{~/Téléchargements/architecture-kubernetes-1024x478.png}}
+
+
+== #Composant du Control Plane ==
+
+	__kube-apiserver__ 
+		Le kube-apiserver joue un rôle essentiel dans l'interaction entre le master et les nœuds workers du cluster Kubernetes. Il agit comme le point d'entrée principal pour toutes les interactions entre le maître et les nœuds du cluster.
+	
+	__etcd__ 
+		stocke toutes les données utilisées pour gérer le cluster.
+
+	__kube-scheduler__
+		chargé de répartir le travail ou les conteneurs sur plusieurs noeuds.
+		Il recherche les conteneurs nouvellement créés et les affecte aux nœuds.
+
+	__kube-controller-manager__ 
+		Ils sont chargés de remarquer et répondre lorsque des nœuds, des conteneurs ou des terminaux tombent en panne.
+		il prend des décisions pour apporter de nouveaux conteneurs dans de tels cas.
+	
+	Types de contrôleurs différents :
+
+		* **Node controller : **responsable de la détection et de la réponse lorsque les nœuds tombent en panne.
+		* **Job controller : **surveille les objets Job qui représentent des tâches ponctuelles, puis crée des pods pour exécuter ces tâches jusqu'à leur achèvement.
+		
+		* **EndpointSlice controller : **remplit les objets EndpointSlice (pour fournir un lien entre les services et les pods)**.**
+		
+		* **ServiceAccount controller :** créez des comptes de service par défaut pour les nouveaux espaces de noms.
+
+	__cloud-controller-manager__ 
+
+		permet de lier votre cluster à l'API de votre fournisseur de cloud et de séparer les composants qui interagissent avec cette plate-forme cloud des composants qui interagissent uniquement avec votre cluster.
+
+
+== # Composants du nœud ==
+
+	__Un service kubelet.__ 
+		agent qui s'exécute sur chaque nœud du cluster.
+		responsable de s'assurer que les conteneurs s'exécutent sur les nœuds comme attendu.
+
+	__kube-proxy__ 
+		kube-proxy est un proxy réseau qui s'exécute sur chaque nœud dans votre cluster.
+		
+	__Container Runtime__ 
+		L'environnement d'exécution de conteneurs est le logiciel responsable de l'exécution des conteneurs.
+					__Docker, containerd, cri-o__
+
+
+
+
+== # Compléments ==
+
+__DNS__
+Le cluster DNS est un serveur DNS, en plus des autres serveurs DNS de votre environnement, qui sert les enregistrements DNS pour les services Kubernetes.
+
+__Interface utilisateur Web (tableau de bord)__
+Il permet aux utilisateurs de gérer et de dépanner les applications exécutées dans le cluster, ainsi que le cluster lui-même.
+
+__Surveillance des ressources de conteneur__
+Container Resource Monitoring enregistre des métriques de séries chronologiques génériques sur les conteneurs dans une base de données centrale et fournit une interface utilisateur pour parcourir ces données.
+
+__Journalisation au niveau du cluster__
+Un mécanisme de journalisation au niveau du cluster est responsable de l'enregistrement des journaux de conteneur dans un magasin de journaux central avec une interface de recherche/navigation.
+
+__Plug-ins réseau__
+Les plug-ins réseau sont des composants logiciels qui implémentent la spécification de l'interface réseau de conteneur (CNI). Ils sont chargés d'attribuer des adresses IP aux pods et de leur permettre de communiquer entre eux au sein du cluster.
+
+
+==== Cluster Architecture ====
+
+
+			__Nœuds__
+			__Communication entre les nœuds et le plan de contrôle__
+			__Contrôleurs__
+			__Baux__
+			__Gestionnaire de contrôleur de nuage__
+			__À propos du cgroup v2__
+			__Interface d'exécution du conteneur (CRI)__
+			__Collecte des ordures__
+
+=== Nœuds ===
+'''
+```
+{
+  "kind": "Node",
+  "apiVersion": "v1",
+  "metadata": {
+	"name": "10.240.79.157",
+	"labels": {
+	  "name": "my-first-k8s-node"
+	}
+  }
+}
+```
+'''
+
+	Auto-enregistrement des nœuds (kubelet)
+
+=== État du nœud ===
+
+	''kubectl describe node <insert-node-name-here>''
+	
+=== cgroup v2 ===
+Sous Linux, le groupe de contrôle limiter les ressources allouées aux processus.
+
+__Identifier la version du groupe de contrôle sur les nœuds Linux__ 
+
+''stat -fc %T /sys/fs/cgroup/''
+
+
+les systèmes de fichiers virtuels qui sont utilisés pour des fonctionnalités spécifiques dans le noyau Linux et dans l'environnement de conteneurs.
+	* cgroup2fs 			
+	* tmpfs
+
+==== Conteneurs ====
+
+=== Images de conteneurs ===
+	Une image de conteneur est un package logiciel prêt à l'emploi contenant tout ce qui est nécessaire pour exécuter une application
+
+

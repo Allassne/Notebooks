@@ -1,0 +1,178 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-08-02T11:52:39+01:00
+
+====== Installation ======
+Créée le Wednesday 02 August 2023
+
+__Solutions locales__
+	Essayer ou commencer à apprendre Kubernetes
+	Développer et réaliser des tests sur des clusters locaux
+	
+__Solutions hébergées__ 
+	Voulez une solution entièrement gérée
+	Voulez vous concentrer sur le développement de vos applications ou services
+	N'avez pas d'équipe de Site Reliability Engineering (SRE) dédiée, mais que vous souhaitez une haute disponibilité.
+	Vous n'avez pas les ressources pour héberger et surveiller vos clusters
+	
+__Solutions cloud clés en main__ 
+	Voulez plus de contrôle sur vos clusters que ne le permettent les solutions hébergées
+	Voulez réaliser vous même un plus grand nombre d'operations
+
+__Solutions clés en main sur site__ 
+	Souhaitez déployer des clusters sur votre cloud privé
+	Disposez d'une équipe SRE dédiée
+	Avez les ressources pour héberger et surveiller vos clusters
+
+__Solutions personnalisées__ 
+
+
+===== # Environnement d'apprentissage =====
+
+==== Minikube ====
+	Minikube est un outil facilitant l’exécution locale de Kubernetes. Minikube exécute un cluster Kubernetes à nœud unique dans une machine virtuelle (VM) de votre ordinateur portable pour les utilisateurs qui souhaitent essayer Kubernetes ou le développer au quotidien.
+
+
+	Minikube prend en charge les fonctionnalités Kubernetes suivantes:
+	
+		* DNS
+		* NodePorts
+		* ConfigMaps et Secrets
+		* Dashboards
+		* Container Runtime: Docker, CRI-O, et containerd
+		* Activation de la CNI (Container Network Interface)
+		* Ingress
+
+	__commandes basics__
+
+	'''
+	kubectl create deployment hello-minikube --image=registry.k8s.io/echoserver:1.10
+	
+	kubectl expose deployment hello-minikube --type=NodePort --port=8080
+	
+	kubectl get pod
+	
+	kubectl delete services hello-minikube
+	
+	kubectl delete deployment hello-minikube
+	'''
+
+	__La mise en réseau__ 
+		''kubectl get service hello-minikube --output='jsonpath="{.spec.ports[0].nodePort}"'''
+	
+	__Volumes persistants__ 
+	
+	
+	```
+	'''
+	apiVersion: v1
+	kind: PersistentVolume
+	metadata:
+	  name: pv0001
+	spec:
+	  accessModes:
+		- ReadWriteOnce
+	  capacity:
+		storage: 5Gi
+	  hostPath:
+		path: /data/pv0001/
+	'''
+	
+	```
+
+===== # Environnement de production =====
+
+==== Exécutions de conteneur ====
+	utiliser plusieurs environnements d'exécution de conteneur courants avec Kubernetes.
+		* containerd
+		* CRI-O
+		* Docker Engine
+		* Exécution du conteneur Mirantis
+
+	un __script__ d'initialisation pour la configuration de Kubernetes (k8s) sur un système Linux. Ce script ajoute deux fichiers de configuration et applique les paramètres du noyau sans avoir besoin de redémarrer la machine.
+
+	'''
+	```
+	cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+	overlay
+	br_netfilter
+	EOF
+	
+	sudo modprobe overlay
+	sudo modprobe br_netfilter
+	
+	# sysctl params required by setup, params persist across reboots
+	cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+	net.bridge.bridge-nf-call-iptables  = 1
+	net.bridge.bridge-nf-call-ip6tables = 1
+	net.ipv4.ip_forward                 = 1
+	EOF
+	
+	# Apply sysctl params without reboot
+	sudo sysctl --system
+	```
+	'''
+	
+	//Ce script est nécessaire pour préparer le système Linux à exécuter des charges de travail Kubernetes et à s'assurer que les fonctionnalités réseau nécessaires sont activées pour un bon fonctionnement du cluster Kubernetes.//
+	
+	
+	Vérifiez que les modules __br_netfilter__, __overlay__ sont chargés :
+	'''
+	```
+	lsmod | grep br_netfilter
+	lsmod | grep overlay
+	```
+	
+	'''
+	Vérifiez que les variables système __net.bridge.bridge-nf-call-iptables, net.bridge.bridge-nf-call-ip6tableset net.ipv4.ip_forward __sont définies sur 1 dans votre sysctl configuration.
+	'''
+	``
+	sysctl net.bridge.bridge-nf-call-iptables net.bridge.bridge-nf-call-ip6tables net.ipv4.ip_forward
+	``
+	'''
+
+=== pilotes de groupe de contrôle ===
+	Sous Linux,groupes de contrôle sont utilisés pour limiter les ressources allouées aux processus.
+
+	//Le kubelet et l'environnement d'exécution du conteneur sous-jacent doivent s'interfacer avec des groupes de contrôle pour appliquer la gestion des ressources pour les pods et les conteneurs et définir des ressources telles que les demandes et les limites de processeur/mémoire.//
+
+	Pour s'interfacer avec les groupes de contrôle, le kubelet et l'environnement d'exécution du conteneur doivent :
+		* utiliser un pilote de groupe de contrôle
+		* utilisent le même pilote de groupe de contrôle
+		* configurés de la même manière.
+
+
+	Deux pilotes de groupe de contrôle sont disponibles :
+		* __cgroupfs__ → par défaut dans le kubelet 
+		* systemd
+
+	//Avertir://
+	//Changer le pilote de groupe de contrôle d'un nœud qui a rejoint un cluster est une opération sensible.//
+	
+	'''
+	```
+	apiVersion: kubelet.config.k8s.io/v1beta1
+	kind: KubeletConfiguration
+	...
+	cgroupDriver: systemd
+	```
+	'''
+
+
+=== Docker ===
+	Docker Engine (également appelé "Docker daemon" ou simplement "dockerd") est le composant principal du logiciel Docker. C'est le moteur qui permet de créer, exécuter et gérer les conteneurs Docker sur un système d'exploitation Linux ou Windows. 
+	
+
+==== Amorcer des clusters avec kubeadm ====
+
+=== Installation de kubeadm ===
+
+
+===== auto-completion =====
+
+'''
+sudo dnf install bash-completion
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+'''
+''source .bashrc''
+

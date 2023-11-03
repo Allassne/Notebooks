@@ -1,0 +1,141 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-10-27T09:47:24+01:00
+
+====== Quiz ======
+Créée le Friday 27 October 2023
+
+les bases de l'administration système:
+
+1. Qu'est-ce qu'un système d'exploitation (OS) ?
+2. Quelle est la différence entre un système d'exploitation de bureau et un serveur ?
+3. Qu'est-ce qu'un noyau (kernel) ?
+4. Comment listez-vous les processus en cours d'exécution sur un système Linux?
+5. Quelle est la différence entre un processus et un thread ?
+6. Qu'est-ce que le système de fichiers racine ("/") sous Linux?
+7. Comment définiriez-vous les permissions d'un fichier sous Linux?
+8. Quelle est la différence entre les commandes `chmod` et `chown`?
+9. Comment vérifiez-vous l'espace disque utilisé et disponible?
+10. Comment créez-vous un nouvel utilisateur sur un système Linux?
+11. Qu'est-ce que le "root" ou superutilisateur sous Unix/Linux ?
+12. Comment redémarrez-vous un service sous Linux ?
+13. Qu'est-ce que le fichier `/etc/passwd` ?
+14. Qu'est-ce que le fichier `/etc/shadow` et pourquoi est-il important ?
+15. Qu'est-ce que le daemon "cron" ?
+16. Comment planifier une tâche pour qu'elle s'exécute à intervalles réguliers ?
+17. Comment vérifiez-vous les logs système sous Linux?
+18. Quelle est la différence entre un soft link et un hard link ?
+19. Comment configurez-vous un réseau statique sur un serveur Linux?
+20. Qu'est-ce que le fichier `/etc/hosts` ?
+21. Comment mettez-vous à jour les packages d'un système Linux ?
+22. Qu'est-ce que le "shell" ?
+23. Comment surveillez-vous l'utilisation de la mémoire d'un système ?
+24. Comment créez-vous une partition de disque ?
+25. Qu'est-ce qu'un inode sous Linux?
+26. Comment récupérez-vous un mot de passe oublié d'un utilisateur ?
+27. Qu'est-ce que la commande `top` ?
+28. Comment redirigez-vous la sortie d'une commande vers un fichier ?
+29. Quelle est la différence entre le "foreground" et le "background" pour un processus ?
+30. Comment arrêtez-vous un processus en cours d'exécution ?
+31. Qu'est-ce que le "swap" ?
+32. Comment configurez-vous un pare-feu sur un serveur Linux?
+33. Comment configurez-vous un serveur SSH ?
+34. Qu'est-ce que le protocole SSH ?
+35. Qu'est-ce que le Sudo et pourquoi est-il utilisé?
+36. Comment faites-vous une sauvegarde complète d'un système ?
+37. Comment restaurez-vous un fichier à partir d'une sauvegarde ?
+38. Comment vérifiez-vous l'intégrité d'un fichier téléchargé ?
+39. Qu'est-ce que RAID et comment est-il utilisé en administration système ?
+40. Comment configurez-vous un serveur de messagerie sur Linux?
+41. Comment surveillez-vous la santé d'un serveur en temps réel ?
+42. Qu'est-ce que la virtualisation ?
+43. Comment créez-vous et gérez-vous des conteneurs ?
+44. Qu'est-ce que la gestion de configuration ?
+45. Comment appliquez-vous un patch ou une mise à jour à un noyau Linux ?
+46. Qu'est-ce que le fichier `/etc/fstab` ?
+47. Comment montez-vous manuellement un disque ou une partition ?
+48. Quelle est la différence entre `apt`, `yum` et `pacman` ?
+49. Quelle est la différence entre IPv4 et IPv6 ?
+50. Comment configurez-vous un VPN sur un serveur Linux?
+51. Qu'est-ce que le protocole DNS ?
+52. Comment configurez-vous un serveur DNS ?
+53. Qu'est-ce que le fichier `.bashrc` ?
+54. Comment ajoutez-vous une variable d'environnement pour tous les utilisateurs ?
+55. Qu'est-ce qu'un script shell ?
+56. Comment programmez-vous une tâche à exécuter une seule fois dans le futur ?
+57. Quelle est la différence entre un service et un daemon ?
+58. Comment vérifiez-vous la version d'un paquet installé ?
+59. Qu'est-ce que le fichier `/etc/sysctl.conf` et pourquoi est-il important ?
+60. Comment établissez-vous des quotas sur les utilisateurs pour limiter l'utilisation du disque ?
+
+
+
+--------------------
+
+1. OS gère le matériel et fournit des services aux logiciels.
+2. Le bureau est pour l'utilisation personnelle; serveur est optimisé pour des tâches spécialisées.
+3. Cœur du système d'exploitation qui communique avec le matériel.
+4. `ps`.
+5. Processus = programme exécuté; thread = unité la plus petite d'exécution.
+6. Répertoire principal du système de fichiers.
+7. `ls -l`.
+8. `chmod` change permissions; `chown` change propriétaire.
+9. `df`.
+10. `useradd`.
+11. Utilisateur avec tous les droits.
+12. `systemctl restart [service]`.
+13. Stocke les informations utilisateur.
+14. Stocke les mots de passe chiffrés des utilisateurs.
+15. Planificateur de tâches.
+16. `crontab`.
+17. `cat /var/log/[logname]`.
+18. Soft link = raccourci; hard link = référence directe.
+19. `ifconfig` ou `ip addr`.
+20. Association IP et nom d'hôte.
+21. `apt update && apt upgrade` ou `yum update`.
+22. Interface utilisateur pour interagir avec l'OS.
+23. `free`.
+24. `fdisk`.
+25. Identifiant unique pour les fichiers et répertoires.
+26. Redémarrage en mode de secours.
+27. Affiche les processus en cours.
+28. `command > filename`.
+29. Foreground = premier plan; background = arrière-plan.
+30. `kill`.
+31. Espace disque utilisé comme RAM supplémentaire.
+32. `iptables` ou `ufw`.
+33. `sshd`.
+34. Protocole sécurisé pour se connecter à distance.
+35. Exécuter des commandes en tant qu'un autre utilisateur.
+36. `tar` ou `rsync`.
+37. `tar xvf` ou `rsync -av`.
+38. `sha256sum`.
+39. Ensemble de disques pour la redondance ou la performance.
+40. `postfix` ou `sendmail`.
+41. `htop` ou `glances`.
+42. Exécuter plusieurs OS sur une seule machine.
+43. `docker` ou `podman`.
+44. Automatisation de la configuration de serveurs, comme avec `Ansible`.
+45. `apt-get dist-upgrade` ou `yum update`.
+46. Montage automatique des systèmes de fichiers.
+47. `mount`.
+48. Gestionnaires de paquets pour Debian, Red Hat, et Arch, respectivement.
+49. IPv4 = 32 bits, IPv6 = 128 bits.
+50. `openvpn`.
+51. Traduit les noms de domaine en adresses IP.
+52. `bind` ou `dnsmasq`.
+53. Configuration pour Bash à l'ouverture.
+54. Modifiez `/etc/environment`.
+55. Programme écrit pour le shell.
+56. `at`.
+57. Service = application en arrière-plan; daemon = processus en arrière-plan sans intervention de l'utilisateur.
+58. `apt show [package]` ou `yum info [package]`.
+59. Paramètres du noyau.
+60. `quotas`.
+
+
+
+
+
+
+

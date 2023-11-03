@@ -1,0 +1,276 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-13T19:29:49+01:00
+
+====== Construire des inventaires Ansible ======
+Créée le Thursday 13 July 2023
+
+
+__Comment constituer votre inventaire__
+	Principes de base de l'inventaire : formats, hôtes et groupes
+	Transmission de plusieurs sources d'inventaire
+	Organisation de l'inventaire dans un répertoire
+	Ajouter des variables à l'inventaire
+	Affectation d'une variable à une machine : variables hôtes
+	Définition des variables au format INI
+	Affecter une variable à plusieurs machines : variables de groupe
+	Organisation des variables d'hôte et de groupe
+	Comment les variables sont fusionnées
+	Connexion aux hôtes : paramètres d'inventaire comportemental
+	Exemples de configuration d'inventaire
+__Travailler avec un inventaire dynamique__
+	Exemple de script d'inventaire : Cobbler
+	Exemple de script d'inventaire : OpenStack
+	Autres scripts d'inventaire
+	Utilisation de répertoires d'inventaire et de plusieurs sources d'inventaire
+	Groupes statiques de groupes dynamiques
+__Modèles : ciblage des hôtes et des groupes__
+	Utiliser des motifs
+	Modèles communs
+	Limites des modèles
+	Ordre de traitement des modèles
+	Options de motif avancées
+	Modèles et commandes ad hoc
+	Modèles et indicateurs ansible-playbook
+__Méthodes de connexion et détails__
+	ControlPersist et paramiko
+	Définition d'un utilisateur distant
+	Configuration des clés SSH
+	Courir contre localhost
+	Gestion de la vérification des clés de l'hôte
+	Autres méthodes de connexion
+
+
+
+
+
+
+
+
+
+
+==== # Inventaire ====
+
+	Voici trois options au-delà du /etc/ansible/hostsfichier : 
+		- Vous pouvez créer un répertoire avec plusieurs fichiers d'inventaire. Ceux-ci peuvent utiliser différents formats (YAML, ini, etc.). 
+		- Vous pouvez extraire l'inventaire dynamiquement. Par exemple, vous pouvez utiliser un plug-in d'inventaire dynamique pour répertorier les ressources d'un ou plusieurs fournisseurs de cloud.
+		- Vous pouvez utiliser plusieurs sources pour l'inventaire, y compris l'inventaire dynamique et les fichiers statiques. Voir Transmission de plusieurs sources d'inventaire .
+		
+		
+		
+__# Transmission de plusieurs sources d'inventaire__
+'''
+```
+  ansible-playbook get_logs.yml -i staging -i production
+```
+'''
+__#	Comment les variables sont fusionnées__
+	Par défaut, Ansible fusionne les groupes au même niveau parent/enfant dans l'ordre ASCII, et les variables du dernier groupe chargé écrasent les variables des groupes précédents. Par exemple, un a_group sera fusionné avec b_group et les variables b_group qui correspondent écraseront celles de a_group.
+	
+	Vous pouvez modifier ce comportement en définissant la variable de groupe ansible_group_prioritypour modifier l'ordre de fusion des groupes du même niveau (une fois l'ordre parent/enfant résolu). Plus le nombre est grand, plus il sera fusionné tard, ce qui lui donnera une priorité plus élevée. Cette variable prend par défaut la valeur 1 si elle n'est pas définie. Par exemple:
+
+```
+'''
+a_group:
+  vars:
+	testvar: a
+	ansible_group_priority: 10
+b_group:
+  vars:
+	testvar: b
+```
+'''
+
+
+
+== ## Connexion aux hôtes : paramètres d'inventaire comportemental ==
+
+* __connexion_ansible__
+	Type de connexion à l'hôte. Cela peut être le nom de n'importe lequel des plugins de connexion d'ansible. Les types de protocole SSH sont smart, ssh ou paramiko. La valeur par défaut est intelligente. 
+
+__Général pour toutes les connexions :__
+
+* ''ansible_host''
+* ''ansible_port''
+* ''ansible_user''
+* ''ansible_password''
+		Le mot de passe à utiliser pour s'authentifier auprès de l'hôte (ne stockez jamais cette variable en texte brut ; utilisez toujours un coffre-fort.)
+
+__Spécifique à la connexion SSH :__
+
+* ''ansible_ssh_private_key_file''
+* ''ansible_ssh_common_args''
+		Utile pour configurer un ProxyCommandpour un certain hôte (ou groupe).
+* ''ansible_sftp_extra_args''
+* ''ansible_scp_extra_args''
+* ''ansible_ssh_extra_args''
+* ''ansible_ssh_pipelining''
+* ''ansible_ssh_executable''
+
+__Escalade des privilèges__ 
+
+* ''ansible_become''
+* ''ansible_become_method''
+* ''ansible_become_user''
+* ''ansible_become_password''
+* ''ansible_become_exe''
+* ''ansible_become_flags''
+
+__Paramètres d'environnement de l'hôte distant :__
+
+* ''ansible_shell_type''
+* ''ansible_python_interpreter''
+* ''ansible_*_interpreter''
+
+== ## Types de connexion non SSH ==
+
+__local__ : déployer le playbook sur la machine de contrôle elle-même.
+__docker__ : déploie le playbook directement dans les conteneurs Docker à l'aide du client Docker local.
+Les paramètres suivants sont traités par ce connecteur :
+	* ''ansible_host''
+	* ''ansible_user''
+	* ''ansible_become''
+	* ''ansible_docker_extra_args''
+
+Voici un exemple de déploiement instantané vers des conteneurs créés :
+```
+- name: Create a jenkins container
+  community.general.docker_container:
+	docker_host: myserver.net:4243
+	name: my_jenkins
+	image: jenkins
+
+- name: Add the container to inventory
+  ansible.builtin.add_host:
+	name: my_jenkins
+	ansible_connection: docker
+	ansible_docker_extra_args: "--tlsverify --tlscacert=/path/to/ca.pem --tlscert=/path/to/client-cert.pem --tlskey=/path/to/client-key.pem -H=tcp://myserver.net:4243"
+	ansible_user: jenkins
+  changed_when: false
+
+- name: Create a directory for ssh keys
+  delegate_to: my_jenkins
+  ansible.builtin.file:
+	path: "/var/jenkins_home/.ssh/jupiter"
+	state: directory
+```
+
+
+==== #Modèles : ciblage des hôtes et des groupes ====
+
+__## Utiliser des motifs__
+	
+	Vous utilisez un modèle presque chaque fois que vous exécutez une commande ad hoc ou un playbook. Le modèle est le seul élément d'une commande ad hoc qui n'a pas d'indicateur. Il s'agit généralement du deuxième élément :
+	
+'''
+```
+ansible <pattern> -m <module_name> -a "<module options>"
+```
+'''
+
+Par exemple :
+'''
+```
+ansible webservers -m service -a "name=httpd state=restarted" -become=yes       ### -u user
+```
+'''
+
+
+__## Modèles et commandes ad hoc__
+
+''ansible all -m shell -a "ping -c 10 google.com" --limit 'all,!DB'''
+
+
+== ## Modèles et indicateurs ansible-playbook ==
+
+
+	exécuter un playbook qui définit sur un seul hôte en spécifiant (notez la virgule finale). Cela fonctionne même si l'hôte que vous ciblez n'est pas défini dans votre inventaire, mais cette méthode ne lira PAS votre inventaire pour les variables liées à cet hôte et toutes les variables requises par le playbook devront être spécifiées manuellement sur la ligne de commande :
+
+'''
+```
+ansible-playbook ping.yaml -i 10.1.4.179,
+```
+'''
+
+
+Limiter les hôtes que vous ciblez sur une exécution particulière avec le drapeau, qui référencera votre inventaire:
+'''
+```
+ansible-playbook playbook.yaml --limit DB
+```
+'''
+
+utiliser --limit pour lire la liste des hôtes (défini dans votre inventaire) d'un fichier en préfixant le nom du fichier avec @:
+'''
+```
+ansible-playbook playbook.yaml --limit @file.txt
+```
+'''
+ 
+
+Si **RETRY_FILES_ENABLED** est défini sur **True**, un .retry fichier sera créé après l' ansible-playbook exécution contenant une liste des hôtes ayant échoué de toutes les lectures. Ce fichier est écrasé à chaque fin ansible-playbook d'exécution. [[/etc/ansible/ansible.cfg ou]] ~/.ansible.cfg :
+
+'''
+``` 
+	ansible-playbook site.yml --limit @site.retry
+```
+'''
+
+
+==== # Méthodes de connexion et détails ====
+
+
+__Définition d'un utilisateur distant__
+
+définir l'utilisateur de connexion dans un playbook :
+'''
+```
+---
+- name: update webservers
+  hosts: webservers
+  remote_user: admin
+
+  tasks:
+  - name: thing to do first in this playbook
+  . . .
+```
+'''
+
+
+en tant que variable hôte dans l'inventaire ou en tant que variable de groupe dans l'inventaire :
+
+```
+10.1.4.140    ansible_connection=ssh        ansible_user=sam
+10.1.4.151     ansible_connection=ssh        ansible_user=alex
+```
+
+__Configuration des clés SSH__
+
+__''--ask-pass''__ : utiliser l'authentification par mot de passe
+__-''-ask-become-pass''__ : si vous devez fournir un mot de passe pour l'élévation des privilèges (sudo, pbrun, etc.)
+
+
+__Localhost__
+Vous pouvez exécuter des commandes sur le nœud de contrôle en utilisant « localhost » ou « 127.0.0.1 » pour le nom du serveur :
+
+''$ ansible localhost -m ping -e 'ansible_python_interpreter="/usr/bin/python3"'''
+
+Vous pouvez spécifier explicitement localhost en ajoutant ceci à votre fichier d'inventaire :
+
+''localhost ansible_connection=local ansible_python_interpreter="/usr/bin/python3"''
+
+__Gestion de la vérification des clés de l'hôte__
+
+Ansible active la vérification de la clé de l'hôte par défaut. La vérification des clés d'hôte protège contre l'usurpation de serveur et les attaques de l'homme du milieu, mais elle nécessite une certaine maintenance.
+**une clé différente dans 'known_hosts', entraînera un message d'erreur jusqu'à ce qu'il soit corrigé**
+
+
+
+
+Si vous comprenez les implications et souhaitez désactiver ce comportement, vous pouvez le faire en modifiant /etc/ansible/ansible.cfgou~/.ansible.cfg :
+
+'''
+[defaults]
+host_key_checking = False
+'''
+

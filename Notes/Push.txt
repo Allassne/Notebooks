@@ -1,0 +1,46 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-10-16T18:39:05+01:00
+
+====== Push ======
+Créée le Monday 16 October 2023
+
+Configuration rapide – si vous avez déjà fait ce genre de chose
+ou
+https://github.com/Allassne/key.git
+Commencez par créer un nouveau fichier ou en téléchargeant un fichier existant. Nous recommandons à chaque référentiel d'inclure un README, une LICENSE et un .gitignore.
+
+=== …ou créez un nouveau référentiel sur la ligne de commande ===
+
+echo "# SMILE" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/Allassne/Notebooks.git   
+git push -u origin main
+
+
+
+
+=== …or push an existing repository from the command line ===
+
+git remote add origin https://github.com/Allassne/key.git
+git branch -M main
+git push -u origin main
+
+
+
+git remote add origin https://github.com/Allassne/zim.git
+
+
+
+--------------------
+
+git add .
+git commit -m " commit"
+git push -u origin main
+
+
+
+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

@@ -1,0 +1,62 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-09-26T20:18:05+02:00
+
+====== lab ======
+Créée le mardi 26 septembre 2023
+
+
+=== **Créer un volume Docker pour Nexus** ===
+
+Ouvrez un terminal et exécutez la commande suivante pour créer un volume Docker nommé "nexus-data" (vous pouvez choisir un nom différent si vous le souhaitez) :
+
+```
+docker volume create nexus-data
+```
+
+Ce volume sera utilisé pour stocker les données de Nexus de manière persistante.
+
+=== **Télécharger et exécuter l'image Nexus** ===
+
+Exécutez la commande suivante pour télécharger et exécuter l'image Nexus Repository Manager tout en liant le volume que vous venez de créer :
+
+```
+docker run -d -p 8081:8081 --name nexus -v nexus-data:/nexus-data sonatype/nexus3
+```
+
+- L'option `-d` permet d'exécuter le conteneur en mode détaché.
+- L'option `-p 8081:8081` redirige le port 8081 du conteneur vers le port 8081 de votre système hôte.
+- Le nom `nexus` est donné au conteneur (vous pouvez choisir un autre nom si vous le souhaitez).
+- L'image utilisée est `sonatype/nexus3`, qui est l'image officielle de Nexus 3.
+- L'option `-v nexus-data:/nexus-data` monte le volume Docker "nexus-data" dans le répertoire `/nexus-data` à l'intérieur du conteneur, ce qui permet de stocker les données de manière persistante en dehors du conteneur.
+
+=== **Vérifier le démarrage de Nexus** ===
+
+Attendez quelques instants que le conteneur Nexus démarre. Vous pouvez vérifier l'état du conteneur en utilisant la commande suivante :
+
+```
+docker ps
+```
+
+Assurez-vous que le conteneur Nexus est en cours d'exécution.
+
+Désormais, les données de Nexus seront stockées de manière persistante dans le volume "nexus-data". Même si vous arrêtez ou supprimez le conteneur Nexus, vos données seront préservées dans ce volume.
+
+**Sauvegarde des données Nexus** : Pour effectuer des sauvegardes régulières des données Nexus, vous pouvez simplement sauvegarder le contenu du volume Docker "nexus-data". Vous pouvez utiliser des outils de sauvegarde Docker ou des scripts personnalisés pour automatiser ce processus.
+
+N'oubliez pas de sécuriser l'accès à Nexus, notamment en configurant des sauvegardes chiffrées si les données sont sensibles.
+
+
+
+--------------------
+
+
+
+Il faut ajouter  ces deux lignes  dans le fichier de configuration du runner et suprimer la section volume existant.
+
+
+network_mode = "host"
+volumes = ["/var/run/docker.sock:/var/run/docker.sock", "/cache"]
+
+
+/etc/gitlab-runner

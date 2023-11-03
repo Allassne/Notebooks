@@ -1,0 +1,403 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-07-25T12:05:29+01:00
+
+====== quiz ======
+Créée le Tuesday 25 July 2023
+
+__1- Qu'est ce que kubernetes ? Pourquoi faut il l'utiliser ?__
+
+	Il s'agit d'une technologie d'orchestration de conteneurs utilisée pour
+	orchestrer le déploiement et la gestion de centaines et de milliers de conteneurs dans un
+	environnement groupé. (des environnements distribués)
+
+__2- Faire des recherches sur les éléments suivant: un pod, un service, un replicaset, un daemonset, un namespace, une configmap__
+
+	__pod__ : est une instance unique d'une application (Les conteneurs sont encapsulés à l'intérieur)
+	
+	__service__ : Une abstraction qui expose les pods et permet un accès stable et fiable aux applications en fournissant une adresse IP et un nom DNS.
+	
+	__replicaset__ : Un contrôleur qui assure qu'un nombre spécifié de répliques identiques de pods est toujours en cours d'exécution pour garantir la haute disponibilité.
+	
+	__daemonset__ : Un contrôleur qui assure qu'un pod identique s'exécute sur chaque nœud du cluster pour des services s'exécutant sur chaque nœud.
+	
+	__namespace__ : Une façon de diviser virtuellement un cluster Kubernetes en plusieurs clusters plus petits pour isoler les ressources et les charges de travail.
+	
+	__configmap__ : Une ressource utilisée pour stocker des données de configuration sous forme de paires clé-valeur pour séparer la configuration de l'application du code source.
+
+__3- C'est quoi kubectl ? A quoi est ce qu'il sert ?__
+
+kubectl est une interface en ligne de commande (CLI) pour interagir avec des clusters Kubernetes.
+kubectl permet de gérer les ressources et les objets Kubernetes, de déployer et de gérer des applications, de surveiller l'état du cluster et d'exécuter différentes opérations.
+
+__4- Quels sont les composants d'un noeud kubernetes master (alias control plane) ? __
+
+1. **API Server :** Le serveur API est le point d'entrée pour toutes les opérations sur le cluster. Il expose l'API Kubernetes et gère toutes les opérations de création, mise à jour et suppression d'objets Kubernetes, tels que les pods, les services, les déploiements, etc. Toutes les actions sur le cluster sont effectuées via l'API Server.
+
+2. **Etcd :** Etcd est une base de données clé-valeur distribuée utilisée pour stocker l'état du cluster Kubernetes. Il sert de magasin de configuration fiable et cohérent pour stocker les métadonnées du cluster, y compris les spécifications des objets Kubernetes, les informations d'état et les événements.
+
+3. **Controller Manager :** Le gestionnaire de contrôleur exécute plusieurs contrôleurs qui surveillent en permanence l'état du cluster via l'API Server et prennent des mesures correctives si nécessaire. Il inclut des contrôleurs tels que le déploiement, le réplica set, le service, le nœud, le namespace, etc.
+
+4. **Scheduler :** Le planificateur est responsable de la planification des pods sur les nœuds disponibles du cluster. Il utilise des politiques de planification, telles que les exigences en ressources et les contraintes, pour déterminer sur quel nœud chaque pod doit être exécuté.
+
+__5- Quels sont les composants d'un noeud kubernetes worker (alias data plane) ? __
+
+1. **Kubelet :** Le kubelet est responsable de la communication avec le contrôleur de l'API Kubernetes du maître et de la gestion des conteneurs sur le nœud. Il s'assure que les conteneurs spécifiés dans les pods sont créés, démarrés, arrêtés et supprimés correctement. Il surveille également l'état des pods et signale les informations d'état au contrôleur de l'API.
+
+2. **Container Runtime :** Il s'agit du moteur qui exécute les conteneurs sur le nœud. Kubernetes prend en charge plusieurs runtimes, tels que Docker, containerd, CRI-O, et d'autres, qui permettent d'exécuter les conteneurs sur le nœud.
+
+4. **Kube-proxy :** Kube-proxy est responsable de la gestion des règles de mise en réseau pour permettre la communication réseau entre les pods et les services dans le cluster. Il configure les règles de translation d'adresses réseau (NAT) et effectue le suivi des adresses IP des services exposés.
+
+4. **CNI (Container Network Interface) :** Le CNI est une spécification et un ensemble de plugins qui permettent la configuration du réseau pour les conteneurs et les pods. Le CNI est utilisé par kube-proxy pour configurer les règles de réseau.
+
+5. **Service Proxy (Optionnel) :** Dans certains cas, un service proxy peut être exécuté sur le nœud worker pour fournir une communication réseau supplémentaire aux services ou aux applications exécutées sur le nœud.
+
+6. **Node Status :** Le nœud worker envoie régulièrement des mises à jour d'état au maître pour indiquer que le nœud est en ligne et fonctionnel.
+
+7. **Cgroups et Namespaces :** Ces fonctionnalités du noyau Linux sont utilisées pour isoler les ressources entre les conteneurs et les pods sur le nœud. Les cgroups (groupes de contrôle) gèrent les limites de ressources, tandis que les namespaces isolent les processus et les ressources du système.
+
+__6- Que se passera t il si vous stoppez le service kubelet sur les noeuds worker ?__
+
+Désactivation des pods en cours d'exécution
+
+Le planificateur ne pourra pas déployer de nouveaux pods
+
+Perte de connectivité avec le contrôleur de l'API 
+
+Défaillance des vérifications d'état
+
+Perte de surveillance et de récupération des pods : 
+
+__7- Combien de containers peut on avoir dans un pod ?__
+
+	Un ou plusieurs conteneurs. 
+
+__8- Quels sont les différents état d'un pod ? Quel est son cycle de vie ?__
+
+	__état d'un pod __
+	* Pending (En attente)  
+	* Running (En cours d'exécution)   
+	* Succeeded (Réussi) 
+	* Failed (Échec)  
+	* Unknown (Inconnu) 
+
+	__cycle de vie__
+	
+Création : Le pod est créé et passe à l'état "Pending", en attendant que les ressources nécessaires et les dépendances soient satisfaites.
+	
+	Planification : Le planificateur Kubernetes attribue le pod à un nœud approprié dans le cluster, et le pod passe à l'état "Pending" jusqu'à ce qu'il soit planifié sur un nœud.
+	
+En cours d'exécution : Une fois que le pod est planifié sur un nœud, les conteneurs commencent à démarrer et le pod passe à l'état "Running". À ce stade, les conteneurs de l'application fonctionnent normalement.
+	
+	Terminé : Une fois que tous les conteneurs ont terminé leur exécution avec succès, le pod passe à l'état "Succeeded".
+	
+Échec : Si l'un des conteneurs du pod échoue avec un code de sortie non nul, le pod passe à l'état "Failed".
+	
+	Suppression : Une fois que le pod est terminé ou a échoué, il est généralement supprimé du cluster, et son état devient "Terminated".
+
+
+
+__9- Quel est la différence entre un service de type targetport, nodeport et clusterip ?__
+
+	"__targetPort__" expose les pods à l'intérieur du cluster via un port cible spécifié.
+	"__NodePort__" expose les pods à la fois à l'intérieur et à l'extérieur du cluster en utilisant un port spécifié sur chaque nœud du cluster.
+	"__ClusterIP__" expose les pods uniquement à l'intérieur du cluster via une adresse IP virtuelle stable pour permettre la communication interne entre les services et les pods.
+
+__10- Créer un pod nginx (Utiliser kubectl)__
+
+	__vim pod.yaml__
+'''
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+spec:
+  containers:
+	- name: nginx
+	  image: nginx:latest
+	  ports:
+		- containerPort: 80
+
+'''
+
+
+kubectl create -f pod.yaml
+kubectl get pods
+kubectl exec -it nginx-pod -- curl http://localhost
+
+
+__10.a- Est ce qu'il est en marche ? Connectez au pod et vérifiez si le service web est en marche à l'aide de la commande ps __
+
+kubectl get pods
+kubectl exec -it nginx-pod -- /bin/sh
+ps aux
+			exit
+
+__10.b- Le pod se trouve dans quel namespace ?__
+
+kubectl get pods --all-namespaces
+			ou
+kubectl get pods -A
+
+	//kubectl describe pod nginx-pod -n __default__//
+
+__10.c- Combien de fois est ce que le pod a eu à rédemmarer ?__
+
+kubectl describe pod nginx-pod | grep Restart
+
+
+__10.d- Connectez vous au pod et tuez le service web __
+
+kubectl exec -it <nom-du-pod> -- /bin/sh
+ps aux
+kill 12345
+
+	''kubectl get pods'' # Pour obtenir le nom du pod Nginx
+	''kubectl describe pod <nom-du-pod> | grep "Node:"'' # Pour obtenir le nom du nœud hôte
+	''ssh <utilisateur>@<adresse-ip-du-noeud-hote>''
+	''ps aux | grep <nom-du-pod>''
+	''kill 12345''
+
+
+__10.e- Combien de fois est ce que le pod a eu à rédemarer ? Pourquoi est ce qu'il a redemarré ? __
+
+une seule fois , parce que le service est arreter
+
+__10.f- Affichez les logs du pod nginx__
+
+kubectl logs <nom-du-pod>
+
+
+__11- Quels sont les namespaces présent dans votre cluster kubernetes ? A quoi servent les namespaces ?__
+
+kubectl get namespaces
+
+__namespaces__ : ensemble de services (sous ensembe de services pour cloisonner dans K8S)
+	Les namespaces sont utilisés pour partitionner les ressources dans un cluster Kubernetes. Ils fournissent une façon d'organiser et d'isoler les objets (tels que les pods, les services, les déploiements, les réplicasets, etc.) en groupes logiques. Les namespaces permettent de séparer les ressources entre différents utilisateurs, équipes ou projets.
+
+__12- Créer deux pod apache qui seront dans 2 namespaces différent, TeamA et TeamB__
+
+kubectl create namespace team-a
+kubectl create namespac-be team
+
+vim apache-pod-teamA.yaml
+```
+	'''
+	apiVersion: v1
+	kind: Pod
+	metadata:
+	  name: apache-pod-team-a
+	  namespace: team-a
+	spec:
+	  containers:
+		- name: apache-container
+		  image: httpd
+		  ports:
+			- containerPort: 80
+	'''
+
+```
+
+
+vim apache-pod-teamB.yaml
+```
+	'''
+	apiVersion: v1
+	kind: Pod
+	metadata:
+	  name: apache-pod-team-b
+	  namespace: team-b
+	spec:
+	  containers:
+		- name: apache-container
+		  image: httpd
+		  ports:
+			- containerPort: 80
+	'''
+
+```
+
+
+kubectl apply -f apache-pod-teamA.yaml
+kubectl apply -f apache-pod-teamB.yaml
+
+__12.a- Afficher les pods présent dans le namespace TeamA uniquement__
+
+kubectl get pods -n team-a
+
+__12.b- Afficher les pods présent dans le namespace TeamB uniquement__
+
+kubectl get pods -n team-b
+
+__12.c- Afficher tous les pods présent dans le cluster__
+
+kubectl get pods --all-namespaces
+			ou
+kubectl get pods -A
+
+__13- Créer un service de type TargetPort pour le pod apache afin d'y accéder via le port 4545__
+
+kubectl run apache-pod --image=httpd:latest --port=80
+
+kubectl expose pod apache-pod --type=NodePort --port=4545 --target-port=80 --name=apache-service
+
+kubectl get svc apache-service
+
+
+
+__14- Créer un Deployment qui vous permettra de mettre en place un pod Tomcat 7  et qui sera accessible sur le 8080 (Avec kubectl) et vérifer le nombre de pod tomcat qui tourne__
+
+	__vim tomcat.yaml__
+		'''
+		apiVersion: apps/v1
+		kind: Deployment
+		metadata:
+		  name: tomcat-deployment
+		spec:
+		'''
+
+		'''
+		  selector:
+			matchLabels:
+			  app: tomcat
+		  template:
+			metadata:
+			  labels:
+				app: tomcat
+			spec:
+			  containers:
+				- name: tomcat
+				  image: tomcat:7  # Image Tomcat 7
+				  ports:
+					- containerPort: 8080
+		'''
+
+
+kubectl apply -f tomcat-deployment.yaml
+
+kubectl get pods -l app=tomcat
+		ou
+kubectl get deployment tomcat
+
+kubectl exec -it tomcat-7c887ff644-shw4g -- curl http://localhost:8080
+
+__15- Créer un Deployment qui vous permettra de mettre en place un pod qui s'appelera my_super_app basé sur Tomcat 9  avec 3 replica __
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-super-app
+spec:
+  replicas: 3
+  selector:
+	matchLabels:
+	  app: my-super-app
+  template:
+	metadata:
+	  labels:
+		app: my-super-app
+	spec:
+	  containers:
+		- name: tomcat
+		  image: tomcat:9  # Image Tomcat 9
+		  ports:
+			- containerPort: 8080
+
+
+
+__15.a- Vérifier le nombre de pod my_super_app qui tourne__
+
+kubectl get pods -l app=my-super-app
+
+
+__15.b- Est ce que les 3 pods tournent sur le même noeud ?__
+
+kubectl get deployment my-super-app
+
+__15.c- Supprimer un pod puis observer ce qui se passe__
+
+kubectl delete pod my-super-app-78......
+
+
+
+
+
+
+
+
+
+
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-service
+  namespace: default
+spec:
+  ports:
+  - nodePort: 30080
+	port: 8080
+	targetPort: 8080
+  selector:
+	name: simple-webapp
+  type: NodePort
+
+
+
+
+
+
+
+
+
+
+kubectl exec -it nginx-pod -- curl http://localhost
+
+=== Copier-Modifier-Replacer : ===
+
+__cd [[/usr/local/apache2/htdocs]]__
+__# Copier depuis le conteneur vers votre système local__
+''kubectl cp nom-du-pod:/chemin/vers/index.html ./index.html''
+
+__# Modifier index.html sur votre système local__
+
+__# Remplacer le fichier modifié dans le conteneur__
+''kubectl cp ./index.html nom-du-pod:/chemin/vers/index.html''
+
+
+=== Utiliser un ConfigMap et un Volume ===
+
+'''
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-configmap
+data:
+  index.html: |
+	<!-- Votre contenu HTML modifié ici -->
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: apache-pod
+spec:
+  containers:
+	- name: apache-container
+	  image: httpd:latest
+	  volumeMounts:
+		- name: config-volume
+		  mountPath: /usr/local/apache2/htdocs
+  volumes:
+	- name: config-volume
+	  configMap:
+		name: my-configmap
+
+```
+'''
+
+
