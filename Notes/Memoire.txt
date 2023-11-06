@@ -5,177 +5,6 @@ Creation-Date: 2023-07-31T08:50:29+01:00
 ====== Memoire ======
 Créée le Monday 31 July 2023
 
-A mes chers patrents
-
-							REMERCIEMENTS
-
-
-
-								AVANT-PROPOS
-
-Ce mémoire est le résultat d’un stage de recherche de 3 mois au sein de l’entreprise SMILE CI, afin de valider notre diplôme de licence informatique en administration et Sécurité des systèmes et des réseaux informatiques (ASSRI) effectués à l’UNIVERSITÉ POLYTECHNIQUE DE BINGERVILLE, université de sciences et
-technologies comportant six (6) filières principales : ASSRI, MIAGE (Méthode Informatique
-Appliquée à la Gestion d’Entreprise), SEA (Statistiques et Économie Appliquée), 3EA
-(Electronique Energie Electrique Automatique), SEG (Sciences et Economie de Gestions), SJAP
-(Sciences Juridique Administrative et Politique). Le mémoire est présenté conformément aux
-connaissances acquises au cours de notre formation universitaire et enrichit les expériences
-acquises au sein de SMILE CI. Il a été construit autour d'un environnement
-d'apprentissage dans l'environnement de l'administration des systèmes et des réseaux. Le processus de
-rédaction du présent mémoire s'est amorcé en juin 2023.
-
-Le projet a été entrepris à la demande de Smile, société au sein de laquelle j’ai effectué mon
-stage. L’entreprise désirait effectuer une délégation de tâche et me permettre de m’acclimater
-avec le monde de l’administration système. À cette fin, nous avons voulu étudier l'un des
-éléments qui entrent dans les systèmes informatiques et les réseaux avec le sujet de recherche: ETUDE ET MISE EN PLACE D'UNE SOLUTION D'AUTOMATISATION DE TACHES AVEC RUNDECK: CAS DE SMILE.
-
-Ce mémoire a donc pour objectif de présenter de manière méthodologique la conception
-d’une solution d'automatisation de taches informatique.
-La rédaction de ce mémoire a comporté plusieurs défis puisque la majeure partie des
-questionnements soulevait des éléments confidentiels.
-
-
-								
-								
-								
-								
-								INTRODUCTION
-PARTIE 1 : CADRE DE REFERENCE
-Chapitre 1 : Présentation de la structure d’acceuil ………………………………...10
-I- Présentation de la structure Smile ……………………………………………….…..10
-II- Présentation de la direction d’accueil SMILE/SYNERTECH ……………………...11
-Chapitre 2 : Etude de l’existant ………………………………………………………………..12
-I- L’existant ………………………………………………………………………….....12
-II- Objectifs attendus ……………………………………………………………….....13
-PARTIE 2 : ETUDE TECHNIQUES
-Chapitre 3 : Présentation des outils du projet ……………………………………...15
-I- Le Système Rocky Linux …………………………………………………………...15
-II- Firewall-CMD ……………………………………………………………………..15
-III- Java …………………………………………………………………………….…..17
-IV- SSH ………………………………………………………………………………..21
-V – Rundeck …………………………………………………………………………...24
-Chapitre 4 : Justification du choix des outils ……………………………………………....26
-A - Le Système Rocky Linux………………………………………………………..….26
-B- Firewall-CMD ………………………………………………………………………26
-C- Java ……………………………………………………………………………..…..27
-D- SSH …………………………………………………………………………………27
-E- Rundeck ……………………………………………………………………………..29
-PARTIE 3 : MISE EN OEUVRE DU PROJET
-Chapitre 6 : Implementation de la solution …………………………………………………….…..31
-A- Description de l’architecture finale ……………………………………………………….. 31
-B- Déploiement des outils du système d’automatisation des taches ………………..…32
-C-Administration et execution de taches sur des nodes …………………………….…45
-CONCLUSION………………………………………………………..…...53
-								
-								
-
-
-
-									**SOMMAIRE**
-**INTRODUCTION**
-**PREMIÈRE PARTIE : GÉNÉRALITÉS**
-CHAPITRE I : PRESENTATION DE L’ENTREPRISE
-	I.HISTORIQUE ET ACTIVITÉS DE SMILE CI
-	II.FONCTIONNEMENT DE SMILE CI
-	III. ORGANIGRAMME DE SMILE CI
-CHAPITRE II : ASPECT THÉORIQUE DU PROJET
-	I.CONTEXTE
-	II.PROBLÉMATIQUE
-	III. OBJECTIFS ET DÉMARCHE
-CHAPITRE III : ANALYSE DE L’EXISTANT
-	I.RECUEIL D’INFORMATIONS
-	II.ANALYSES ET CRITIQUES
-	III. ÉBAUCHE DE LA SOLUTION
-**DEUXIÈME PARTIE : ETUDE CONCEPTUELLE**
-CHAPITRE I : SYSTEMES D’EXPLOITATION
-	I.GENERALITES
-	II.LES SYSTEMES D’EXPLOITATION SERVEUR
-	III. LES SERVICES SUR UN SERVEUR
-CHAPITRE II : MICROSOFT SERVEUR
-	I.PRÉSENTATION GÉNÉRALE
-	II.WINDOWS SERVEUR 2019
-	III. MIGRATION SERVEUR MICROSOFT
-CHAPITRE III : CLUSTER DE BASCULEMENT ET HYPER-V
-	I.PRÉSENTATION
-	II.ARCHITECTURE DE LA HAUTE DISPONIBILITÉ
-	III. HYPER – V
-**TROISIÈME PARTIE : IMPLEMENTATIONS ET RESULTATS**
-CHAPITRE I : IMPLÉMENTATIONS
-	I. PRESENTATION DES OUTILS
-	II. INSTALLATION DE WINDOWS SERVEUR 2019
-	III. CONFIGURATION DES SERVICES
-CHAPITRE II : SOLUTIONS ET RÉSULTATS
-	I.IMPLÉMENTATION DES FONCTIONNALITÉS ÉQUILIBRAGES RÉSEAUX
-	II.CAHIER DE CHARGE ET ÉVALUATION DU PROJET
-CHAPITRE III : RÉSULTATS ET DISCUSSIONS
-	I.RÉSULTATS
-	II.DISCUSSIONS
-**CONCLUSION GÉNÉRALE**
-
-
-
-								LISTE DES SIGLES, ABREVIATIONS ET ACCRONYMES
-								
-FQDN  	Fully Qualified Domain Name
-SSH 		Secure Shell
-SI			Système d’Information
-								
-								LISTE DES FIGURES
-Figure 1: organigramme de SMILE CI
-Figure 2 : architecture du reseau existant
-Figure 3: code serveur web fait en java
-Figure 4 : code en java, affichant hello word
-Figure 5 : architecture finale
-Figure 6: figure montrant l’interface de demarage pour l’installation de Rocky Linux
-Figure 7: figure montrant les differents champs pour l’installation de Rocky Linux
-Figure 8: figure montrant l’interface de connexion au systeme Rocky linux, une fois
-l’installation terminé.
-Figure 9: page de connexion de rundeck pour acceder au tableau de bord
-Figure 10: interface d’administration de rundeck
-Figure 11: syntax pour l’ajout de node dans rundeck
-Figure 12 : tableau de bord pour lister et creer des jobs rundeck
-Figure 13: figure montrant les diffierents champs pour renseigner l’identité d’un job
-Figure 14: figure montrant le node choisis pour l’execution des jobs
-Figure 15 : figure montrant les differents nodes disponibles sur lesquels peuvent etre effectué
-les doploiements
-Figure 16: figure montrant l’execution d’un job sur le node choisis
-					
-					
-							LISTE DES TABLEAUX
-									
-									RESUME
-L’objectif de ce travail consiste à mettre en place un système d’automatisation comportant
-quelques fonctionnalités spécifiques à savoir le contrôle d’accès, la possibilité de voir qui a
-faire quoi et quand . Ladite entreprise a pour but de configurer les ressources internes qui sont
-administrées et aussi les ressources extenes( ses clients) par des administrateurs systemes au
-sein de la structure, de faciliter l’administration de ses ressources, d’avoir un système
-permettant d’avoir une vue globale, de limiter les actions de ces différents prestataires, et aussi
-de pouvoir avoir une infrastructure facilement auditable.
-Notre travail ici consistera à implémenter la solution Rundeck au sein de cette structure ce qui
-permettra de répondre aux différentes préoccupations énoncées plus haut.
-								
-								
-								__INTRODUCTION__
-
-Dans un monde en constante évolution, les organisations cherchent sans cesse des moyens d'améliorer leur efficacité opérationnelle et de rationaliser leurs processus. L'automatisation des tâches est devenue un élément clé pour atteindre ces objectifs, offrant la possibilité de réduire les erreurs humaines, d'accélérer les délais de livraison et d'optimiser l'utilisation des ressources.
-
-Pour qu'une entreprise gère au mieux les situations les plus complexes et progresse d'une
-manière très fluide il devient capital que l’on puisse mettre en place un procedé qui permettra ,
-à éliminer les tâches répétitives, simplifier le travail de l'humain, augmenter la sécurité et accroître la productivité. Son apport en tant que un plan technique et plan économique permet d’économiser de l'énergie, s’adapter à des contextes particuliers : flexibilité, amélioration de la qualité des divers services et ressources au sein des entreprises. C'est dans ce cadre qu'on trouve notre sujet : « ETUDE ET MISE EN
-PLACE D’UNE SOLUTION D’AUTOMATISATION DE TACHES AVEC RUNDECK : CAS DE SMILE ».
-
-L’intérêt de notre projet est de permettre à la Smile de réduir le coût des dépenses , d’etre
-productive, disponible et plus performante en leur fournissant des services d’automatisation de
-leur taches quotidiennes. On peut alors se demander : 
-Comment mettre en place un tel système d’automatisation ?
-Quels seront les outils utilisés ? 
-Sur quelle mesure nous aborderons l’aspect Administration et l’aspect Sécurité du Système en question ? 
-
-Afin de répondre à toutes ces interrogations, notre travail s’articulera autour de trois
-grandes parties comme suit :
-
-En premier lieu, nous parlerons de notre entreprise d’accueil. Notre étude conceptuelle
-sera en deuxième étape. Enfin, une dernière partie pour l’implémentation de nos résultats et
-le coût de notre projet associé à la demarche.
 
 
 
@@ -183,98 +12,29 @@ le coût de notre projet associé à la demarche.
 
 
 
+CHAPITRE II : CONTEXTE ET 
+
+Dans ce chapitre qui constitue la seconde section de la première partie, notre objectif est de situer notre projet au sein d'un cadre spécifique. En procédant ainsi, nous pourrons saisir plus clairement la condition actuelle de l'entreprise, ce qui facilitera l'identification de la problématique. Ainsi éclairés, nous serons en mesure de définir nos buts et d'opter pour une méthodologie adéquate pour la mise en œuvre de notre projet.
 
 
-Dans un monde en constante mutation, les organisations aspirent continuellement à améliorer leur efficacité opérationnelle et à affiner leurs processus. Dans ce contexte, l'automatisation des tâches s'est imposée comme une solution incontournable, promettant de minimiser les erreurs humaines, de dynamiser les délais d'exécution et d'optimiser la gestion des ressources.
+I. CONTEXTE
 
-Face à des défis grandissants et des situations toujours plus complexes, il est impératif pour les entreprises de disposer de stratégies et d'outils efficaces. L'enjeu est de supprimer les tâches redondantes, de faciliter le quotidien des collaborateurs, d'augmenter la sécurité et de booster la productivité. Ces démarches, au-delà de l'aspect purement technique, engendrent des économies d'énergie et favorisent une adaptabilité aux divers contextes, tout en améliorant la qualité des services et des ressources. C'est dans cette optique que s'inscrit notre étude : « ÉTUDE ET MISE EN PLACE D’UNE SOLUTION D’AUTOMATISATION DE TÂCHES AVEC RUNDECK : CAS DE SMILE ».
 
-Le but de ce projet est de permettre à Smile de réduire ses dépenses, d'accroître sa productivité et sa disponibilité, tout en optimisant sa performance, grâce à des services d’automatisation adaptés à ses besoins quotidiens. Les questions qui se posent alors sont : Comment conceptualiser et déployer un tel système d’automatisation ? Quels outils seront à privilégier ? Comment aborder les volets administratif et sécuritaire de cette mise en œuvre ?
-
-Pour répondre à ces préoccupations, notre mémoire sera structuré autour de trois axes majeurs :
-
-Une présentation détaillée de notre entreprise d'accueil, Smile.
-Une étude conceptuelle approfondie de la solution d'automatisation.
-L'implémentation concrète de notre proposition, accompagnée d'une analyse des coûts et des bénéfices associés.
+II. PROBLÉMATIQUE
 
 
 
 
-								__PARTIE I__
-__PREMIÈRE PARTIE : GÉNÉRALITÉS__
 
-Chapitre I : Présentation de la structure et de
-la direction d’accueil
+	DEUXIEME PARTIE : ETUDE CONCEPTUELLE
+Dans cette partie, nous definirons queleques termes techniques et nous présenterons l'entreprise éditrice de l'outil utilisé.
 
-I- Présentation de la structure SMILE
 
-		Smile, leader en matière d'intégration de solution open source en cote d’ivoire et appartenant au
-	grand groupe Smile société française est une société dirigé par M. KOUASSI Patrick son directeur
-	général. Elle a son siège sicial à Abidjan commune de cocody, quartier angré 7ème tranche, lot 2679,
-	lot 227 06 boîte postale 2175 ABIDJAN 06 société anonyme avec Administrateur Général.
 
-	1- Organigramme de Smile
 
-{{~/Images/Captures d’écran/Capture d’écran du 2023-08-15 17-27-26.png}}
-						Organigramme de Smile CI
-	
-	2- Mandat de Smile
-	
-		Smile aide ses clients à transformer leurs modes d'opération pour améliorer leurs
-	performances en proposant une palette de services sur-mesure pour la gestion de leur
-	entreprise. Elle intègre leur organisation pour mieux s’imprégner de leurs réalités de
-	fonctionnement et saisir leurs besoins réels. Elle satisfait ses besoins avec des solutions Open-
-	Source adaptées pour permettre à ses clients de se consacrer à leurs métiers et d'être plus
-	productifs.
 
-II- Présentation de la direction d’accueil SMILE/SYNERTECH
 
-		Étant sous la coupole de SynerTech (Departempent AdminSys), nous la présenterons
-	notamment. Le departement SynerTech est dirigée par jean Vincent KASSI. Ce departement est
-	chargé de tout ce qui est administration et maintenance de l’infrastructure de l’entreprise.
 
-	1- Services de la SMILE/SynerTech
-	
-	Smile propose ses services informatiques(adminSys) par le biais de SynerTech.
-	SynerTech propose des services qui vont de l’élaboration d’une stratégie jusqu’à la
-	maintenance des systèmes d’information. Elle s’intéresse à une clientèle cible variée
-	comprenant l’Administration Publique, les Structures Parapubliques, les Organismes et
-	Institutions, les collectivités et les entreprises privées de tout secteur d’activité.
-	
-11Chapitre II : Etude de l’existant
-I- L’existant
-Smile dispose de plusieurs serveurs en interne et aussi a sa charge des serveurs de
-milliers de clients à travers l’afrique et dans le monde entier. Les differentes taches sur ces
-machines sont assurés par des administrateurs. Leur quotidien est la configuration des serveurs,
-les mise à jours de distribution, l’envoie de rapports d’états de ces systemes, et la sauvegarde
-d’information. Nous comprenons que l’on parle là d’un travail a plein temps et de taches
-répétitives qui se font au quotidien.
-1- Architecture du Réseau/Existant
-122- Critiques de l’existant
-Au sein de la SynerTech(departement adminsys don’t je faisais parts), Il existe des
-Administrateur Système qui sont chargés de gérer toutes, resssources de Smile, de ses clients
-ansi que du réseaux. Compte-tenu du nombre de ressources et du nombre de serveurs ansi que
-du nombre de taches a effectuer au quotidien, les administrateurs sont des etres humains et
-donc peuvent parfois se tromper . S’ils sont absents et qu’ils ont un problème, il n’y aura de ce
-fait personne pour le suppléer et le problème persistera jusqu’à son retour. Lorsque nous
-regardons l’architecture ci-dessus, nous constatons qu’il sagit d’une grande structure; ce qui
-peux poser un grand probleme pour la maintenance.
-II- Objectifs attendus
-Les principaux objectifs lors de la réalisation de ce projet sont d’acquérir les rudiments, les
-bases nécessaires de l’administrateur système et s’acclimater à son environnement. Par la suite, la mise
-en place de ce projet doit offrir :
-✔
-✔
-✔
-✔
-13
-une interface de gestion qui va contenir toutes les taches à effectuer selon un ordre bien classé;
-un compte pour acceder a ces differentes information d’administration;
-une gestion plus efficace des ressources a administrer
-un serveur pour les differentes configurations
-
-				__PARTIE II__
-__ETUDE TECHNIQUE__
 
 __Chapitre III : Présentation des outils du projet__
 
@@ -314,7 +74,7 @@ gratuits et le rend très rentable.
 	-Au niveau du code source
 Linux est un système d'exploitation qui est de base open source. Ce qui signifie que le
 code est libre de modification. Les utilisateurs peuvent facilement modifier le code en
-	-fonction de leurs besoins. Ainsi, vous pouvez personnaliser votre propre système
+fonction de leurs besoins. Ainsi, vous pouvez personnaliser votre propre système
 d'exploitation personnel. Cependant, vous devrez avoir les connaissances en programmation
 appropriées.
 	-Au niveau configuration du système
@@ -406,7 +166,7 @@ GNOME.
 Java est un langage de programmation de haut niveau, basé sur des classes et orienté objet,
 conçu pour avoir le moins de dépendances de mise en œuvre possible. Il s'agit d'un langage de
 programmation polyvalent destiné à permettre aux programmeurs d'écrire une fois et de s'exécuter
-n'importe où (WORA), ce qui signifie que le code Java compilé peut être exécuté sur toutes les plates-
+n'importe où (__WORA__), ce qui signifie que le code Java compilé peut être exécuté sur toutes les plates-
 formes qui prennent en charge Java sans qu'il soit nécessaire de le recompiler. La syntaxe de Java est
 similaire à celle de C et C++, mais possède moins de facilités de bas niveau que l'une ou l'autre. Le
 moteur d'exécution Java fournit des capacités dynamiques (telles que la réflexion et la modification du
@@ -414,6 +174,8 @@ code d'exécution) qui ne sont généralement pas disponibles dans les langages 
 En 2019, Java était l'un des langages de programmation les plus populaires utilisés selon GitHub,
 notamment pour les applications web client-serveur, avec un nombre de développeurs rapporté de 9
 millions.
+
+
 Java a été développé à l'origine par James Gosling chez Sun Microsystems. Il a été publié en
 mai 1995 en tant que composant central de la plate-forme Java de Sun Microsystems. Les compilateurs
 Java, les machines virtuelles et les bibliothèques de classe de l'implémentation originale et de référence
@@ -1252,3 +1014,20 @@ https://rockylinux.org/fr/about
 
 firewalld
 https://access.redhat.com/documentation/fr-fr/red_hat_enterprise_linux/8/html/managing_systems_using_the_rhel_8_web_console/firewalld_managing-firewall-using-the-web-console
+
+
+
+
+
+
+
+
+--------------------
+Dans votre mémoire, vous pourriez analyser l'impact de Rundeck sur l'efficacité opérationnelle d'une organisation, étudier des études de cas d'intégration de Rundeck, ou même concevoir un projet pilote pour démontrer comment Rundeck peut être mis en œuvre pour résoudre des problématiques spécifiques dans un environnement informatique donné.
+
+
+
+
+
+
+__WORA__ est l'acronyme de "Write Once, Run Anywhere", ce qui signifie "écrire une fois, exécuter partout". Il s'agit d'un slogan créé par Sun Microsystems pour illustrer la portabilité des applications Java.
