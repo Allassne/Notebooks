@@ -12,6 +12,17 @@ Créée le Monday 31 July 2023
 
 
 
+
+
+
+
+
+
+
+
+
+
+
 CHAPITRE II : CONTEXTE ET 
 
 Dans ce chapitre qui constitue la seconde section de la première partie, notre objectif est de situer notre projet au sein d'un cadre spécifique. En procédant ainsi, nous pourrons saisir plus clairement la condition actuelle de l'entreprise, ce qui facilitera l'identification de la problématique. Ainsi éclairés, nous serons en mesure de définir nos buts et d'opter pour une méthodologie adéquate pour la mise en œuvre de notre projet.
@@ -27,16 +38,20 @@ II. PROBLÉMATIQUE
 
 
 	DEUXIEME PARTIE : ETUDE CONCEPTUELLE
-Dans cette partie, nous definirons queleques termes techniques et nous présenterons l'entreprise éditrice de l'outil utilisé.
+Dans cette partie, nous definirons queleques termes techniques et nous présenterons l'entreprise éditrice de l'outil utilisé
+								
+	
+
+__PARTIE II : ÉTUDE CONCEPTUELLE__
+
+Dans cette partie, nous présenterons les outils utilisés et definirons quelques termes techniques 
 
 
 
+__CHAPITRE III : Présentation des outils du projet__
 
 
 
-
-
-__Chapitre III : Présentation des outils du projet__
 
 Les outils qui seront utilisés pour la mise en place du projet m’ont été judicieusement suggérés. Ces outils sont : Rocky Linux, Java,SSH et Firewall-CMD, Rundeck.
 
@@ -110,24 +125,24 @@ qui le rend très lent. Les mises à jour sur un serveur linux prend beaucoup de
 doit mettre à jour le système.
 
 
-__À qui s’adresse le système d’exploitation ?__     (https://www.ionos.fr/digitalguide/serveur/configuration/rocky-linux/)
+					**À qui s’adresse le système d’exploitation ?**     (https://www.ionos.fr/digitalguide/serveur/configuration/rocky-linux/)
 Le groupe-cible de Rocky Linux est donc déjà bien défini : entreprises et particuliers qui recherchent une distribution Linux fiable, conviviale et gratuite trouveront leur bonheur avec le successeur de CentOS. Les fonctions-clés type solutions d’entreprise, Hyperscale, Cloud et le Calcul Haute Performance sont intégrées, faisant de Rocky Linux une distribution serveur Linux pertinente
 
-__Quelles sont les alternatives à Rocky Linux ?__
+				**Quelles sont les alternatives à Rocky Linux ?**
 Si vous n’êtes pas convaincu par Rocky Linux, vous trouverez de nombreuses autres distributions Linux pour vos utilisations quotidiennes.
 
-== Ubuntu ==
+**''Ubuntu''**
 Gratuit, open source et géré par une grande communauté, l’un de ses avantages est sa facilité d’utilisation. Il est aussi considéré comme très sûr et stable.
 
-== openSUSE Leap ==
+**''openSUSE Leap''**
 openSUSE Leap, disponible depuis 2015, est publié par l’entreprise SUSE Software Solutions Germany GmbH,Le système utilise de nombreux composants de la solution payante SUSE Linux, tout en étant open source et gratuit.
 
-== AlmaLinux ==
+**''AlmaLinux''**
 Depuis l’annonce de la fin de CentOS, Rocky Linux n’est pas le seul successeur désigné en course. AlmaLinux, lui aussi gratuit et compatible binaire avec Red Hat Enterprise Linux, est développé par une communauté.
 
 
 
-===== II- firewalld =====
+__II-firewalld__
 
 Firewalld est un outil de gestion de pare-feu conçu pour les systèmes d'exploitation Linux. Il opère en tant qu'interface pour le framework netfilter du noyau Linux, offrant ainsi des fonctionnalités de pare-feu. Le backend par défaut de firewalld est actuellement nftables. Avant la version 0.6.0, le backend par défaut était iptables. Firewalld utilise des abstractions pour fournir une alternative aux commandes en ligne nft et iptables. Conformément à la convention Unix de nommer les démons système avec la lettre "d" ajoutée, il est appelé firewalld. firewalld est écrit en Python
 	
@@ -160,9 +175,22 @@ moyen rapide d'ouvrir firewall-config. firewall-applet a été porté de GTK+ au
 cours de l'été 2015 suite à la dépréciation des icônes de la barre d'état système du bureau
 GNOME.
 
+			**Pourquoi utiliser firewalld ?**
+
+**Simplicité:** Les concepts tels que les zones et les services simplifient grandement la configuration du pare-feu par rapport à la manipulation directe des règles `iptables` ou `nftables`.
+    
+**Dynamique:** `firewalld` permet des modifications à la volée sans avoir besoin de redémarrer le pare-feu ou de recharger l'ensemble des règles.
+    
+**Intégration avec NetworkManager:** Cela permet d'assigner automatiquement des interfaces à des zones spécifiques en fonction de la connexion réseau.
+    
+**Abstraction:** Pour ceux qui ne souhaitent pas s'immerger dans les détails techniques d'`iptables` ou de `nftables`, `firewalld` offre une interface plus intuitive.
+    
+**Transition vers nftables:** Avec l'adoption croissante de `nftables` comme successeur d'`iptables`, `firewalld` fournit une méthode transparente pour gérer les règles de pare-feu sans avoir à tout réapprendre.
 
 
-			III- __Java__
+
+III- __Java__
+
 Java est un langage de programmation de haut niveau, basé sur des classes et orienté objet,
 conçu pour avoir le moins de dépendances de mise en œuvre possible. Il s'agit d'un langage de
 programmation polyvalent destiné à permettre aux programmeurs d'écrire une fois et de s'exécuter
@@ -174,7 +202,6 @@ code d'exécution) qui ne sont généralement pas disponibles dans les langages 
 En 2019, Java était l'un des langages de programmation les plus populaires utilisés selon GitHub,
 notamment pour les applications web client-serveur, avec un nombre de développeurs rapporté de 9
 millions.
-
 
 Java a été développé à l'origine par James Gosling chez Sun Microsystems. Il a été publié en
 mai 1995 en tant que composant central de la plate-forme Java de Sun Microsystems. Les compilateurs
@@ -190,36 +217,34 @@ actuelles de support à long terme (LTS).
 
 	__1 – Principes__
 Cinq objectifs principaux ont présidé à la création du langage Java :
-•
-•
-•
-•
-•
-Il doit être simple, orienté objet et familier;
-Il doit être robuste et sûr;
-Il doit être indépendant de l'architecture et portable;
-Il doit s'exécuter avec de hautes performances;
-Il doit être interprété, threadé et dynamique.
+
+- Il doit être simple, orienté objet et familier;
+- Il doit être robuste et sûr;
+- Il doit être indépendant de l'architecture et portable;
+- Il doit s'exécuter avec de hautes performances;
+- Il doit être interprété, threadé et dynamique.
+
+
+
 2 – Editions
-Sun a défini et prend en charge quatre éditions de Java ciblant différents environnements
+Sun Microsystems a défini et prend en charge quatre éditions de Java ciblant différents environnements
 d'application et a segmenté un grand nombre de ses API afin qu'elles appartiennent à l'une des
 plateformes. Les plates-formes sont les suivantes :
-•
-•
-•
-•
-Java Card pour les cartes à puce;
-Java Platform, Micro Edition (Java ME) - ciblant les environnements aux ressources
+
+- Java Card pour les cartes à puce;
+- Java Platform, Micro Edition (Java ME) - ciblant les environnements aux ressources
 limitées;
-Java Platform, Standard Edition (Java SE) - ciblant les environnements de stations de
+- Java Platform, Standard Edition (Java SE) - ciblant les environnements de stations de
 travail;
-Java Platform, Enterprise Edition (Java EE) - ciblant les grandes entreprises distribuées
+- Java Platform, Enterprise Edition (Java EE) - ciblant les grandes entreprises distribuées
 ou les environnements Internet.
+
 Les classes des API Java sont organisées en groupes distincts appelés paquets. Chaque
 paquetage contient un ensemble d'interfaces, de classes, de sous-paquetages et d'exceptions
 connexes.
 Sun a également fourni une édition appelée Personal Java qui a été remplacée par des
 paires configuration-profil Java ME ultérieures, basées sur les normes.
+
 3 - Système d'exécution
 a) Performance
 Les programmes écrits en Java ont la réputation d'être plus lents et de nécessiter plus de
@@ -229,8 +254,9 @@ améliorée de manière significative avec l'introduction de la compilation just
 analyse du code (telles que les classes internes, la classe StringBuilder, les assertions
 optionnelles, etc.) et les optimisations de la machine virtuelle Java, comme HotSpot qui est
 devenu la JVM par défaut de Sun en 2000. Avec Java 1.5, les performances ont été améliorées
-18grâce à l'ajout du paquetage java.util.concurrent, y compris les implémentations sans verrou des
+grâce à l'ajout du paquetage java.util.concurrent, y compris les implémentations sans verrou des
 ConcurrentMaps et d'autres collections multicœurs, et elles ont encore été améliorées avec Java
+
 4 – Syntaxe
 La syntaxe de Java est largement influencée par le C++ et le C. Contrairement au C++,
 qui combine la syntaxe de la programmation structurée, générique et orientée objet, Java a été
@@ -249,63 +275,15 @@ commentaires différents : un style à ligne unique marqué par deux barres obli
 l'exécutable Javadoc afin de créer une documentation pour le programme et peut être lu par
 certains environnements de développement intégrés (IDE) tels qu'Eclipse pour permettre aux
 développeurs d'accéder à la documentation dans l'IDE.
+
 a- Exemple de Hello World
 Le programme traditionnel Hello world peut être écrit en Java comme suit :
-195 - Classes spéciales
-a - Applet
-Les applets Java étaient des programmes qui étaient intégrés dans d'autres applications,
-généralement dans une page Web affichée dans un navigateur Web. L'API des applets Java est
-désormais dépréciée depuis Java 9 en 2017.
-b- Servlet
-La technologie Java servlet fournit aux développeurs Web un mécanisme simple et
-cohérent pour étendre la fonctionnalité d'un serveur Web et pour accéder aux systèmes
-d'entreprise existants. Les servlets sont des composants Java EE côté serveur qui génèrent des
-réponses aux demandes des clients. La plupart du temps, il s'agit de générer des pages HTML
-en réponse à des demandes HTTP, bien qu'il existe un certain nombre d'autres classes de
-servlets standard, par exemple pour la communication WebSocket.
-L'API Java servlet a été, dans une certaine mesure, remplacée (mais toujours utilisée
-sous le capot) par deux technologies Java standard pour les services Web :
-•
-•
-l'API Java pour les services Web RESTful (JAX-RS 2.0), utile pour les services AJAX,
-JSON et REST, et
-l'API Java pour les services Web XML (JAX-WS), utile pour les services Web SOAP.
-c - Pages JavaServer
-Les JavaServer Pages (JSP) sont des composants Java EE côté serveur qui génèrent des
-réponses, généralement des pages HTML, aux demandes HTTP des clients. Les JSP intègrent
-du code Java dans une page HTML en utilisant les délimiteurs spéciaux <% et %>. Une JSP est
-compilée en une servlet Java, une application Java à part entière, lors de son premier accès.
-Ensuite, la servlet générée crée la réponse.
-d-Application Swing
-Swing est une bibliothèque d'interface utilisateur graphique pour la plate-forme Java SE.
-Il est possible de spécifier un look and feel différent grâce au système de look and feel
-pluggable de Swing. Des clones de Windows, GTK+ et Motif sont fournis par Sun. Apple
-fournit également un look and feel Aqua pour macOS. Alors que les implémentations
-20précédentes de ces aspects et de ces sensations pouvaient être considérées comme manquantes,
-Swing dans Java SE 6 résout ce problème en utilisant des routines de dessin de widgets
-d'interface graphique plus natives des plateformes sous-jacentes.
-e-Application JavaFX
-JavaFX est une plate-forme logicielle permettant de créer et de fournir des applications
-de bureau, ainsi que des applications Web riches pouvant fonctionner sur une grande variété de
-périphériques. JavaFX est destiné à remplacer Swing comme la bibliothèque GUI standard pour
-Java SE, mais depuis JDK 11 JavaFX n'a pas été dans le noyau JDK et plutôt dans un module
-séparé. JavaFX a le support pour les ordinateurs de bureau et les navigateurs web sur Microsoft
-Windows, Linux, et macOS. JavaFX ne prend pas en charge l'aspect et les sensations des
-systèmes d'exploitation natifs.
-f- Génériques
-En 2004, les génériques ont été ajoutés au langage Java, dans le cadre de J2SE 5.0.
-Avant l'introduction des génériques, chaque déclaration de variable devait être d'un type
-spécifique. Pour les classes conteneurs, par exemple, cela pose un problème car il n'y a pas de
-moyen facile de créer un conteneur qui n'accepte que des types d'objets spécifiques. Soit le
-conteneur opère sur tous les sous-types d'une classe ou d'une interface, généralement Object,
-soit une classe conteneur différente doit être créée pour chaque classe contenue. Les génériques
-permettent de vérifier les types au moment de la compilation sans avoir à créer de nombreuses
-classes conteneurs, chacune contenant un code presque identique. En plus de permettre un code
-plus efficace, certaines exceptions d'exécution sont empêchées de se produire, en émettant des
-erreurs de compilation. Si Java empêchait toutes les erreurs de type à l'exécution
-(ClassCastExceptions) de se produire, il serait " type safe ".
-En 2016, il a été prouvé que le système de types de Java n'était pas solide.
-IV – Secure Shell (SSH)
+
+				__Image__
+
+	
+__IV – Secure Shell (SSH)__
+
 Le protocole Secure Shell (SSH) est un protocole de réseau cryptographique permettant
 d'exploiter des services de réseau en toute sécurité sur un réseau non sécurisé. Ses applications
 les plus importantes sont la connexion à distance et l'exécution de lignes de commande.
@@ -315,10 +293,13 @@ couches comprenant trois composants hiérarchiques principaux : la couche de tra
 l'authentification, la confidentialité et l'intégrité du serveur ; le protocole d'authentification de
 l'utilisateur valide l'utilisateur auprès du serveur ; et le protocole de connexion multiplexe le
 tunnel crypté en plusieurs canaux de communication logiques.
-21SSH a été conçu pour les systèmes d'exploitation de type Unix, en remplacement de
+
+				Historique
+SSH a été conçu pour les systèmes d'exploitation de type Unix, en remplacement de
 Telnet et des protocoles shell Unix distants non sécurisés, tels que le Berkeley Remote Shell
 (rsh) et les protocoles connexes rlogin et rexec, qui utilisent tous une transmission en clair non
 sécurisée des jetons d'authentification.
+
 SSH a été conçu en 1995 par l'informaticien finlandais Tatu Ylönen. Le développement
 ultérieur de la suite de protocoles s'est fait au sein de plusieurs groupes de développeurs,
 produisant plusieurs variantes d'implémentation. La spécification du protocole distingue deux
@@ -326,64 +307,15 @@ versions majeures, appelées SSH-1 et SSH-2. La pile logicielle la plus couramme
 implémentée est OpenSSH, publiée en 1999 sous forme de logiciel libre par les développeurs
 d'OpenBSD. Des implémentations sont distribuées pour tous les types de systèmes
 d'exploitation couramment utilisés, y compris les systèmes embarqués.
-1-Définition
-SSH utilise la cryptographie à clé publique pour authentifier l'ordinateur distant et lui
-permettre d'authentifier l'utilisateur, si nécessaire.
-SSH peut être utilisé selon plusieurs méthodologies. De la manière la plus simple, les
-deux extrémités d'un canal de communication utilisent des paires de clés publiques-privées
-générées automatiquement pour chiffrer une connexion réseau, puis utilisent un mot de passe
-pour authentifier l'utilisateur.
-Lorsque la paire de clés publique-privée est générée manuellement par l'utilisateur,
-l'authentification est essentiellement réalisée lors de la création de la paire de clés, et une
-session peut alors être ouverte automatiquement sans demande de mot de passe. Dans ce
-scénario, la clé publique est placée sur tous les ordinateurs qui doivent permettre l'accès au
-propriétaire de la clé privée correspondante, que le propriétaire garde privée. Bien que
-l'authentification soit basée sur la clé privée, la clé n'est jamais transférée sur le réseau pendant
-l'authentification. SSH vérifie uniquement que la personne qui offre la clé publique possède
-également la clé privée correspondante.
-Dans toutes les versions de SSH, il est important de vérifier les clés publiques
-inconnues, c'est-à-dire d'associer les clés publiques à des identités, avant de les accepter comme
-valides. Accepter la clé publique d'un attaquant sans validation autorisera un attaquant non
-autorisé comme un utilisateur valide.
-2- Authentification : Gestion des clés OpenSSH
-Sur les systèmes de type Unix, la liste des clés publiques autorisées est généralement
-stockée dans le répertoire personnel de l'utilisateur qui est autorisé à se connecter à distance,
-dans le fichier ~/.ssh/authorized_keys. Ce fichier n'est respecté par SSH que s'il n'est accessible
-en écriture que par le propriétaire et root. Lorsque la clé publique est présente à l'extrémité
-distante et que la clé privée correspondante est présente à l'extrémité locale, il n'est plus
-22nécessaire de taper le mot de passe. Cependant, pour plus de sécurité, la clé privée elle-même
-peut être verrouillée avec une phrase de passe.
-La clé privée peut également être recherchée dans des endroits standard, et son chemin
-complet peut être spécifié en tant que paramètre de ligne de commande (l'option -i pour ssh).
-L'utilitaire ssh-keygen produit les clés publiques et privées, toujours par paires.
-SSH prend également en charge l'authentification par mot de passe qui est chiffrée par
-les clés générées automatiquement. Dans ce cas, l'attaquant pourrait imiter le côté serveur
-légitime, demander le mot de passe et l'obtenir (attaque man-in-the-middle). Toutefois, cela
-n'est possible que si les deux parties ne se sont jamais authentifiées auparavant, car SSH se
-souvient de la clé utilisée précédemment par le serveur. Le client SSH émet un avertissement
-avant d'accepter la clé d'un nouveau serveur inconnu. L'authentification par mot de passe peut
-être désactivée du côté du serveur.
-3 – Utilisation
+
+
+	
+	2 – Utilisation
 SSH est un protocole qui peut être utilisé pour de nombreuses applications sur de
 nombreuses plates-formes, notamment la plupart des variantes d'Unix (Linux, les BSD, y
-compris macOS d'Apple, et Solaris), ainsi que Microsoft Windows. Certaines des applications
-ci-dessous peuvent nécessiter des fonctionnalités qui ne sont disponibles ou compatibles
-qu'avec des clients ou serveurs SSH spécifiques. Par exemple, l'utilisation du protocole SSH
-pour mettre en œuvre un VPN est possible, mais actuellement uniquement avec
-l'implémentation du serveur et du client OpenSSH.
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-•
-23
+compris macOS d'Apple, et Solaris), ainsi que Microsoft Windows. 
+
+utilisation possible :
 Pour la connexion à un shell sur un hôte distant (remplaçant Telnet et rlogin);
 Pour exécuter une seule commande sur un hôte distant (en remplacement de rsh)
 Pour configurer la connexion automatique (sans mot de passe) à un serveur distant (par
@@ -395,8 +327,6 @@ Pour la création de tunnels (à ne pas confondre avec un VPN, qui achemine les 
 entre différents réseaux, ou relie deux domaines de diffusion en un seul).
 Pour l'utilisation en tant que VPN crypté à part entière. Notez que seuls le serveur et le
 client OpenSSH supportent cette fonctionnalité.
-Pour le transfert de X à partir d'un hôte distant (possible via plusieurs hôtes
-intermédiaires).
 Pour naviguer sur le Web via une connexion proxy chiffrée avec des clients SSH qui
 prennent en charge le protocole SOCKS.
 Pour monter en toute sécurité un répertoire sur un serveur distant en tant que système de
@@ -405,24 +335,21 @@ Pour la surveillance et la gestion automatisées à distance des serveurs par le
 ou plusieurs des mécanismes mentionnés ci-dessus.
 Pour le développement sur un appareil mobile ou embarqué qui prend en charge SSH.•
 Pour la sécurisation des protocoles de transfert de fichiers.
-a- File transfer protocols
+
+
+	- File transfer protocols
 Les protocoles Secure Shell sont utilisés dans plusieurs mécanismes de transfert de
 fichiers.
-Secure copy (SCP), qui a évolué à partir du protocole RCP sur SSH rsync, destiné à être
+- Secure copy (SCP), qui a évolué à partir du protocole RCP sur SSH rsync, destiné à être
 plus efficace que SCPn s’exécute généralement sur une connexion SSH.
-SSH File Transfer Protocol (SFTP), une alternative sécurisée à FTP (à ne pas confondre
+- SSH File Transfer Protocol (SFTP), une alternative sécurisée à FTP (à ne pas confondre
 avec FTP over SSH ou FTPS)
-Files transferred over shell protocol (alias FISH), lancé en 1998, qui a évolué à partir des
+- Files transferred over shell protocol (alias FISH), lancé en 1998, qui a évolué à partir des
 commandes du shell Unix sur SSH.
-Fast and Secure Protocol (FASP), alias Aspera, utilise SSH pour le contrôle et les ports
+- Fast and Secure Protocol (FASP), alias Aspera, utilise SSH pour le contrôle et les ports
 UDP pour le transfert de données.
-4 – Algorithmes
-•
-•
-•
-•
-•
-•
+	
+	4 – Algorithmes
 EdDSA, ECDSA, RSA et DSA pour la cryptographie à clé publique.
 ECDH et Diffie-Hellman pour l'échange de clés.
 HMAC, AEAD et UMAC pour le MAC.
@@ -432,425 +359,540 @@ SHA (et MD5 déprécié) pour l'empreinte de la clé.
 tait aux attaquants d'exécuter du code arbitraire avec les privilèges du démon SSH, typiquement
 root.
 le mode CTR, le mode compteur, au lieu du mode CBC, car cela rend SSH résistant à l'attaque.
-V – Rundeck
-Rundeck est un logiciel libre permettant l'automatisation d'administration de serveurs
-(GNU/Linux, Mac OS X et Windows) via la création de jobs ou tâches. Rundeck est écrit à
-l'aide du langage de programmation Java et est diffusé sous licence Apache Software 2.0.
-Il existe une version professionnelle de Rundeck qui permet entre autres de personnaliser
-l'affichage des historiques et de consulter des tableaux de bords schématisant l'activité de
-Rundeck.
-241 - Le projet Rundeck
-Le code source de Rundeck est hébergé sur la plateforme GitHub permettant à tous les
-utilisateurs de pouvoir contribuer au projet. Le projet a démarré en 2011 pour répondre au
-besoin de pouvoir administrer tous les serveurs d'un parc informatique depuis un seul serveur
-d'administration central. Rundeck se présente sous la forme d'une interface Web depuis laquelle
-il est possible d'enregistrer tous les serveurs du parc, en renseignant leur adresse IP et les
-identifiants de connexion à distance (par exemple en SSH pour un serveur Unix).
-2 – Fonctionnalités
-L'interface de Rundeck permet de créer des jobs ou tâches applicatives, qui peuvent
-s'exécuter de façon périodique ou manuelle, sur un ou plusieurs serveurs du parc (dont le
-serveur d'administration hébergeant Rundeck). Elle permet également d'exécuter une simple
-commande sur plusieurs serveurs. L'exécution des jobs ou des commandes peut s'effectuer en
-parallèle sur plusieurs serveurs (grâce aux threads Java) afin de gagner en temps d'exécution.
-Un onglet recensant toute l'activité de Rundeck permet à l'administrateur système du parc de
-pouvoir consulter tout l'historique des tâches exécutées par l'outil.
-25Chapitre IV : Justification du choix des outils
-A - Le Système Rocky linux
-✔ Équipe: l’équipe de développeurs derrière Rocky Linux lui ouvre ses premières portes et
-a été un gage de qualité prudent avant même sa sortie. Cofondateur de CentOS, Gregory
-Kurtzer sait exactement ce qu’apprécient les utilisateurs de la célèbre distribution et peut
-en tenir compte pour son successeur. Dès le départ, Rocky Linux a les meilleures cartes
-en main pour succéder dignement à CentOS;
-✔ Stabilité: CentOS ayant toujours été d’une grande stabilité, c’est aussi la priorité pour
-Rocky Linux. Au lieu de se reposer sur des mises à jour et correctifs en quantité,
-l’équipe cherche plutôt à développer un système qui fonctionne de manière lisse et sans
-mauvaises surprises;
-✔ Compatibilité: Rocky Linux est compatible binaire avec Red Hat Enterprise Linux, ce
-qui en fait une alternative tout à fait valable. La migration depuis CentOS, AlmaLinux et
-d’autres distributions est également facilitée grâce à l’outil migrate2rocky. En outre,
-Rocky Linux gère les images de conteneurs et les offres basées sur le Cloud sans aucun
-problème;
-✔ Open Source: la compatibilité binaire de Rocky Linux n’est pas son seul point commun
-avec CentOS. À son tour, il reste aussi une distribution open source, ce qui profite
-finalement à tous les utilisateurs. Si la nouvelle version de Linux parvient à rassembler
-une communauté aussi importante et active, tout indique qu’il sera très largement
-documenté, avec une gestion consciencieuse de la sécurité et des mises à jour régulières
-et des correctifs dans l’intérêt des utilisateurs. Son prédécesseur était déjà proche des
-besoins utilisateurs, ces derniers n’en attendent pas moins de Rocky Linux.
-B- Firewalld
-Les modifications peuvent être effectuées immédiatement dans l'environnement
-d'exécution. Aucun redémarrage du service ou du démon n'est nécessaire.
-Grâce à l'interface D-Bus de firewalld, il est facile pour les services, les applications et
-les utilisateurs d'adapter les paramètres du pare-feu. L'interface est complète et est utilisée pour
-les outils de configuration de pare-feu firewall-cmd, firewall-config et firewall-applet.
-26La séparation de l'exécution et de la configuration permanente permet d'effectuer des
-évaluations et des tests en cours d'exécution. La configuration d'exécution n'est valable que
-jusqu'au prochain rechargement et redémarrage du service ou jusqu'au redémarrage du système.
-Ensuite, la configuration permanente sera à nouveau chargée. Avec l'environnement
-d'exécution, il est possible d'utiliser l'exécution pour des paramètres qui ne doivent être actifs
-que pendant une durée limitée. Si la configuration d'exécution a été utilisée pour l'évaluation, et
-qu'elle est complète et fonctionnelle, il est possible de sauvegarder cette configuration dans
-l'environnement permanent.
-C- Java
-•
-Java est facile à apprendre.
-Java a été conçu pour être facile à utiliser et est donc plus facile à écrire, à compiler, à déboguer
-et à apprendre que d'autres langages de programmation.
-•
-Java est orienté objet.
-Cela vous permet de créer des programmes modulaires et du code réutilisable.
-•
-Java est indépendant de la plate-forme.
-L'un des avantages les plus importants de Java est sa capacité à passer facilement d'un système
-informatique à un autre. La possibilité d'exécuter le même programme sur de nombreux
-systèmes différents est cruciale pour les logiciels du World Wide Web, et Java y parvient en
-étant indépendant de la plate-forme, tant au niveau des sources que du code binaire.
-En raison de sa robustesse, de sa facilité d'utilisation, de ses capacités multiplateformes et de
-ses caractéristiques de sécurité, Java est devenu un langage de choix pour la fourniture de
-solutions Internet mondiales.
-D- Secure Shell (SSH)
-SSH permet le cryptage des données afin que les attaquants malveillants ne puissent pas
-accéder à vos informations d'utilisateur et à vos mots de passe. SSH permet également de
-tunneliser d'autres protocoles tels que FTP. Vous trouverez ci-dessous une liste de choses
-spécifiques contre lesquelles SSH vous protège.
-27•
-Routage à la source IP
-Si le routage à la source est normalement utilisé à bon escient, par exemple pour
-modifier le chemin d'un signal réseau en cas d'échec initial, il peut également être utilisé par
-des utilisateurs malveillants pour faire croire à une machine qu'elle parle à une autre.
-•
-Usurpation de DNS
-Il s'agit d'un type d'attaque par piratage qui consiste à insérer des données dans la base
-de données du cache d'un serveur de noms du système de noms de domaine. Le serveur de
-noms renvoie alors une adresse IP incorrecte, ce qui lui permet de détourner le trafic vers un
-autre ordinateur. Il s'agit souvent de l'ordinateur de l'attaquant. De là, il peut obtenir des
-informations sensibles.
-•
-La manipulation des données au niveau des routeurs du réseau.
-C'est assez explicite : l'attaquant obtient ou modifie des données au niveau des
-intermédiaires le long de la route du réseau. Cette manipulation est souvent effectuée au niveau
-des routeurs, où les données passent par une sorte de passerelle ou de point de contrôle avant
-d'atteindre leur destination.
-•
-Écoute ou reniflage des données transmises.
-En cas d'utilisation d'une connexion non sécurisée, un pirate peut observer les données
-transmises et recueillir toutes sortes d'informations sensibles ou privées à des fins
-malveillantes.
-•
-Usurpation d'adresse IP
-On parle d'usurpation d'adresse IP lorsqu'un utilisateur malveillant crée des paquets avec
-une fausse adresse IP source. De cette façon, l'identité et l'emplacement de l'ordinateur source
-restent secrets et le destinataire a l'impression qu'il s'agit d'un autre ordinateur auquel il fait
-confiance.
-28E- Rundeck
-•
-Exploiter les compétences et les investissements existants
-Les grandes entreprises ou industries qui fonctionnent sur une architecture traditionnelle
-n'auront pas à remplacer leur infrastructure existante. En effet, Rundeck peut être facilement
-mis en œuvre sur des architectures traditionnelles sans avoir à remplacer les outils, scripts,
-appels API ou commandes manuelles existants de l'organisation.
-Par conséquent, il permet aux entreprises d'économiser beaucoup de temps et de dépenses, car
-elles n'ont pas à mettre à jour les anciennes architectures juste pour mettre en œuvre
-l'automatisation.
-•
-Diagnostiquer et résoudre les problèmes plus rapidement
-Il existe plusieurs API et interfaces Web de Rundeck qui permettent aux employés de
-l'industrie d'administrer en toute sécurité des procédures de diagnostic ou des stratégies de
-correction des erreurs.
-Parfois, le besoin d'intervention humaine peut être complètement éliminé car Rundeck
-est capable d'administrer virtuellement les protocoles de correction. Ces protocoles étaient
-auparavant exécutés par des experts en assurance qualité ou des chefs d'équipe.
-Par conséquent, Rundeck facilite le travail des équipes d'assurance qualité en fournissant
-un soutien et en apportant des améliorations par lui-même.
-•
-Améliorer la conformité et la sécurité
-Comme mentionné précédemment, l'accès aux outils d'automatisation, aux services d'IA,
-au Machine Learning et à d'autres technologies est purement basé sur les rôles ou les
-responsabilités. Même si chaque employé peut accéder à Rundeck, il aura reçu un accès
-individuel en fonction de son profil.
-Tout accès ou entrée non autorisé dans le panneau d'administration sera immédiatement
-signalé aux décideurs qui pourront facilement identifier les auteurs. Par conséquent, même si
-une grande entreprise utilise plusieurs outils d'automatisation, technologies ou dispositifs
-interconnectés, Rundeck assurera une sécurité totale et une surveillance de la conformité.
-						
-						
-						
-						__29PARTIE III :__
-					  
-					
-					__MISE EN ŒUVRE DU PROJET__
-30Chapitre VI : Implémentation de la solution
-A- Description de l’architecture finale
-Notre architecture se présentera finalement comme suit :
-31Ici, nous adoptons une architecture client-serveur. En effet, elle nous prodigue une
-facilité tant sur le volet configuration que sur le volet dépannage, ce qui favorise une extensibilité du
-réseau et une hétérogénéité du système avec plusieurs serveurs différents.
-Dans ce chapître, nous aborderons deux aspects. Pour commencer, nous parlerons de l’aspect
-déploiement, de comment devront être installés les outils sur le système Rocky linux et pour finir, nous
-attaquerons l’aspect administration et automatisation.
-B- Description des outils du système d’automatisation des taches
-B- 1 ) installation
-1- Rocky linux
-Cette partie présente les étapes détaillées de l'installation d'une version 64 bits de la
+
+
+
+__V – Rundeck__
+
+				Présentation
+Rundeck est une automatisation de runbooks qui vous permet, à vous et à vos collègues, d'accéder en libre-service aux processus et aux outils dont ils ont besoin pour accomplir leur travail.
+
+Lorsqu'il est utilisé pour la gestion des incidents, Rundeck vous aidera à avoir des incidents plus courts et moins d'escalades.
+
+Lorsqu'il est utilisé pour des travaux d'opérations générales, Rundeck contribuera à alléger le travail fastidieux et répétitif qui consomme actuellement trop de temps de votre équipe.
+
+Pour plus d'informations sur les cas d'utilisation, visitez le site Rundeck.
+
+Avec Rundeck, il est simple et facile de créer des flux de travail (appelés « tâches ») à partir de n'importe lequel de vos outils ou scripts existants. Déclenchez des tâches Rundeck à partir de l'interface graphique Web, de l'API, de la CLI ou selon une planification. Les fonctionnalités de contrôle d'accès de Rundeck facilitent la délégation en toute sécurité du contrôle des tâches à ceux qui sont traditionnellement extérieurs aux opérations.
+
+Rundeck a été conçu pour accepter la réalité selon laquelle les infrastructures et les outils hétérogènes sont une réalité dans toute organisation de grande taille. C'est pourquoi Rundeck ne vous oblige pas à remplacer les scripts, commandes ou outils que vous utilisez aujourd'hui. Vous utilisez Rundeck pour exécuter des flux de travail dans votre automatisation existante (par exemple, Ansible, Puppet, Chef, Jenkins, Docker, Kubernetes, les outils existants et tous vos scripts/API personnalisés) ou pour automatiser rapidement des procédures auparavant manuelles. Avec Rundeck, vous pouvez réutiliser les compétences en automatisation que vous possédez déjà et en ajouter de nouvelles si nécessaire.
+
+Prêt à l'emploi, Rundeck vous offre des fonctionnalités qui seraient coûteuses à développer et à maintenir en interne : contrôle des flux de travail, planification, gestion des erreurs, journalisation, contrôle d'accès, passage d'options, filtrage des journaux, interface graphique Web, API REST (avec outils CLI ) et l'intégration avec des sources externes pour l'authentification, le modèle de ressource et les données d'option.
+
+
+
+			open source
+Rundeck Open Source est un logiciel open source gratuit sous licence Apache Software License v2.0., et vous pouvez participer au projet sur GitHub. Pour ceux qui écrivent et exécutent des tâches Rundeck à petite échelle (par exemple, utilisation limitée ou au sein d'une équipe), le Rundeck open source vous offre les fonctionnalités dont vous avez besoin, gratuitement, pour toujours .
+
+
+
+
+		Points forts des fonctionnalités de Rundeck
+Exécution de commandes distribuées
+Flux de travail (y compris le passage d'options, les conditions, la gestion des erreurs et plusieurs stratégies de flux de travail)
+Système d'exécution enfichable (SSH et WinRM par défaut ; PowerShell disponible)
+Modèle de ressources enfichable (obtenez des détails sur votre infrastructure à partir de systèmes externes)
+Exécution de tâches à la demande (interface graphique Web, API ou CLI) ou planifiée
+Magasin de clés sécurisé pour les mots de passe et les clés
+Politique de contrôle d'accès basée sur les rôles avec prise en charge de LDAP/ActiveDirectory/SSO
+Outils d’édition/gestion des politiques de contrôle d’accès
+Historique et journaux d'audit
+Utilisez n’importe quel langage de script
+
+
+
+
+Chapitre IV : Concepts
+
+__Projets__
+Un projet est un lieu pour séparer les activités de gestion. Toutes les activités de Rundeck se déroulent dans le contexte d'un projet. Plusieurs projets peuvent être gérés sur le même serveur Rundeck. Les projets sont indépendants les uns des autres, vous pouvez donc les utiliser pour organiser des systèmes non liés au sein d'une seule installation Rundeck. Cela peut être utile pour gérer différentes équipes, infrastructures, environnements ou applications.
+
+Les projets peuvent être archivés et importés sur d'autres serveurs Rundeck pour aider à promouvoir les changements entre les environnements.
+
+Une nouvelle installation ne contiendra aucun projet, Rundeck vous présentera donc une boîte de dialogue pour en créer un.
+
+
+
+
+__Inventaire__
+Une source de modèle de ressource est un moyen de partager des informations sur votre infrastructure avec Rundeck en tant que nœuds .
+				Les sources de données sont généralement des systèmes tiers
+
+
+
+
+Pourquoi créer un __Job__ ?
+
+On pourrait constater que certaines exécutions de commandes sont effectuées de manière répétée et représentent peut-être ce qui est devenu une procédure de routine.
+Un autre utilisateur de votre groupe a besoin d'une interface simple en libre-service pour exécuter une procédure sur un ensemble de nœuds.
+Les processus de routine doivent être encapsulés et devenir la base d’autres procédures de routine.
+
+
+Jobs
+Les Jobs fournissent un moyen d'encapsuler un processus. Un Job est une configuration représentant les options d'entrée, les étapes
+	du processus, une expression de filtre qui correspond aux nœuds où ces étapes seront exécutées et des paramètres de contrôle 
+	d'exécution qui spécifient si les étapes sont exécutées en parallèle et que faire si une erreur se produit dans l'une d'entre elles. des marches.
+
+	L'accès aux travaux est régi par une politique de contrôle d'accès que vous définissez en déclarant comment les utilisateurs 
+	reçoivent des privilèges pour lire, créer, modifier, exécuter et supprimer des travaux.
+
+	Rundeck vous permet d'organiser et d'exécuter des Jobs et d'observer la progression pendant l'exécution du Job. Vous pouvez afficher une liste 
+	des Jobs en cours d'exécution ou explorer le résultat des étapes d'exécution individuelles. 
+	Les exécutions de tâches peuvent également être abandonnées si elles doivent être arrêtées.
+
+	Chaque exécution de Job est stockée et contient des informations sur les nœuds où les étapes ont été exécutées, le succès et la durée de 
+	chaque étape. La sortie d'exécution de la tâche peut être téléchargée, transmise à un magasin de journaux externe ou envoyée dans le cadre 
+	d'une notification par e-mail, IRC, système de billetterie ou d'autres destinations.
+
+
+workflow (Flux de travaux)
+		La fonctionnalité la plus basique du Job est sa capacité à exécuter une ou plusieurs étapes. Cette séquence d'étapes s'appelle un workflow .
+
+			* Paramètres de contrôle du flux de travail
+				L'exécution du workflow est contrôlée par deux paramètres importants : Gestion d'un échec d'étape et Stratégie .
+
+					- Si une étape échoue : cela gère ce qu'il faut faire si une étape entraîne une erreur :
+						Arrêter à l'étape ayant échoué : échouer immédiatement (par défaut).
+						Exécutez les étapes restantes avant d'échouer : passez aux étapes suivantes et faites échouer la tâche à la fin.
+
+						La valeur par défaut est d'échouer immédiatement, mais selon la procédure en cours, il est possible de choisir de poursuivre l'exécution.
+
+					- Stratégie : contrôle l'ordre d'exécution des étapes et l'envoi des commandes aux nœuds : orienté nœud et orienté étape .
+						Node First : exécute le flux de travail complet sur chaque nœud avant le nœud suivant. (défaut)
+						Séquentiel : exécute chaque étape sur tous les nœuds avant l'étape suivante.
+						Parallèle : Exécute toutes les étapes en parallèle.
+
+
+
+Un __nœud__ est une ressource qui est une instance physique ou virtuelle d'un hôte accessible par le réseau. Les nœuds ont quelques attributs de base, mais les attributs d'un nœud peuvent être étendus pour inclure des paires clé/valeur nommées arbitrairement. Chaque nœud a un nom d'identification unique. En plus de name, certaines métadonnées sont obligatoires (comme hostnameet username) et d'autres sont facultatives. Les attributs décrivent généralement les propriétés d'un nœud ou reflètent l'état du nœud. L'un des attributs intégrés d'un nœud est appelé « balises », qui sont une liste de classifications ou de catégories concernant ce nœud.
+
+
+
+
+Une __commande__ est une chaîne exécutable unique exécutée sur un nœud. Rundeck appelle des commandes sur les nœuds via un exécuteur de nœud qui évalue la chaîne de commande et l'exécute. Les exécuteurs de nœud évaluent la chaîne de commande dans un contexte de données contenant des informations sur la ressource Node. Les chaînes de commande peuvent référencer ces données et ainsi éviter de coder en dur des valeurs spécifiques au nœud ou à l'environnement.
+
+La console graphique Rundeck offre la possibilité d'exécuter des commandes sur un ensemble de ressources Node filtrées. La page de commande peut accepter n'importe quelle chaîne de commande que vous pourriez exécuter via une commande SSH
+
+
+
+
+__Activité__
+	L'historique d'exécution des commandes et des Jobs est stocké par le serveur Rundeck. L'historique d'exécution peut être filtré et visualisé dans la page "Activité".
+
+
+
+Les __webhooks__ constituent un moyen standard du secteur permettant aux applications Internet de communiquer entre elles. Les Webhooks Rundeck sont un point d'entrée vers l'automatisation avec Rundeck. Un Webhook peut être configuré pour accepter les charges utiles entrantes et déclencher les tâches Rundeck. Les événements Webhook sont gérés par les plugins Webhook Event Rundeck.
+
+
+
+
+		__PARTIE III : MISE EN ŒUVRE DU PROJET__
+Chapitre VI : Implémentation de la solution
+
+
+I- Critique
+	1- Architecture existante
+				__schema de l'architecture existant__
+				
+* AdminSys: répresente les administrateur système ou le groupe d'administration.
+* Serveur d'administration: Ce serveur sert de point central pour la gestion des différents services en aval.
+* Les services gérés:
+	- BNETD
+	- Deu x serveurs MySQL: bd1 et bd2
+	- SWAN PRO
+	- OGOSecurity
+	- ONECI
+	- Orange CI 
+
+
+	2- Architecture Finale
+				__schema de la future architecture__
+
+Rundeck remplace le "serveur d'administration" de notre architecture existante. Rundeck est la plateforme d'automatisation de serveurs qui aide à automatiser les tâches administratives routinières et à exécuter des scripts sur nos différents serveurs.
+
+Dans cette configuration, nous avons opté pour une architecture client-serveur car elle offre des avantages considérables en termes de simplicité de configuration et d'efficacité dans la résolution de problèmes. Cette approche facilite également l'extension du réseau et permet d'intégrer une variété de serveurs hétérogènes au sein du système.
+
+
+II-Installation des outils
+	1- Système d'exploitation (Rocky linux)
+	
+	Cette partie présente les étapes détaillées de l'installation d'une version 64 bits de la
 distribution Rocky Linux sur un système autonome. Nous effectuerons une installation de classe
 serveur en utilisant une image d'installation du système d'exploitation téléchargée depuis le site Web
 du projet Rocky Linux. Nous allons suivre les étapes d'installation et de personnalisation dans les
 sections suivantes.
-Conditions préalables à l'installation du système d'exploitation
-Tout d'abord, vous devez télécharger l'ISO à utiliser pour cette installation de Rocky
-Linux. La dernière image ISO pour la version de Rocky Linux que nous utiliserons pour cette
-installation peut être téléchargée ici :
+
+			**Conditions préalables à l'installation du système d'exploitation**
+			
+Avant toute chose, il est nécessaire de procéder au téléchargement de l'image ISO qui sera utilisée pour installer Rocky Linux. Vous pouvez obtenir la version la plus récente de l'ISO de Rocky Linux nécessaire à cette installation en suivant ce lien :
 https://www.rockylinux.org/download/
-L'installation
-Conseil : Avant de commencer l'installation proprement dite, l'interface UEFI (Unified Extensible Firmware Interface) ou
-le BIOS (Basic Input/Output System) du système doivent être préconfigurés pour démarrer à partir du support correct.
-Si l'ordinateur est configuré pour démarrer à partir du support contenant le fichier ISO,
-nous pouvons commencer le processus d'installation.
+
+ S'assurer que l'interface UEFI (Unified Extensible Firmware Interface) ou le BIOS (Basic Input/Output System) du système doivent être préconfigurés pour démarrer à partir du support correct.
+
+
+								**Installation**
+
 Insérez et démarrez à partir du support d'installation (disque optique, clé USB, etc.). Une
-fois que l'ordinateur a démarré, l'écran d'accueil de Rocky Linux 8 apparaît.
-32Vous pouvez laisser le voyant sur “installer Rocky Linux 8” et appuyer sur la touche Entrée à
+fois que l'ordinateur a démarré, l'écran de démarrage de l'installation de Rocky Linux.  
+
+
+		__Options de démarrage pour l'installation de Rocky Linux__
+
+Vous pouvez laisser le voyant sur “installer Rocky Linux ” et appuyer sur la touche Entrée à
 tout moment pour lancer le processus immédiatement.
-Résumé de l'installation
+
+ - Résumé de l'installation
+			__Résumé de l'installation__
 L'écran Résumé de l'installation est une zone tout-en-un où vous prenez les décisions
-importantes concernant le système d'exploitation à installer. L'écran est grossièrement divisé en
+importantes concernant le système d'exploitation à installer. L'écran est divisé en
 plusieurs sections :
 * Localisation : (Clavier, Prise en charge de la langue, et Heure et date)
 * Logiciel : (Source d'installation et Sélection du logiciel)
-* Système : (Destination de l'installation et Réseau et nom d'hôte)
-Nous examinerons ensuite chacune de ces sections importante et apporterons les modifications
-nécessaires.
-Section Localisation
+* Système : (Destination de l'installation, Réseau et nom d'hôte, KDUMP et  Profit de securité)
+* Paramètre Utilisateur (Mot de passe administrateur et création utilisateur)
+
+
+				- Section Localisation
 Cette section est utilisée pour personnaliser les éléments liés à la localisation du système. Cela
 comprend : le clavier, la prise en charge de la langue, l'heure et la date.
-Clavier
-Sur notre système de démonstration dans ce guide, nous modifions ici, à partir de l'écran
-Résumé de l'installation la langue du clavier, cliquez sur l'option Clavier pour spécifier la
-disposition du clavier du système. Vous pouvez ajouter des dispositions de clavier
-supplémentaires si nécessaire dans l'écran suivant et spécifier leur ordre.
-Cliquez sur Done (Terminé) lorsque vous avez terminé avec cet écran.
-33Support linguistique
-L'option Language Support (Prise en charge de la langue) de l'écran Installation Summary
-(Résumé de l'installation) vous permet de spécifier la prise en charge de langues
-supplémentaires dont vous pourriez avoir besoin sur le système fini.
-Nous acceptons la valeur par défaut (English - United States) et n'apportons aucune
-modification, cliquez sur Done.
-Heure et date
-Cliquez sur l'option Heure & Date sur l'écran principal Résumé de l'installation pour faire
-apparaître un autre écran qui vous permettra de sélectionner le fuseau horaire dans lequel se
-trouve la machine. Faites défiler la liste des régions et des villes et sélectionnez la zone la plus
-proche de vous.
-Section Système
-La section Système de l'écran Résumé de l'installation est utilisée pour personnaliser et
-apporter des modifications au matériel sous-jacent du système cible. C'est ici que vous créez
-vos partitions ou volumes de disque dur, que vous spécifiez le système de fichiers à utiliser et
-que vous spécifiez la configuration du réseau.
-Destination de l'installation
-Dans l'écran Résumé de l'installation, cliquez sur l'option Destination de l'installation. Vous
-accédez alors à la zone de tâches correspondante.
-Vous verrez un écran affichant tous les lecteurs de disques candidats disponibles sur le
-système cible. Si vous n'avez qu'un seul lecteur de disque sur le système, comme sur notre
-système d'exemple, vous verrez le lecteur répertorié sous Local Standard Disks avec une coche
-à côté. En cliquant sur l'icône du disque, vous pourrez activer ou désactiver la coche de
-sélection du disque. Nous voulons qu'elle soit sélectionnée/cochée ici.
-Dans la section Options de configuration du stockage, sélectionnez le bouton radio
-Automatique. Cliquez ensuite sur Terminé en haut de l'écran. Une fois que le programme
-d'installation aura déterminé que vous disposez d'un disque utilisable, vous serez renvoyé à
-l'écran Résumé de l'installation.
-Réseau et nom d'hôte
-La dernière tâche de la procédure d'installation concerne la configuration du réseau, où vous
-pouvez configurer ou modifier les paramètres réseau du système.
-34Pour chaque interface, vous pouvez soit la configurer en utilisant le DHCP, soit définir
-manuellement l'adresse IP. Si vous choisissez de configurer manuellement, assurez-vous d'avoir
-toutes les informations pertinentes prêtes, telles que l'adresse IP, le masque de réseau, etc.
-Un clic sur le bouton Réseau et nom d'hôte dans l'écran principal Résumé de
-l'installation ouvre l'écran de configuration correspondant. Vous avez notamment la possibilité
-de configurer le nom d'hôte du système (le nom par défaut est localhost.localdomain).
-Assurez-vous que l'interrupteur du dispositif que vous voulez configurer est en position
-ON dans le volet de droite. Nous allons accepter toutes les valeurs par défaut dans cette section.
-Cliquez sur Terminé pour revenir à l'écran principal du résumé de l'installation.
-Phase d'installation
+
+
+				- Section Système
+La section Système permet de personnaliser et de modifier la configuration matérielle du système que vous installez. C'est dans cette section que vous pouvez configurer les partitions de disque, créer des volumes logiques et définir d'autres paramètres de stockage selon vos besoins.
+
+
+		- Section Logiciel
+Dans la section 'Logiciel' de l'écran de résumé de l'installation, vous avez la possibilité de définir l'origine des paquets logiciels et de choisir quels ensembles de logiciels seront installés sur le système. La 'Source d'installation' vous permet de spécifier d'où les paquets seront téléchargés, que ce soit à partir d'un disque local, d'une image ISO, ou via un réseau tel qu'un miroir de dépôt en ligne. La 'Sélection du logiciel', quant à elle, vous donne la possibilité de sélectionner des groupes de paquets prédéfinis pour installer des environnements de bureau, des serveurs, ou des ensembles de développement, vous permettant ainsi de personnaliser l'installation selon vos besoins spécifiques."
+
+		- Section Paramètres Utilisateur
+Dans cette section, vous allez établir le 'Mot de passe administrateur', qui est crucial pour la gestion des privilèges et l'accès root. Il est important de choisir un mot de passe fort et sécurisé. Ensuite, vous avez la possibilité de 'Créer un utilisateur', ce qui vous permet de définir un compte pour l'utilisation quotidienne, évitant ainsi de fonctionner en permanence avec les droits d'administrateur. Lors de cette étape, vous pouvez également attribuer des privilèges d'administrateur au nouvel utilisateur si nécessaire."
+
+
 Une fois que vous êtes satisfait de vos choix pour les différentes tâches d'installation, la phase
 suivante du processus d'installation consiste à commencer l'installation proprement dite.
-Section Paramètres de l'utilisateur
-Cette section peut être utilisée pour créer un mot de passe pour le compte utilisateur racine et
-également pour créer de nouveaux comptes administratifs ou non administratifs.
-Définir le mot de passe racine
-35Cliquez sur le champ Root Password (mot de passe racine) sous User Settings (paramètres
-utilisateur) pour lancer l'écran de tâches Root Password (mot de passe racine). Dans la zone de
-texte Root Password, définissez un mot de passe fort pour l'utilisateur root.
-Avertissement : Le superutilisateur root est le compte le plus privilégié du système. Par conséquent, si vous choisissez de
-l'utiliser ou de l'activer, il est crucial que vous protégiez ce compte avec un mot de passe fort.
-Entrez à nouveau le même mot de passe dans la zone de texte Confirmation. Cliquez sur
-Terminé.
-Créer un compte utilisateur
-Cliquez ensuite sur le champ Création d'un utilisateur sous Paramètres de l'utilisateur pour
-lancer l'écran de tâches Créer un utilisateur. Cette zone de tâches vous permet de créer un
-compte utilisateur privilégié ou non privilégié (non administratif) sur le système.
-Info : Créer et utiliser un compte non privilégié pour les tâches quotidiennes sur un système est une bonne pratique
-d'administration du système.
-Nous allons créer un utilisateur ordinaire qui peut invoquer les pouvoirs de superutilisateur
-(administrateur), comme l'utilisateur root, lorsque cela est nécessaire. Remplissez les champs
-de l'écran Créer un utilisateur avec les informations suivantes, puis cliquez sur Terminé :
-Full name: rundeck
-Username: rundeck
-Make this user administrator: Checked
-Require a password to use this account: Checked
-Password: passerundeck
-Confirm password: passrundeck
-Commencer l'installation
-Une fois que vous êtes satisfait de vos choix pour les différentes tâches d'installation, cliquez
-sur le bouton Commencer l'installation sur l'écran principal du résumé de l'installation.
-L'installation commencera, et le programme d'installation affichera la progression de
-l'installation. Lorsque l'installation commence, diverses tâches s'exécutent en arrière-plan,
-comme le partitionnement du disque, le formatage des partitions ou des volumes LVM, la
-36vérification et la résolution des dépendances logicielles, l'écriture du système d'exploitation sur
-le disque, etc.
-Terminer l'installation
+
+	__choix effectués__ 
+	__Installation__ 
+
 Une fois que vous avez effectué toutes les sous-tâches obligatoires et que le programme d'installation a
 suivi son cours, un écran final de progression de l'installation vous est présenté avec un message de fin.
 Enfin, terminez toute la procédure en cliquant sur le bouton Reboot System. Le système
 redémarre.
-Connectez-vous
+
+	__fin d'installation__
+
+
+
+			Première connection
 Le système est maintenant configuré et prêt à être utilisé. Vous verrez la console Rocky Linux.
-2 – Firewalld
-firewalld est installé par défaut sur certaines distributions Linux, dont de nombreux
-déploiements de Rocky Linux. Cependant, il peut être nécessaire que vous installiez firewalld vous-
-même. Vous pouvez le faire en utilisant le gestionnaire de paquets dnf de Rocky :
+			__première connection__
+
+	2-Firewalld
+firewalld est installé par défaut sur certaines distributions Linux, tel que Rocky Linux. Cependant, il peut être nécessaire que vous installiez firewalld vous-même. Vous pouvez le faire en utilisant le gestionnaire de paquets dnf de Rocky  linux :
+
 $ sudo dnf install firewalld -y
-37Après avoir installé firewalld, vous devrez activer le service à l'aide de systemctl. N'oubliez pas que
+	
+	__firewalld__
+
+Après avoir installé firewalld, vous devrez activer le service à l'aide de systemctl. N'oubliez pas que
 l'activation de firewalld entraînera le démarrage du service au démarrage.
+
 $ sudo systemctl enable firewalld
-$ sudo
-systemctl start firewalld
+$ sudo systemctl start firewalld
+
 Vous pouvez vérifier que le service est en cours d'exécution et joignable en tapant
+
 $ sudo firewall-cmd --state
-3 - Java
-Vous pouvez installer différentes versions et versions de Java sur un même système,
-mais la plupart des gens n'ont besoin que d'une seule installation. Dans cette optique, essayez
-d'installer uniquement la version de Java dont vous avez besoin pour exécuter ou développer
-vos applications.
-Cette section vous montrera comment installer les paquets OpenJDK JRE et JDK
-préconstruits à l'aide du gestionnaire de paquets yum. yum est le gestionnaire de paquets par
-défaut pour les distributions qui utilisent des paquets RPM.
-Pour installer OpenJDK à l'aide de yum, vous pouvez exécuter sudo yum install java :
-$ sudo yum install java -y
-Par défaut, essayer d'installer java sans spécifier de version se résout à la version stable la plus
-courante du JRE OpenJDK. Comme vous pouvez le voir dans cette sortie, à ce jour, il s'agit de
-java-1.8.0-openjdk
-Des dépendances multiples seront également fournies avec Java. À l'invite de confirmation,
-entrez y puis appuyez sur Entrée pour poursuivre l'installation. Vous pouvez également être
-invité à accepter les clés de signature des dépôts à partir desquels vous effectuez l'installation.
-Entrez y puis appuyez à nouveau sur Entrée.
-Vous devriez maintenant avoir une installation Java fonctionnelle. Pour le confirmer,
-vous pouvez exécuter java -version, pour vérifier la version de Java qui est maintenant
-disponible dans votre environnement
-384 - SSH
-Pour vous connecter à un serveur SSH, vous devez avoir installé les programmes clients OpenSSH sur
-votre machine cliente.
-Dans une machine Rocky Linux, vous pouvez installer les programmes clients OpenSSH avec la
-commande suivante :
-$ sudo yum install openssh-client -y
-Si vous voulez vous connecter à votre serveur Rocky Linux en utilisant SSH, vous devez avoir installé
-le logiciel de serveur SSH sur votre machine Rocky Linux.
-Pour installer les logiciels de serveur SSH sur votre machine Rocky Linux, exécutez la
-commande suivante :
-$ sudo yum install openssh-server -y
-Après avoir installé ssh, vous devrez activer le service à l'aide de systemctl. N'oubliez pas que
-l'activation de ssh entraînera le démarrage du service au démarrage.
-$ sudo systemctl enable sshd
-$ sudo
-systemctl start sshd
-Vous pouvez vérifier que le service est en cours d'exécution et joignable en tapant
-$ sudo systemctl status sshd
-395- Rundeck
-Installation rapide avec yum
-Vous pouvez utiliser ce script pour ajouter le repo yum de Rundeck et installer Rundeck
-$ curl
-https://raw.githubusercontent.com/rundeck/packaging/main/scripts/rpm-
-setup.sh 2> /dev/null | bash -s rundeck
-Passons maintenant a l’installation de rundeck
-$ yum install rundeck
-B- 2 ) configuration
-•
-Firewall
+
+	__status-firewalld__
+
+	3- SSH 
+	
+Pour garantir une connexion à distance sécurisée des administrateurs à notre serveur Rundeck, ainsi que pour autoriser le serveur Rundeck à accéder en toute sécurité à nos différents serveurs clients, nous procéderons à l'installation d'openSSH :
+
+* Pour installer le client OpenSSH, utilisez la commande :
+$ sudo dnf install openssh-client -y 
+
+* Pour installer le serveur OpenSSH, tapez :
+- $ sudo dnf install openssh-server -y
+
+
+Il est à noter qu'openSSH est généralement installé par défaut sur le système Rocky Linux.
+
+	4- Rundeck
+
+	__Installation-Rundeck__
+
+Remarque : //executer ces commandes en tant que utilisateur root//
+
+$ curl https://raw.githubusercontent.com/rundeck/packaging/main/scripts/rpm-setup.sh 2> /dev/null | bash -s rundeck
+
+ce script ajoute le repo yum de Rundeck
+
+$ yum install java-1.8.0 rundeck 
+
+cette commande installe la version 1.8.0 de java et en suite installe l'outil rundeck
+
+Java est requis pour l'installation de Rundeck car Rundeck est écrit en Java. Le logiciel est une application Java basée sur le framework Grails, qui permet la planification et la gestion des tâches automatisées. Pour que Rundeck fonctionne, il doit être exécuté dans un environnement Java Runtime Environment (JRE) ou Java Development Kit (JDK), qui fournit la plate-forme nécessaire pour exécuter des applications Java.
+
+
+$ service rundeckd start 
+
+Pour demarrer le service rundeck
+
+
+III- Configuration 
+
+
+				* Firewall
+
 Rundeck écoute sur le port 4440/tcp pour les services web HTTP et 4443 pour HTTPS.
 Ouvrez ce port sur le pare-feu pour permettre un accès externe à Rundeck ;
-$ firewall-cmd --add-port=4440/tcp --permanent
-$ firewall-cmd --reload
-•
-Secure Shell (SSH)
+
+$ sudo firewall-cmd --add-port=4440/tcp --permanent
+$ sudo firewall-cmd --reload
+				__config-firewalld__
+
+
+				* Secure Shell (SSH)
 Commençons par creer un user que rundeck utilisera pour la connexion sur les differents
 nodes distants . Par defaut ce utilisateur est “rundeck”. Sur les differents nodes, on vas dans un
 premier temps creer l’utilisateur rundeck puis deployer les clé publiques du serveurs rundeck
 sur ces machines pour assurer une communication par clé
-40(a) Création de l’utilisateur rundeck
-toutes les commandes tapé se font en tant que superuser
+
+		a) Création de l’utilisateur rundeck
+		
+executer les commandes en tant que utilisateur root (super utilisateur)
+pour créer l’utilisateur
 $ useradd rundeck
-# pour creer l’utilisateur
-$ echo “rundeck ALL=(ALL) NOPASSD:ALL” > /etc/sudoers.d/rundeck
-(b) Deployer la clé publique de l’user rundeck sur les differents machines
+
+$ echo “rundeck ALL=(ALL) NOPASSD:ALL” > [[/etc/sudoers.d/rundeck]]
+
+cette commande crée une nouvelle règle de sudo dans le fichier /etc/sudoers.d/rundeck, autorisant l'utilisateur rundeck à exécuter n'importe quelle commande sur le système sans avoir besoin de saisir un mot de passe. Cela peut être nécessaire pour automatiser les tâches administratives qui sont effectuées par des scripts ou des applications qui fonctionnent sous l'utilisateur rundeck.
+		
+		b) Deployer la clé publique de l’user rundeck sur les differents machines
+
 les clé du serveur rundeck ont été générées automatiquement pendant l’installation de
-rundeck et se trouvent dans le repertoire : /var/lib/rundeck/.ssh ; on va ensuite récupérer le
-contenu de id_rsa.pub la clé publique qu’on vas mettre dans le fichier
-/home/rundeck/.ssh/authorized_keys se trouvant sur les machines distantes
-Puis on donne ensuite les droits necessaire au fichier
-/home/rundeck/.ssh/authorized_keys
-$ chown -R rundeck:rundeck /home/rundeck/.ssh/
-$ chmod 700 /home/rundeck/.ssh/
-$ chmod 600 /home/rundeck/.ssh/authorized_keys
-•
-Rundeck
-Les fichiers de configuration de rundeck se trouve dans le repertoire /etc/rundeck/ .
-Fichiers de configuration
+rundeck et se trouvent dans le repertoire : [[/var/lib/rundeck/.ssh]]
+
+				__key-pub__
+
+			* Rundeck
+
+Les fichiers de configuration de rundeck :
+			__Fichiers de configuration__
+
+
+
 La configuration est spécifiée dans un certain nombre de fichiers de configuration
 standard de Rundeck générés pendant le processus d'installation.
 L'objectif de chaque fichier de configuration est décrit dans sa propre section.
-✔ admin.aclpolicy
+
+
+	**Configuration du serveur**
+
+
+vim /etc/rundeck/rundeck-config.properties
+
+# grails.serverURL=http://localhost:4440
+grails.serverURL=http://ip_srv:4440
+
+ip_srv = adresse Ip de votre serveur 
+
+
+
+vim /etc/rundeck/framework.properties
+
+framework.server.name = ip_srv
+framework.server.hostname = ip_srv
+framework.server.port = 4440
+framework.server.url = http://ip_srv:4440
+
+Suite aux changements apportés aux fichiers de configuration, il est nécessaire de redémarrer le service rundeckd afin que les modifications soient appliquées.
+
+$ systemctl restart rundeckd
+
+$ systemctl status rundeckd
+
+cette commande vous permet de verifier létét du service rundeckd
+
+$ tail -f [[/var/log/rundeck/rudeck.log]]
+
+cette commande afficher en temps réel les nouvelles lignes ajoutées à la fin du fichier de log rundeck.log 
+
+
+
+
+
+Pour acceder a linterface web de runcdeck, lancer dans un navigateur l'URL suivant " http://ip_svr:4440"
+ou ip_svr répresente l'IP du serveur rundeck, qui dans notre cas est192.168.71.134
+Et nous pouvons voir s'afficher la page de connexion de Rundeck.
+ 
+					__interface de connexion rundeck__
+
+Par defaut l'utilisateur et le mot de passe par defaut est : "admin"
+
+
+CHAPITRE : Test et Reultats
+
+I-Administration et execution des jobs sur les nodes 
+
+
+Il est possible de changer l'utilisateur et le mot de passe par defaut de Rundeck
+Pour le faire il faut ajouter quelque ligne a notre fichier de configuration realm.properties. 
+La syntaxe se presente comme suit :
+
+__imgs__
+
+
+
+Nous voila dans l’interface de rundeck
+
+__imgs3-1__
+
+Pour commencer notre automatisation, l’on doit commencer d’abord par creer un projet
+•On selectionne alors “Create New Project”, nous serons redirigé vers une interface pour
+remplire les differents details du projet.
+•Ensuite on fait “create” apres que l’on ai fait create, nous somme redirigé vers la rubrique pour
+ajout de noeuds
+
+3-2
+
+
+Ajout des nodes
+cette configuration se fait dans le répertoire "var/lib/rundeck/project/nom_project/etc/re" precisons que
+nom_project est un repertoire portant un nom de projet que vous desirez. Laba nous creons un
+fichier resources.xml qui vas contenir les syntaxes pour la configuration des nodes
+
+__imgs-3-3__
+
+l’on peut configurer autant de nodes que l’on veux dans ce fichier. Ensuite on enregistre puis on
+se retourne sur notre interface pour ajouter notre fichier
+
+On choisir “Add a new Node Source” > “File” ; puis se fait maintenant la configuration:
+Format : on choisis resourcexml
+File path : /var/lib/rundeck/project/folder/etc/resources.xml
+puis on fait “save”
+
+3-4
+3-5
+
+apres ca on verra aparaitre les noeuds automatiquement dans l'onglet noeuds
+3-6
+
+
+
+Configuration de jobs
+
+nous nous rendons dans l'onglet travaux (Job)
+
+4-1
+
+Cliquez sur Create a new job 
+Et renseigner les différents champs
+4-2
+
+
+En suite definir le workfow 
+
+4-3
+
+dans notre cas ce job permettra de :
+ 
+afficher le chemin du répertoire courant 
+lister le contenu du répertoire courant
+afficher le contenu du fichier nommé "about.txt" contenu sur chaque serveur distant 
+
+
+Selctionner les noeuds sur lesquels executé le job
+
+4-4
+
+exécuter le job nommé "hello"
+
+4-5
+
+sortie de journal du job
+
+ACtivités
+
+4-6
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				**ANNEXE : Description de quelque fichiers de configuration** 
+
+	✔ admin.aclpolicy
 Il sagit de la politique de contrôle d'accès de l'administrateur définie avec un
 document aclpolicy.
 le fichier régit l'accès pour le groupe et le rôle "admin".
-✔ framework.properties
-41c’est le fichier de configuration utilisé par les outils shell et les services de base
+	
+	✔ framework.properties
+c’est le fichier de configuration utilisé par les outils shell et les services de base
 de Rundeck. Ce fichier sera créé pour vous au moment de l'installation. Il contient quelques
 paramètres importants :
-framework.server.hostname : nom d'hôte du nœud de serveur Rundeck.
-framework.server.name : nom (identité) du nœud de serveur Rundeck.
-framework.projects.dir : Chemin d'accès au répertoire contenant les répertoires des
+
+	- framework.server.hostname : nom d'hôte du nœud de serveur Rundeck.
+	- framework.server.name : nom (identité) du nœud de serveur Rundeck.
+	- framework.projects.dir : Chemin d'accès au répertoire contenant les répertoires des
 projets Rundeck. La valeur par défaut est $RDECK_BASE/projets.
-framework.var.dir : répertoire de base pour les fichiers de sortie et temporaires utilisés
+	- framework.var.dir : répertoire de base pour les fichiers de sortie et temporaires utilisés
 par le serveur et les outils CLI. La valeur par défaut est $RDECK_BASE/var.
-framework.logs.dir : Répertoire pour les fichiers journaux écrits par les services
+	- framework.logs.dir : Répertoire pour les fichiers journaux écrits par les services
 principaux et les exécutions de tâches du serveur Rundeck. La valeur par défaut est
 $RDECK_BASE/var/logs.
-framework.server.username : Nom d'utilisateur pour la connexion au serveur Rundeck.
-framework.server.password : Mot de passe pour la connexion au serveur Rundeck.
-framework.rundeck.url : URL de base pour le serveur Rundeck.
-framework.ssh.keypath : Chemin d'accès au fichier de clé privée SSH utilisé pour
+	- framework.server.username : Nom d'utilisateur pour la connexion au serveur Rundeck.
+	- framework.server.password : Mot de passe pour la connexion au serveur Rundeck.
+	- framework.rundeck.url : URL de base pour le serveur Rundeck.
+	- framework.ssh.keypath : Chemin d'accès au fichier de clé privée SSH utilisé pour
 les connexions SSH.
-framework.ssh.user : Nom d'utilisateur par défaut pour les connexions SSH, s'il
+	- framework.ssh.user : Nom d'utilisateur par défaut pour les connexions SSH, s'il
 n'est pas remplacé par une valeur spécifique au nœud.
-framework.ssh-connection-timeout : délai d'attente en millisecondes pour les
+	- framework.ssh-connection-timeout : délai d'attente en millisecondes pour les
 connexions SSH. La valeur par défaut est "0" (pas de délai d'attente). Vous pouvez
 modifier cette valeur pour changer le délai de connexion/socket. (Déclassé :
 framework.ssh.timeout.)
-framework.ssh-command-timeout : délai d'attente en millisecondes pour les
+	- framework.ssh-command-timeout : délai d'attente en millisecondes pour les
 commandes SSH. La valeur par défaut est "0" (pas de délai d'attente). Vous pouvez
 modifier cette valeur pour changer le temps maximum autorisé pour l'exécution des
 commandes SSH.
-✔ log4.properties – Legacy
+
+	✔ log4.properties – Legacy
 Rundeck utilise log4j comme outil de journalisation des applications. Ce
 fichier définit la configuration de la journalisation pour le serveur Rundeck.
-42✔ Profile
+	
+	✔ Profile
 Variables d'environnement du shell utilisées par les outils du shell. Ce
 fichier contient plusieurs paramètres nécessaires au démarrage des outils du shell
 comme umask, Java home et classpath, et les options SSL.
-✔ project.properties
+
+	✔ project.properties
 Le fichier de configuration du projet Rundeck lorsque vous utilisez des
 définitions de projet basées sur le système de fichiers. L'un de ces fichiers est généré
 au moment de la configuration du projet. Chaque projet possède un répertoire dans le
 répertoire des projets Rundeck, et le fichier de configuration se trouve dans le sous-
 répertoire etc :
+
 $RDECK_BASE/projects/[PROJECT-NAME]/etc/project.properties
+
 project.name : Déclare le nom du projet.
 project.ssh-authentication Type d'authentification SSH (par exemple, privateKey).
 project.ssh-keypath Déclare le fichier d'identification SSH. (Remarque : il ne s'agit pas
@@ -860,35 +902,35 @@ service.NodeExecutor.default.provider Plugin d'exécution de nœud par défaut.
 resources.source Définit une source de modèle de ressource voir Sources de modèle
 de ressource.
 project.globals.X Définit une variable globale du projet.
-✔ realm.properties
+	
+	✔ realm.properties
 Répertoire utilisateur du fichier de propriétés lorsque PropertyFileLoginModule
 est utilisé. Spécifié à partir de jaas-loginmodule.conf.
-43✔ rundeck-config.properties
+	
+	✔ rundeck-config.properties
 Il s'agit du principal fichier de configuration de la webapp Rundeck. Il
 définit le niveau de connexion par défaut, la configuration des sources de données et
 la personnalisation de l'interface graphique.
-Configurons notre serveur en fonction de nos besoins de façon simple
-•
-vim /etc/rundeck/rundeck-config.properties
-# grails.serverURL=http://localhost:4440
-grails.serverURL=http://ip_srv:4440
-•
-vim /etc/rundeck/framework.properties
-framework.server.name = ip_srv
-framework.server.hostname = ip_srv
-framework.server.port = 4440
-framework.server.url = http://ip_srv:4440
-On demare le serveur Rundeck
-$ systemctl start rundeckd
-Vous pouvez également vérifier les journaux
-tail -f /var/log/rundeck/rundeck.log
-44Dans un navigateur, lancer http://ip_srv:4440
-on se connecte avec les identifiant admin&admin
-Il est possible de changer tout ça . Pour le faire il faut ajouter quelque ligne a notre fichier de
-configuration realm.properties. le syntaxe se presente comme suit
-# le format est
-# <username>: <password>[,<rolename> …]
-exemple : toto:toto,rolename
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 C- Administration et execution des jobs sur les nodes
 Nous voila dans l’interface de rundeck
 45Pour commencer notre automatisation, l’on doit commencer d’abord par creer un projet
@@ -1031,3 +1073,30 @@ Dans votre mémoire, vous pourriez analyser l'impact de Rundeck sur l'efficacit�
 
 
 __WORA__ est l'acronyme de "Write Once, Run Anywhere", ce qui signifie "écrire une fois, exécuter partout". Il s'agit d'un slogan créé par Sun Microsystems pour illustrer la portabilité des applications Java.
+
+
+
+
+
+Ces deux diagrammes semblent représenter des architectures de gestion de services informatiques, avec un focus particulier sur l'administration des systèmes et des bases de données.
+
+1. **Première architecture:**
+   - **AdminSys:** C'est probablement l'administrateur système ou le groupe d'administration.
+   - **Serveur d'administration:** Ce serveur sert de point central pour la gestion des différents services en aval.
+   - **Les services gérés:**
+	 - **BNETD:** Pourrait représenter un service ou une application spécifique.
+	 - **Deux serveurs MySQL:** Ce sont des bases de données, bd1 et bd2, qui sont gérées par le serveur d'administration.
+	 - **SWAN PRO:** Un autre service ou application.
+	 - **OGOSecurity:** Suggère une composante de sécurité ou un service de sécurité informatique.
+	 - **ONECI:** Peut représenter une autre entité ou un service spécifique.
+	 - **Orange CI:** Pourrait indiquer une branche ou un service de l'entreprise de télécommunications Orange en Côte d'Ivoire.
+
+   Dans cette architecture, il semble que le serveur d'administration centralise la gestion de divers services ou applications, probablement en fournissant des fonctions de coordination, de déploiement, de surveillance ou de configuration.
+
+2. **Deuxième architecture:**
+   - **Rundeck:** Dans cette variante, Rundeck remplace le "serveur d'administration" du premier diagramme. Rundeck est une plateforme d'automatisation de serveurs qui aide à automatiser les tâches administratives routinières et à exécuter des scripts sur différents serveurs.
+   - **Autres composants:** Ils restent identiques au premier schéma.
+
+   Avec Rundeck au centre, cette architecture montre que l'outil est utilisé pour orchestrer et automatiser les tâches sur les différents services et serveurs. Cela pourrait inclure le déploiement de mises à jour, l'exécution de tâches d'administration de bases de données, la gestion des opérations de sécurité, et la coordination des services entre différentes branches ou entités comme BNETD, SWAN PRO, OGOSecurity, ONECI, et Orange CI.
+
+Dans les deux cas, l'accent est mis sur la centralisation de la gestion et l'automatisation des opérations informatiques, ce qui est essentiel pour l'efficacité et la réactivité d'un système informatique d'entreprise.

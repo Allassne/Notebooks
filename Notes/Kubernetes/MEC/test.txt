@@ -1365,3 +1365,274 @@ ceph tell mon.* injectargs '--mon_max_pg_per_osd 864'
 
 
 
+
+
+kubectl  get pods -A  | grep -i Evicted  | grep default | awk '{print $2}' | xargs -I% echo kubectl -n default delete pods %
+
+
+
+kubectl  get pods -A  | grep -i Evicted  | grep velero | awk '{print $2}' | xargs -I% echo kubectl -n velero delete pods %
+
+
+kubectl  get pods -A  | grep -i Evicted  | grep default | awk '{print $2}' | xargs -I% kubectl -n default delete
+ pods %
+
+
+
+
+
+
+
+--------------------
+vault write pki/roles/example-dot-com \
+	key_type=rsa \
+	allowed_domains=albam.com \
+	allow_subdomains=true \
+	max_ttl=1h
+
+
+
+vault delete pki/roles/example-dot-com
+
+
+
+vault write pki/issue/example-dot-com \
+	common_name=www.albam.com
+
+
+
+
+cat > example-com-cert.yaml <<EOF
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: example-com
+  namespace: default
+spec:
+  secretName: example-com-tls
+  issuerRef:
+	name: vault-issuer
+  commonName: www.albam.com
+  dnsNames:
+  - www.albam.com
+EOF
+
+
+
+
+--------------------
+
+===== Trivy =====
+Trivy est un outil de scan de vulnérabilités et de  détection de mauvaise configurations dans les images de containers et autres artifacts
+
+https://aquasecurity.github.io/trivy/v0.28.1/docs/kubernetes/cli/scanning/	#doc
+
+__Installation__
+https://aquasecurity.github.io/trivy/v0.28.1/getting-started/installation/
+
+
+RHEL/CentOS
+
+Ajoutez un paramètre de référentiel à /etc/yum.repos.d.
+
+```
+RELEASE_VERSION=$(grep -Po '(?<=VERSION_ID=")[0-9]' /etc/os-release) 
+cat << EOF | sudo tee -a /etc/yum.repos.d/trivy.repo
+[trivy]
+name=Trivy repository
+baseurl=https://aquasecurity.github.io/trivy-repo/rpm/releases/$RELEASE_VERSION/\$basearch/
+gpgcheck=0
+enabled=1
+EOF
+sudo yum -y update
+sudo yum -y install trivy
+```
+
+
+
+
+
+curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.28.1
+
+
+
+
+
+
+
+
+[EXPERIMENTAL] Scan kubernetes cluster
+
+Usage:
+  trivy kubernetes [flags] { cluster | all | specific resources like kubectl. eg: pods, pod/NAME }
+
+Aliases:
+  kubernetes, k8s
+
+Examples:
+  # cluster scanning
+  $ trivy k8s --report summary cluster
+
+  # namespace scanning:
+  $ trivy k8s -n kube-system --report summary all
+
+  # resources scanning:
+  $ trivy k8s --report=summary deploy
+  $ trivy k8s --namespace=kube-system --report=summary deploy,configmaps
+
+  # resource scanning:
+  $ trivy k8s deployment/orion
+
+
+Scan Flags
+	  --file-patterns strings   specify config file patterns
+	  --offline-scan            do not issue API requests to identify dependencies
+	  --rekor-url string        [EXPERIMENTAL] address of rekor STL server (default "https://rekor.sigstore.dev")
+	  --sbom-sources strings    [EXPERIMENTAL] try to retrieve SBOM from the specified sources (oci,rekor)
+	  --scanners string         comma-separated list of what security issues to detect (vuln,config,secret,license) (default "vuln,config,secret,rbac")
+	  --skip-dirs strings       specify the directories or glob patterns to skip
+	  --skip-files strings      specify the files or glob patterns to skip
+	  --slow                    scan over time with lower CPU and memory utilization
+
+Report Flags
+	  --compliance string      compliance report to generate (k8s-nsa,k8s-cis,k8s-pss-baseline,k8s-pss-restricted)
+	  --dependency-tree        [EXPERIMENTAL] show dependency origin tree of vulnerable packages
+	  --exit-code int          specify exit code when any security issues are found
+  -f, --format string          format (table,json,cyclonedx) (default "table")
+	  --ignore-policy string   specify the Rego file path to evaluate each vulnerability
+	  --ignorefile string      specify .trivyignore file (default ".trivyignore")
+	  --list-all-pkgs          enabling the option will output all packages regardless of vulnerability
+  -o, --output string          output file name
+	  --report string          specify a report format for the output (all,summary) (default "all")
+  -s, --severity strings       severities of security issues to be displayed (UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL) (default [UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL])
+  -t, --template string        output template
+
+Cache Flags
+	  --cache-backend string   cache backend (e.g. redis://localhost:6379) (default "fs")
+	  --cache-ttl duration     cache TTL when using redis as cache backend
+	  --clear-cache            clear image caches without scanning
+	  --redis-ca string        redis ca file location, if using redis as cache backend
+	  --redis-cert string      redis certificate file location, if using redis as cache backend
+	  --redis-key string       redis key file location, if using redis as cache backend
+	  --redis-tls              enable redis TLS with public certificates, if using redis as cache backend
+
+DB Flags
+	  --db-repository string        OCI repository to retrieve trivy-db from (default "ghcr.io/aquasecurity/trivy-db")
+	  --download-db-only            download/update vulnerability database but don't run a scan
+	  --download-java-db-only       download/update Java index database but don't run a scan
+	  --java-db-repository string   OCI repository to retrieve trivy-java-db from (default "ghcr.io/aquasecurity/trivy-java-db")
+	  --no-progress                 suppress progress bar
+	  --reset                       remove all caches and database
+	  --skip-db-update              skip updating vulnerability database
+	  --skip-java-db-update         skip updating Java index database
+
+Registry Flags
+	  --password strings        password. Comma-separated passwords allowed. TRIVY_PASSWORD should be used for security reasons.
+	  --registry-token string   registry token
+	  --username strings        username. Comma-separated usernames allowed.
+
+Image Flags
+	  --image-src strings   image source(s) to use, in priority order (docker,containerd,podman,remote) (default [docker,containerd,podman,remote])
+
+Vulnerability Flags
+	  --ignore-status strings   comma-separated list of vulnerability status to ignore (unknown,not_affected,affected,fixed,under_investigation,will_not_fix,fix_deferred,end_of_life)
+	  --ignore-unfixed          display only fixed vulnerabilities
+	  --vuln-type strings       comma-separated list of vulnerability types (os,library) (default [os,library])
+
+Misconfiguration Flags
+	  --helm-set strings                  specify Helm values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+	  --helm-set-file strings             specify Helm values from respective files specified via the command line (can specify multiple or separate values with commas: key1=path1,key2=path2)
+	  --helm-set-string strings           specify Helm string values on the command line (can specify multiple or separate values with commas: key1=val1,key2=val2)
+	  --helm-values strings               specify paths to override the Helm values.yaml files
+	  --include-non-failures              include successes and exceptions, available with '--scanners config'
+	  --policy-bundle-repository string   OCI registry URL to retrieve policy bundle from (default "ghcr.io/aquasecurity/defsec:0")
+	  --reset-policy-bundle               remove policy bundle
+	  --tf-exclude-downloaded-modules     exclude misconfigurations for downloaded terraform modules
+	  --tf-vars strings                   specify paths to override the Terraform tfvars files
+
+Secret Flags
+	  --secret-config string   specify a path to config file for secret scanning (default "trivy-secret.yaml")
+
+Rego Flags
+	  --config-data strings         specify paths from which data for the Rego policies will be recursively loaded
+	  --config-policy strings       specify the paths to the Rego policy files or to the directories containing them, applying config files
+	  --policy-namespaces strings   Rego namespaces
+	  --skip-policy-update          skip fetching rego policy updates
+	  --trace                       enable more verbose trace output for custom queries
+
+Kubernetes Flags
+  -A, --all-namespaces                    fetch resources from all cluster namespaces
+	  --components strings                specify which components to scan (workload,infra) (default [workload,infra])
+	  --context string                    specify a context to scan
+	  --exclude-nodes strings             indicate the node labels that the node-collector job should exclude from scanning (example: kubernetes.io/arch:arm64,team:dev)
+	  --exclude-owned                     exclude resources that have an owner reference
+	  --k8s-version string                specify k8s version to validate outdated api by it (example: 1.21.0)
+	  --kubeconfig string                 specify the kubeconfig file path to use
+  -n, --namespace string                  specify a namespace to scan
+	  --node-collector-namespace string   specify the namespace in which the node-collector job should be deployed (default "trivy-temp")
+	  --parallel int                      number (between 1-20) of goroutines enabled for parallel scanning (default 5)
+	  --tolerations strings               specify node-collector job tolerations (example: key1=value1:NoExecute,key2=value2:NoSchedule)
+
+Global Flags:
+	  --cache-dir string          cache directory (default "/root/.cache/trivy")
+  -c, --config string             config path (default "trivy.yaml")
+  -d, --debug                     debug mode
+	  --generate-default-config   write the default config to trivy-default.yaml
+	  --insecure                  allow insecure server connections
+  -q, --quiet                     suppress progress bar and log output
+	  --timeout duration          timeout (default 5m0s)
+  -v, --version                   show version
+2023-11-07T11:25:06.760+0100	FATAL	Require at least 1 argument
+
+
+
+
+
+
+
+
+--------------------
+
+
+
+
+kubectl port-forward svc/loki-write 8080:3100
+
+
+
+
+
+ helm upgrade -i grafana grafana/grafana -f grafana.yaml
+WARNING: Kubernetes configuration file is group-readable. This is insecure. Location: /root/.kube/config
+WARNING: Kubernetes configuration file is world-readable. This is insecure. Location: /root/.kube/config
+Release "grafana" does not exist. Installing it now.
+NAME: grafana
+LAST DEPLOYED: Wed Nov  8 19:14:47 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get your 'admin' user password by running:
+
+   kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+
+2. The Grafana server can be accessed via port 80 on the following DNS name from within your cluster:
+
+   grafana.default.svc.cluster.local
+
+   Get the Grafana URL to visit by running these commands in the same shell:
+	 export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=grafana,app.kubernetes.io/instance=grafana" -o jsonpath="{.items[0].metadata.name}")
+	 kubectl --namespace default port-forward $POD_NAME 3000
+
+3. Login with the password from step 1 and the username: admin
+#################################################################################
+######   WARNING: Persistence is disabled!!! You will lose your data when   #####
+######            the Grafana pod is terminated.                            #####
+#################################################################################
+
+
+
+
+
+furZmPxenR4coyUKKzIZbJDWQ1v9WxCoTPxNImUx

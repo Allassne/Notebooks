@@ -41,6 +41,115 @@ git add .
 git commit -m " commit"
 git push -u origin main
 
+git@github.com:Allassne/Notebooks.git
 
 
-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
+ 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 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------
+
+  389  git pull
+  390  git ch	eckout
+
+  393  git pull
+  394  git add .
+  395  git commit -m "test albam"
+  396  git push
+
+
+
+
+  397  git add .
+  398  git commit -m "test albam"
+  399  git push
+  400  history 
+alex@albam:~/dex$ git add .
+alex@albam:~/dex$ git commit -m "test albam"
+[master 88ae67a76] test albam
+ 1 file changed, 1 deletion(-)
+alex@albam:~/dex$ git push
+Énumération des objets: 7, fait.
+Décompte des objets: 100% (7/7), fait.
+Compression par delta en utilisant jusqu'à 8 fils d'exécution
+Compression des objets: 100% (4/4), fait.
+Écriture des objets: 100% (4/4), 354 octets | 354.00 Kio/s, fait.
+Total 4 (delta 3), réutilisés 0 (delta 0), réutilisés du pack 0
+To git.smile.ci:adminsys/dex.git
+   1fd1ec17d..88ae67a76  master -> master
+alex@albam:~/dex$ git add .
+alex@albam:~/dex$ git commit -m "test albam"
+[master 06dc1042c] test albam
+ 4 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 kubernetes/pictures/argo-10.png
+ create mode 100644 kubernetes/pictures/argo-11.png
+ create mode 100644 kubernetes/pictures/argo-8.png
+ create mode 100644 kubernetes/pictures/argo-9.png
+alex@albam:~/dex$ git push
+Énumération des objets: 11, fait.
+Décompte des objets: 100% (11/11), fait.
+Compression par delta en utilisant jusqu'à 8 fils d'exécution
+Compression des objets: 100% (8/8), fait.
+Écriture des objets: 100% (8/8), 353.99 Kio | 25.28 Mio/s, fait.
+Total 8 (delta 3), réutilisés 0 (delta 0), réutilisés du pack 0
+To git.smile.ci:adminsys/dex.git
+   88ae67a76..06dc1042c  master -> master
+alex@albam:~/dex$ git add .
+alex@albam:~/dex$ git commit -m "test albam"
+Sur la branche master
+Votre branche est à jour avec 'origin/master'.
+
+rien à valider, la copie de travail est propre
+alex@albam:~/dex$ git push
+Everything up-to-date
+alex@albam:~/dex$ git add .
+alex@albam:~/dex$ git commit -m "test albam"
+[master ad2a47596] test albam
+ 1 file changed, 22 insertions(+)
+alex@albam:~/dex$ git push
+Énumération des objets: 7, fait.
+Décompte des objets: 100% (7/7), fait.
+Compression par delta en utilisant jusqu'à 8 fils d'exécution
+Compression des objets: 100% (4/4), fait.
+Écriture des objets: 100% (4/4), 477 octets | 477.00 Kio/s, fait.
+Total 4 (delta 3), réutilisés 0 (delta 0), réutilisés du pack 0
+To git.smile.ci:adminsys/dex.git
+   06dc1042c..ad2a47596  master -> master
+alex@albam:~/dex$ git add .
+alex@albam:~/dex$ git commit -m "albam"
+[master 85dd91767] albam
+ 1 file changed, 7 insertions(+)
+alex@albam:~/dex$ git push
+Énumération des objets: 7, fait.
+Décompte des objets: 100% (7/7), fait.
+Compression par delta en utilisant jusqu'à 8 fils d'exécution
+Compression des objets: 100% (4/4), fait.
+Écriture des objets: 100% (4/4), 603 octets | 603.00 Kio/s, fait.
+Total 4 (delta 3), réutilisés 0 (delta 0), réutilisés du pack 0
+To git.smile.ci:adminsys/dex.git
+   ad2a47596..85dd91767  master -> master
+alex@albam:~/dex$ 
+ *  History restored 
+

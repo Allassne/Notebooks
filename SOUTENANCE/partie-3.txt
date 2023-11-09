@@ -1,0 +1,325 @@
+
+					MISE EN ŒUVRE DU PROJET
+30Chapitre VI : Implémentation de la solution
+
+
+I- Critique
+	1- Architecture existante
+				schema de l'architecture existant
+				
+* AdminSys: répresente les administrateur système ou le groupe d'administration.
+* Serveur d'administration: Ce serveur sert de point central pour la gestion des différents services en aval.
+* Les services gérés:
+	- BNETD
+	- Deu x serveurs MySQL: bd1 et bd2
+	- SWAN PRO
+	- OGOSecurity
+	- ONECI
+	- Orange CI 
+
+
+	2- Architecture Finale
+				schema de la future architecture
+
+Rundeck remplace le "serveur d'administration" de notre architecture existante. Rundeck est la plateforme d'automatisation de serveurs qui aide à automatiser les tâches administratives routinières et à exécuter des scripts sur nos différents serveurs.
+
+Dans cette configuration, nous avons opté pour une architecture client-serveur car elle offre des avantages considérables en termes de simplicité de configuration et d'efficacité dans la résolution de problèmes. Cette approche facilite également l'extension du réseau et permet d'intégrer une variété de serveurs hétérogènes au sein du système.
+
+
+II-Installation des outils
+	1- Système d'exploitation (Rocky linux)
+	
+	Cette partie présente les étapes détaillées de l'installation d'une version 64 bits de la
+distribution Rocky Linux sur un système autonome. Nous effectuerons une installation de classe
+serveur en utilisant une image d'installation du système d'exploitation téléchargée depuis le site Web
+du projet Rocky Linux. Nous allons suivre les étapes d'installation et de personnalisation dans les
+sections suivantes.
+
+			Conditions préalables à l'installation du système d'exploitation
+			
+Avant toute chose, il est nécessaire de procéder au téléchargement de l'image ISO qui sera utilisée pour installer Rocky Linux. Vous pouvez obtenir la version la plus récente de l'ISO de Rocky Linux nécessaire à cette installation en suivant ce lien :
+https://www.rockylinux.org/download/
+
+ S'assurer que l'interface UEFI (Unified Extensible Firmware Interface) ou le BIOS (Basic Input/Output System) du système doivent être préconfigurés pour démarrer à partir du support correct.
+
+
+								Installation
+
+Insérez et démarrez à partir du support d'installation (disque optique, clé USB, etc.). Une
+fois que l'ordinateur a démarré, l'écran de démarrage de l'installation de Rocky Linux.  
+
+
+		Options de démarrage pour l'installation de Rocky Linux
+
+Vous pouvez laisser le voyant sur “installer Rocky Linux ” et appuyer sur la touche Entrée à
+tout moment pour lancer le processus immédiatement.
+
+ - Résumé de l'installation
+			Résumé de l'installation
+L'écran Résumé de l'installation est une zone tout-en-un où vous prenez les décisions
+importantes concernant le système d'exploitation à installer. L'écran est divisé en
+plusieurs sections :
+* Localisation : (Clavier, Prise en charge de la langue, et Heure et date)
+* Logiciel : (Source d'installation et Sélection du logiciel)
+* Système : (Destination de l'installation, Réseau et nom d'hôte, KDUMP et  Profit de securité)
+* Paramètre Utilisateur (Mot de passe administrateur et création utilisateur)
+
+
+				- Section Localisation
+Cette section est utilisée pour personnaliser les éléments liés à la localisation du système. Cela
+comprend : le clavier, la prise en charge de la langue, l'heure et la date.
+
+
+				- Section Système
+La section Système permet de personnaliser et de modifier la configuration matérielle du système que vous installez. C'est dans cette section que vous pouvez configurer les partitions de disque, créer des volumes logiques et définir d'autres paramètres de stockage selon vos besoins.
+
+
+		- Section Logiciel
+Dans la section 'Logiciel' de l'écran de résumé de l'installation, vous avez la possibilité de définir l'origine des paquets logiciels et de choisir quels ensembles de logiciels seront installés sur le système. La 'Source d'installation' vous permet de spécifier d'où les paquets seront téléchargés, que ce soit à partir d'un disque local, d'une image ISO, ou via un réseau tel qu'un miroir de dépôt en ligne. La 'Sélection du logiciel', quant à elle, vous donne la possibilité de sélectionner des groupes de paquets prédéfinis pour installer des environnements de bureau, des serveurs, ou des ensembles de développement, vous permettant ainsi de personnaliser l'installation selon vos besoins spécifiques."
+
+		- Section Paramètres Utilisateur
+Dans cette section, vous allez établir le 'Mot de passe administrateur', qui est crucial pour la gestion des privilèges et l'accès root. Il est important de choisir un mot de passe fort et sécurisé. Ensuite, vous avez la possibilité de 'Créer un utilisateur', ce qui vous permet de définir un compte pour l'utilisation quotidienne, évitant ainsi de fonctionner en permanence avec les droits d'administrateur. Lors de cette étape, vous pouvez également attribuer des privilèges d'administrateur au nouvel utilisateur si nécessaire."
+
+
+Une fois que vous êtes satisfait de vos choix pour les différentes tâches d'installation, la phase
+suivante du processus d'installation consiste à commencer l'installation proprement dite.
+
+	choix effectués 
+	Installation 
+
+Une fois que vous avez effectué toutes les sous-tâches obligatoires et que le programme d'installation a
+suivi son cours, un écran final de progression de l'installation vous est présenté avec un message de fin.
+Enfin, terminez toute la procédure en cliquant sur le bouton Reboot System. Le système
+redémarre.
+
+	fin d'installation
+
+
+
+			Première connection
+Le système est maintenant configuré et prêt à être utilisé. Vous verrez la console Rocky Linux.
+			première connection
+
+	2-Firewalld
+firewalld est installé par défaut sur certaines distributions Linux, tel que Rocky Linux. Cependant, il peut être nécessaire que vous installiez firewalld vous-même. Vous pouvez le faire en utilisant le gestionnaire de paquets dnf de Rocky  linux :
+
+$ sudo dnf install firewalld -y
+	
+	firewalld
+
+Après avoir installé firewalld, vous devrez activer le service à l'aide de systemctl. N'oubliez pas que
+l'activation de firewalld entraînera le démarrage du service au démarrage.
+
+$ sudo systemctl enable firewalld
+$ sudo systemctl start firewalld
+
+Vous pouvez vérifier que le service est en cours d'exécution et joignable en tapant
+
+$ sudo firewall-cmd --state
+
+	status-firewalld
+
+	3- SSH 
+	
+Pour garantir une connexion à distance sécurisée des administrateurs à notre serveur Rundeck, ainsi que pour autoriser le serveur Rundeck à accéder en toute sécurité à nos différents serveurs clients, nous procéderons à l'installation d'openSSH :
+
+* Pour installer le client OpenSSH, utilisez la commande :
+$ sudo dnf install openssh-client -y 
+
+* Pour installer le serveur OpenSSH, tapez :
+- $ sudo dnf install openssh-server -y
+
+
+Il est à noter qu'openSSH est généralement installé par défaut sur le système Rocky Linux.
+
+	4- Rundeck
+
+	Installation-Rundeck
+
+Remarque : executer ces commandes en tant que utilisateur root
+
+$ curl https://raw.githubusercontent.com/rundeck/packaging/main/scripts/rpm-setup.sh 2> /dev/null | bash -s rundeck
+
+ce script ajoute le repo yum de Rundeck
+
+$ yum install java-1.8.0 rundeck 
+
+cette commande installe la version 1.8.0 de java et en suite installe l'outil rundeck
+
+Java est requis pour l'installation de Rundeck car Rundeck est écrit en Java. Le logiciel est une application Java basée sur le framework Grails, qui permet la planification et la gestion des tâches automatisées. Pour que Rundeck fonctionne, il doit être exécuté dans un environnement Java Runtime Environment (JRE) ou Java Development Kit (JDK), qui fournit la plate-forme nécessaire pour exécuter des applications Java.
+
+
+$ service rundeckd start 
+
+Pour demarrer le service rundeck
+
+
+III- Configuration 
+
+
+				* Firewall
+
+Rundeck écoute sur le port 4440/tcp pour les services web HTTP et 4443 pour HTTPS.
+Ouvrez ce port sur le pare-feu pour permettre un accès externe à Rundeck ;
+
+$ sudo firewall-cmd --add-port=4440/tcp --permanent
+$ sudo firewall-cmd --reload
+				config-firewalld
+
+
+				* Secure Shell (SSH)
+Commençons par creer un user que rundeck utilisera pour la connexion sur les differents
+nodes distants . Par defaut ce utilisateur est “rundeck”. Sur les differents nodes, on vas dans un
+premier temps creer l’utilisateur rundeck puis deployer les clé publiques du serveurs rundeck
+sur ces machines pour assurer une communication par clé
+
+		a) Création de l’utilisateur rundeck
+		
+executer les commandes en tant que utilisateur root (super utilisateur)
+pour créer l’utilisateur
+$ useradd rundeck
+
+$ echo “rundeck ALL=(ALL) NOPASSD:ALL” > /etc/sudoers.d/rundeck
+
+cette commande crée une nouvelle règle de sudo dans le fichier /etc/sudoers.d/rundeck, autorisant l'utilisateur rundeck à exécuter n'importe quelle commande sur le système sans avoir besoin de saisir un mot de passe. Cela peut être nécessaire pour automatiser les tâches administratives qui sont effectuées par des scripts ou des applications qui fonctionnent sous l'utilisateur rundeck.
+		
+		b) Deployer la clé publique de l’user rundeck sur les differents machines
+
+les clé du serveur rundeck ont été générées automatiquement pendant l’installation de
+rundeck et se trouvent dans le repertoire : /var/lib/rundeck/.ssh
+
+				key-pub
+
+			* Rundeck
+
+Les fichiers de configuration de rundeck :
+			Fichiers de configuration
+
+
+
+La configuration est spécifiée dans un certain nombre de fichiers de configuration
+standard de Rundeck générés pendant le processus d'installation.
+L'objectif de chaque fichier de configuration est décrit dans sa propre section.
+
+			bref description de quelque fichiers 
+
+	✔ admin.aclpolicy
+Il sagit de la politique de contrôle d'accès de l'administrateur définie avec un
+document aclpolicy.
+le fichier régit l'accès pour le groupe et le rôle "admin".
+	
+	✔ framework.properties
+c’est le fichier de configuration utilisé par les outils shell et les services de base
+de Rundeck. Ce fichier sera créé pour vous au moment de l'installation. Il contient quelques
+paramètres importants :
+
+	- framework.server.hostname : nom d'hôte du nœud de serveur Rundeck.
+	- framework.server.name : nom (identité) du nœud de serveur Rundeck.
+	- framework.projects.dir : Chemin d'accès au répertoire contenant les répertoires des
+projets Rundeck. La valeur par défaut est $RDECK_BASE/projets.
+	- framework.var.dir : répertoire de base pour les fichiers de sortie et temporaires utilisés
+par le serveur et les outils CLI. La valeur par défaut est $RDECK_BASE/var.
+	- framework.logs.dir : Répertoire pour les fichiers journaux écrits par les services
+principaux et les exécutions de tâches du serveur Rundeck. La valeur par défaut est
+$RDECK_BASE/var/logs.
+	- framework.server.username : Nom d'utilisateur pour la connexion au serveur Rundeck.
+	- framework.server.password : Mot de passe pour la connexion au serveur Rundeck.
+	- framework.rundeck.url : URL de base pour le serveur Rundeck.
+	- framework.ssh.keypath : Chemin d'accès au fichier de clé privée SSH utilisé pour
+les connexions SSH.
+	- framework.ssh.user : Nom d'utilisateur par défaut pour les connexions SSH, s'il
+n'est pas remplacé par une valeur spécifique au nœud.
+	- framework.ssh-connection-timeout : délai d'attente en millisecondes pour les
+connexions SSH. La valeur par défaut est "0" (pas de délai d'attente). Vous pouvez
+modifier cette valeur pour changer le délai de connexion/socket. (Déclassé :
+framework.ssh.timeout.)
+	- framework.ssh-command-timeout : délai d'attente en millisecondes pour les
+commandes SSH. La valeur par défaut est "0" (pas de délai d'attente). Vous pouvez
+modifier cette valeur pour changer le temps maximum autorisé pour l'exécution des
+commandes SSH.
+
+	✔ log4.properties – Legacy
+Rundeck utilise log4j comme outil de journalisation des applications. Ce
+fichier définit la configuration de la journalisation pour le serveur Rundeck.
+	
+	✔ Profile
+Variables d'environnement du shell utilisées par les outils du shell. Ce
+fichier contient plusieurs paramètres nécessaires au démarrage des outils du shell
+comme umask, Java home et classpath, et les options SSL.
+
+	✔ project.properties
+Le fichier de configuration du projet Rundeck lorsque vous utilisez des
+définitions de projet basées sur le système de fichiers. L'un de ces fichiers est généré
+au moment de la configuration du projet. Chaque projet possède un répertoire dans le
+répertoire des projets Rundeck, et le fichier de configuration se trouve dans le sous-
+répertoire etc :
+
+$RDECK_BASE/projects/[PROJECT-NAME]/etc/project.properties
+
+project.name : Déclare le nom du projet.
+project.ssh-authentication Type d'authentification SSH (par exemple, privateKey).
+project.ssh-keypath Déclare le fichier d'identification SSH. (Remarque : il ne s'agit pas
+d'un chemin de stockage de clés mais d'un chemin de système de fichiers local).
+service.FileCopier.default.provider Plugin de copie de fichier par défaut.
+service.NodeExecutor.default.provider Plugin d'exécution de nœud par défaut.
+resources.source Définit une source de modèle de ressource voir Sources de modèle
+de ressource.
+project.globals.X Définit une variable globale du projet.
+	
+	✔ realm.properties
+Répertoire utilisateur du fichier de propriétés lorsque PropertyFileLoginModule
+est utilisé. Spécifié à partir de jaas-loginmodule.conf.
+	
+	✔ rundeck-config.properties
+Il s'agit du principal fichier de configuration de la webapp Rundeck. Il
+définit le niveau de connexion par défaut, la configuration des sources de données et
+la personnalisation de l'interface graphique.
+
+
+	Configuration du serveur
+
+
+vim /etc/rundeck/rundeck-config.properties
+
+# grails.serverURL=http://localhost:4440
+grails.serverURL=http://ip_srv:4440
+
+ip_srv = adresse Ip de votre serveur 
+
+
+
+vim /etc/rundeck/framework.properties
+
+framework.server.name = ip_srv
+framework.server.hostname = ip_srv
+framework.server.port = 4440
+framework.server.url = http://ip_srv:4440
+
+uite aux changements apportés aux fichiers de configuration, il est nécessaire de redémarrer le service rundeckd afin que les modifications soient appliquées.
+
+$ systemctl restart rundeckd
+
+$ systemctl status rundeckd
+
+cette commande vous permet de verifier létét du service rundeckd
+
+$ tail -f /var/log/rundeck/rudeck.log
+
+cette commande afficher en temps réel les nouvelles lignes ajoutées à la fin du fichier de log rundeck.log 
+
+
+
+IV-exploitation
+
+Pour acceder a linterface web de runcdeck, lancer dans votre navigateur http://ip_svr:4440
+
+ 
+					interface de connexion rundeck
+
+Par defaut l'utilisateur et mot de passe par defaut est : "admin"
+
+Il est possible de changer tout ça . Pour le faire il faut ajouter quelque ligne a notre fichier de
+configuration realm.properties. le syntaxe se presente comme suit
+# le format est
+# <username>: <password>[,<rolename> …]
+exemple : alex:1234,rolename
