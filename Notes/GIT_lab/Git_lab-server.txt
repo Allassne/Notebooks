@@ -26,7 +26,7 @@ Intégration et déploiement continus, etc.
 1. __Installez et configurez les dépendances nécessaires__
 Sur CentOS 7 (et RedHat/Oracle/Scientific Linux 7), les commandes ci-dessous ouvriront également les accès HTTP, HTTPS et SSH dans le pare-feu du système. Il s'agit d'une étape facultative et vous pouvez l'ignorer si vous avez l'intention d'accéder à GitLab uniquement à partir de votre réseau local.
 
-__sudo yum install -y curl policycoreutils-python3 openssh-server perl__
+	__sudo yum install -y curl policycoreutils-python3 openssh-server perl__
 
 
 # Enable OpenSSH server daemon if not enabled: sudo systemctl status sshd
@@ -47,19 +47,11 @@ __sudo systemctl start postfix__
 
 
 
-
-https://about.gitlab.com/install/
-
-__sudo EXTERNAL_URL="https://gitlab.example.com" yum install -y gitlab-ee__
-sudo EXTERNAL_URL="https://gitlab.albam.lan" dnf install -y gitlab-ce
-# List available versions: sudo yum --showduplicate list
-# Specify version: sudo yum linstall gitlab-ee-16.1.4-ee.0.el7.x86_64
-# Pin the version to limit auto-updates: yum versionlock gitlab-ee*
-
 Lors de l'installation de Postfix, un écran de configuration peut apparaître. Sélectionnez « Site Internet » et appuyez sur Entrée. Utilisez le DNS externe de votre serveur pour le « nom de courrier » et appuyez sur Entrée. Si des écrans supplémentaires apparaissent, continuez d’appuyer sur Entrée pour accepter les valeurs par défaut.
 
 2. Ajoutez le référentiel de packages GitLab et installez le package
 __curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ee/script.rpm.sh | sudo bash__
+__curl https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.rpm.sh | sudo bash__
 
 
 Ensuite, installez le package GitLab. Assurez-vous d'avoir correctement configuré votre DNS et remplacez https://gitlab.example.com par l'URL à laquelle vous souhaitez accéder à votre instance GitLab. L'installation configurera et démarrera automatiquement GitLab à cette URL.
@@ -68,7 +60,21 @@ Pour les URL https://, GitLab demandera automatiquement un certificat avec Let's
 
 Si vous souhaitez spécifier un mot de passe personnalisé pour l'utilisateur administrateur initial (root), consultez la documentation . Si aucun mot de passe n'est spécifié, un mot de passe aléatoire sera automatiquement généré.
 
-__sudo EXTERNAL_URL="https://gitlab.example.com" dnf install -y gitlab-ee__
+__sudo EXTERNAL_URL="https://gitlab.example.com" dnf install -y gitlab-ce__
+
+__sudo EXTERNAL_URL="http://gitlab.yaano.lan" dnf install -y gitlab-ce__
+__sudo EXTERNAL_URL="http://gitlab.synelia.lan" dnf install -y gitlab-ce-14.9.2-ce.0.el8.x86_64.rpm__
+
+"
+https://packages.gitlab.com/gitlab/gitlab-ce/packages/el/8/gitlab-ce-14.9.2-ce.0.el8.x86_64.rpm
+
+wget --content-disposition https://packages.gitlab.com/gitlab/gitlab-ce/packages/el/8/gitlab-ce-14.9.2-ce.0.el8.x86_64.rpm/download.rpm
+"
+
+
+
+__sudo EXTERNAL_URL="https://gitlab.synelia.lan" dnf install __gitlab-ce-14.9.2-ce.0.el7.x86_64.rpm
+
 # List available versions: sudo yum --showduplicate list
 # Specify version: sudo yum linstall gitlab-ee-16.1.4-ee.0.el7.x86_64
 # Pin the version to limit auto-updates: yum versionlock gitlab-ee*
@@ -120,7 +126,7 @@ __sudo systemctl reload firewalld__
 Ensuite, installez Postfix (ou Sendmail) pour envoyer des e-mails de notification. Si vous souhaitez utiliser une autre solution pour envoyer des e-mails, veuillez ignorer cette étape et configurer un serveur SMTP externe après l'installation de GitLab.
 
 __sudo yum install postfix__
-__sudo systemctl enable postfix__
+__sudo yum install postfix__
 __sudo systemctl start postfix__
 
 
@@ -137,7 +143,7 @@ Pour les URL https://, GitLab demandera automatiquement un certificat avec Let's
 Si vous souhaitez spécifier un mot de passe personnalisé pour l'utilisateur administrateur initial (root), consultez la documentation . Si aucun mot de passe n'est spécifié, un mot de passe aléatoire sera automatiquement généré.
 
 sudo EXTERNAL_URL="http://gitlab.albam.lan" dnf install -y gitlab-ce
-sudo EXTERNAL_URL="https://gitlab.example.com" yum install -y gitlab-ee
+sudo EXTERNAL_URL="https://gitlab.example.com" yum install -y gitlab-ce
 # List available versions: sudo yum --showduplicate list
 # Specify version: sudo yum linstall gitlab-ee-16.1.4-ee.0.el7.x86_64
 # Pin the version to limit auto-updates: yum versionlock gitlab-ee*
@@ -184,7 +190,7 @@ apache-reverse-add  [[https://albam-gitlab.dev01.ovh.smile.ci/|albam-gitlab.dev0
 
 sudo certbot certonly --standalone -d gitlab.albam.lan
 
-
+apache-reverse-add  [[https://albam-gitlab.dev01.ovh.smile.ci/|albam-gitlab.dev01.ovh.smile.ci]] 192.168.0.111
 
 apache-reverse-add albam-gitlab.dev01.ovh.smile.ci 192.168.0.111:80
 /usr/local/lib/python3.6/site-packages/OpenSSL/_util.py:6: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography. The next release of cryptography will remove support for Python 3.6.
@@ -224,5 +230,162 @@ grep 192.168.0.111 /opt/gitlab/* -r
 
 
 
+
+
+
+
+
+
+===== Comment mettre en place le HTTPS =====
+
+=== Configuration de l'URL extene ===
+Pour que les utilisateurs puissent voir les bonnes adresses (liens) qu'ils doivent utiliser pour copier (cloner) un dépôt (référentiel) sur GitLab, vous devez configurer GitLab avec l'adresse (URL) que les utilisateurs utilisent pour accéder à ce dépôt.
+ Vous pouvez utiliser l'adresse IP de votre serveur, mais un nom de domaine complet (FQDN) est préférable.
+Pour ajouter l'URL externe Modifiez **/etc/gitlab/gitlab.rb** et remplacez "external_url" par votre URL préférée :
+
+ dans notre cas : ''external_url "''[[http://gitlab.example.com"|''http://gitlab.example.com"'']]'' devient''
+ **''external_url "''[[https://gitlab.example.com"|''https://gitlab.example.com"'']]**
+
+Alternativement, vous pouvez utiliser l'adresse IP de votre serveur :
+**''external_url "''[[https://10.0.0.1"|''https://10.0.0.1"'']]**
+
+Enregistrez et fermez le fichier, puis exécutez la commande suivante pour reconfigurer GitLab.
+**''gitlab-ctl reconfigure''**
+
+
+sudo gitlab-ctl restart
+
+
+
+
+# Génération de la clé privée
+openssl genpkey -algorithm RSA -out key.pem
+
+# Génération de la demande de certificat (CSR)
+openssl req -new -key key.pem -out csr.pem
+
+# Auto-signer le certificat
+openssl x509 -req -in csr.pem -signkey key.pem -out cert.pem
+
+# Conversion des fichiers PEM au format PKCS12
+openssl pkcs12 -export -out certificate.pfx -inkey key.pem -in cert.pem
+
+
+
+
+https://docs.gitlab.com/omnibus/settings/ssl/ssl_troubleshooting.html
+
+http://wiki.cacert.org/FAQ/subjectAltName
+https://gitlab.com/gitlab-org/gitlab-runner/-/issues/28841
+
+
+
+
+
+
+
+openssl x509 -in server.crt -text -noout
+
+
+openssl s_client -connect gitlab.synelia.lan:443 </dev/null 2>/dev/null | openssl x509 -noout -text | grep DNS:
+
+
+docker cp ca.crt gitlab/gitlab-runner:latest :/usr/local/share/ca-certificates/
+
+
+curl --request POST -k "https://gitlab.synelia.lan:/api/v4/runners" \
+	 --form "token=nJihg8X4BDmyx-NwxSbR" --form "description=docker first runner" \
+	 --form "tag_list=docker"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------
+
+## Mettre en place le HTTPS
+
+### Générer un certificat 
+
+Pour mettre en place le HTTPS vous devez générer le certificat dans le répertoire **/etc/gitlab/ssl/**
+
+```
+openssl genrsa -out ca.key 2048
+openssl req -new -x509 -days 365 -key ca.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=Acme Root CA" -out ca.crt
+
+openssl req -newkey rsa:2048 -nodes -keyout server.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=*.synelia.lan" -out server.csr
+openssl x509 -req -extfile <(printf "subjectAltName=DNS:synelia.lan,DNS:www.gitlab.synelia.lan") -days 365 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt
+```
+
+Ces commandes créent une autorité de certification auto-signée et utilisent cette **CA** pour signer un certificat pour le domaine "*.synelia.lan" avec des SANs spécifiques.
+
+### Modifiez le fichier de configuration 
+
+Pour modifier l'URL externe, vous devez accéder au fichier /etc/gitlab/gitlab.rb et remplacer la valeur de external_url. Dans mon cas, external_url 'http://gitlab.synelia.lan' deviendrait par exemple external_url 'https://gitlab.synelia.lan' pour passer à HTTPS.
+```
+ external_url "https://gitlab.synelia.lan"
+```
+Activez HTTPS en définissant :
+```
+nginx['enable'] = true
+nginx['redirect_http_to_https'] = true
+nginx['ssl_protocols'] = "TLSv1.2 TLSv1.3"
+nginx['ssl_ciphers'] = "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384"
+```
+Configurez les paramètres SSL en spécifiant les chemins vers votre certificat et votre clé privée
+```
+nginx['ssl_certificate'] = "/etc/gitlab/ssl/server.crt"
+nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/server.key"
+```
+
+Enregistrez et fermez le fichier, puis exécutez la commande suivante pour reconfigurer GitLab.
+```
+gitlab-ctl reconfigure
+```
+Ensuite redémarrer GitLab
+```
+sudo gitlab-ctl restart
+```
+
+### Configurer le runner (à revoir)
+
+Ajoutez le nouveau **ca.crt** auto-signé au conteneur gitlab-runner (si vous utilisez docker) sous **/usr/local/share/ca-certificates/** et exécutez : 
+```
+update-ca-certificates
+``` 
+avant d'exécuter 
+```
+gitlab-runner register
+```
+
+
+
+
+
+__gitlab_rails['initial_root_password'] ='kassibla'__
 
 

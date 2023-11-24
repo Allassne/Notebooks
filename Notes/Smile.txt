@@ -5,7 +5,7 @@ Creation-Date: 2023-10-23T15:32:01+01:00
 ====== Smile ======
 Créée le Monday 23 October 2023
 
-sshuttle -r albam@gw.abj.smile.ci 10.1.4.0/24
+sshuttle -r albam@gw.abj.smile.ci 10.1.4.0/24 10.1.6.0/24
 
 
 

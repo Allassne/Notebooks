@@ -1,0 +1,144 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-11-13T17:09:33+00:00
+
+====== Dev01 ======
+Créée le Monday 13 November 2023
+
+== Déploiement de key avec basic-server ==
+ansible-playbook playbooks/basic-server.yml -u root -b -k -i 10.1.20.39,
+
+
+
+
+pvs
+  PV         VG     Fmt  Attr PSize   PFree
+  /dev/vda2  system lvm2 a--  <19.00g    0 
+root@albam-gitlab:~# poweroff
+Connection to 192.168.0.40 closed by remote host.
+Connection to 192.168.0.40 closed.
+alex@albam:~$ ssh albam@192.168.0.40
+Last login: Fri Nov 17 12:32:40 2023 from 192.168.0.1
+albam@albam-gitlab:~$ sudo -i
+root@albam-gitlab:~# pvs
+  PV         VG     Fmt  Attr PSize   PFree
+  /dev/vda2  system lvm2 a--  <19.00g    0 
+root@albam-gitlab:~# poweroff
+Connection to 192.168.0.40 closed by remote host.
+Connection to 192.168.0.40 closed.
+alex@albam:~$ ssh albam@192.168.0.40
+albam@albam-gitlab:~$ 
+
+
+
+
+
+
+albam@albam-gitlab:~$ df -h
+
+albam@albam-gitlab:~$ sudo -i
+root@albam-gitlab:~# pvs
+  PV         VG     Fmt  Attr PSize   PFree
+  /dev/vda2  system lvm2 a--  <19.00g    0 
+root@albam-gitlab:~# lsblk 
+NAME            MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+vda             252:0    0   40G  0 disk 
+|-vda1          252:1    0    1G  0 part /boot
+`-vda2          252:2    0   19G  0 part 
+  |-system-root 253:0    0  5.3G  0 lvm  /
+  |-system-swap 253:1    0    2G  0 lvm  [SWAP]
+  |-system-tmp  253:2    0  1.1G  0 lvm  /tmp
+  `-system-var  253:3    0 10.6G  0 lvm  /var
+vdb             252:16   0   25G  0 disk 
+root@albam-gitlab:~# sudo pvcreate /dev/vdb
+  Physical volume "/dev/vdb" successfully created.
+root@albam-gitlab:~# vgs
+  VG     #PV #LV #SN Attr   VSize   VFree
+  system   1   4   0 wz--n- <19.00g    0 
+root@albam-gitlab:~# sudo vgextend system /dev/vdb
+  Volume group "system" successfully extended
+root@albam-gitlab:~# vgs
+  VG     #PV #LV #SN Attr   VSize  VFree  
+  system   2   4   0 wz--n- 43.99g <25.00g
+root@albam-gitlab:~# lvextend -L +25G /dev/system/root 
+  Insufficient free space: 6400 extents needed, but only 6399 available
+root@albam-gitlab:~# lvextend -L +20G /dev/system/root 
+  Size of logical volume system/root changed from <5.31 GiB (1359 extents) to <25.31 GiB (6479 extents).
+  Logical volume system/root successfully resized.
+root@albam-gitlab:~# sudo resize2fs /dev/system/root
+resize2fs 1.45.6 (20-Mar-2020)
+Filesystem at /dev/system/root is mounted on /; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 4
+The filesystem on /dev/system/root is now 6634496 (4k) blocks long.
+
+ df -h
+
+
+
+Pour augmenter la taille du volume logique `system-root` qui est monté sur `/`, vous pouvez utiliser l'espace disponible sur votre nouveau disque (`vdb`). Voici les étapes à suivre :
+
+### 1. Préparation du Nouveau Disque
+
+D'abord, vous devez préparer le nouveau disque (`vdb`) pour qu'il puisse être utilisé avec LVM (Logical Volume Manager).
+
+1. **Créer un Volume Physique LVM sur `vdb`** :
+   - Si `vdb` n'a pas encore été partitionné, partitionnez-le en utilisant `fdisk` ou `parted`.
+   - Ensuite, créez un volume physique LVM sur `vdb` (ou sa partition, si vous avez créé une partition) :
+	 ```sh
+	 sudo pvcreate /dev/vdb
+	 ```
+
+### 2. Étendre le Groupe de Volumes
+
+Ensuite, ajoutez le volume physique que vous venez de créer au groupe de volumes contenant `system-root`.
+
+1. **Identifier le Groupe de Volumes** :
+   - Utilisez `vgs` pour identifier le nom du groupe de volumes contenant `system-root`. Disons que c'est `system`.
+
+2. **Ajouter le Volume Physique au Groupe de Volumes** :
+   - Étendez le groupe de volumes en y ajoutant le nouveau volume physique :
+	 ```
+	 sudo vgextend system /dev/vdb
+	 ```
+
+### 3. Étendre le Volume Logique `system-root`
+
+Après avoir étendu le groupe de volumes, vous pouvez maintenant agrandir le volume logique `system-root`.
+
+1. **Agrandir le Volume Logique `system-root`** :
+   - Utilisez `lvextend` pour augmenter la taille de `system-root`. Par exemple, pour ajouter 20 Go supplémentaires :
+	 ```sh
+	 sudo lvextend -L +20G [[/dev/system/root]]
+	
+sudo lvextend -l +100%FREE /dev/system/root
+	
+	 ```
+   - Vous pouvez ajuster la quantité d'espace à ajouter en fonction de vos besoins et de l'espace disponible sur `vdb`.
+
+2. **Redimensionner le Système de Fichiers** :
+   - Pour que le système d'exploitation utilise l'espace supplémentaire, vous devez redimensionner le système de fichiers sur `system-root`.
+   - Si `system-root` utilise un système de fichiers ext4 (le plus courant), utilisez :
+	 ```sh
+	 sudo resize2fs /dev/system/root
+	 ```
+   - Cette commande ajustera automatiquement la taille du système de fichiers à la taille du volume logique.
+
+### 4. Vérification
+
+- **Vérifiez l'Espace Disponible** :
+  - Après avoir terminé, utilisez `df -h` pour vérifier que l'espace supplémentaire est bien disponible sur `/`.
+
+### Remarques
+
+- **Sauvegardes** : Avant de procéder, assurez-vous de sauvegarder toutes les données importantes. Manipuler des volumes et des partitions peut entraîner une perte de données en cas d'erreur.
+- **Documentation et Support** : Les commandes et les étapes exactes peuvent varier en fonction de votre distribution Linux spécifique. Consultez la documentation de votre distribution ou les forums de support pour des instructions spécifiques à votre environnement.
+- **Exécution en Mode Single-User** : Selon votre configuration et votre distribution, il peut être recommandé de réaliser ces opérations en mode single-user pour éviter les problèmes avec les systèmes de fichiers montés et utilisés.
+
+
+
+__sudo pvcreate [[/dev/vdb]]__
+__sudo vgextend system [[/dev/vdb]]__
+__sudo lvextend -l +100%FREE [[/dev/system/root]]__
+__sudo resize2fs [[/dev/system/root]]__
+
+

@@ -42,13 +42,24 @@ Pour installer GitLab Runner avec l'executor Docker et une image par défaut bas
 
    - Enregistrez le runner avec votre GitLab. Assurez-vous d'avoir le token d'enregistrement de votre projet GitLab à portée de main.
 
-	 ```bash
+	 ```
 
 	 sudo gitlab-runner register
 	 ```
 
 
-sudo gitlab-runner register --url http://gitlab.albam.lan/ --registration-token JSzwdm8_Xewfq8E3TJKo
+
+
+
+nJihg8X4BDmyx-NwxSbR
+https://gitlab.synelia.lan
+
+
+
+Runner dédié aux tests d'intégration pour les projets. Nécessite une mise à jour mensuelle. Disponible 24/7 sauf maintenance programmée. Contact : Albam (allassane.bamba@smile.ci).
+
+
+sudo gitlab-runner register --url https://gitlab.synelia.lan --registration-token nJihg8X4BDmyx-NwxSbR
 
    - Suivez les étapes de configuration interactives. Voici comment vous pouvez les remplir :
 
@@ -70,3 +81,72 @@ sudo gitlab-runner register --url http://gitlab.albam.lan/ --registration-token 
    ```
 
    Votre GitLab Runner est maintenant prêt à exécuter des travaux utilisant Docker avec l'image CentOS 7 par défaut. Assurez-vous que la machine où vous avez installé le runner a accès à Internet pour télécharger les images Docker au besoin.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+concurrent = 1
+check_interval = 0
+shutdown_timeout = 0
+
+[session_server]
+  session_timeout = 1800
+
+[[runners]]
+  name = "first runner"
+  url = "https://gitlab.synelia.lan"
+  id = 1
+  token = "MRWXMfMM9W5vsePkJZtA"
+  token_obtained_at = 2023-11-17T15:04:37Z
+  token_expires_at = 0001-01-01T00:00:00Z
+  executor = "docker"
+  [runners.cache]
+	MaxUploadedArchiveSize = 0
+  [runners.docker]
+	tls_verify = false
+	image = "centos:7"
+	privileged = false
+	disable_entrypoint_overwrite = false
+	oom_kill_disable = false
+	disable_cache = false
+	volumes = ["/cache"]
+	shm_size = 0
+				
+
+
+
+
+
+
+
+
+
+docker run -d --name gitlab-runner --restart always     -v /var/run/docker.sock:/var/run/docker.sock     -v /data/gitlab-runner-config:/etc/gitlab-runner --network host    gitlab/gitlab-runner:latest
+
+
+
+
+openssl genrsa -out ca.key 2048
+openssl req -new -x509 -days 365 -key ca.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=Acme Root CA" -out ca.crt
+
+openssl req -newkey rsa:2048 -nodes -keyout server.key -subj "/C=CN/ST=GD/L=SZ/O=Acme, Inc./CN=*.[[https://gitlab.synelia.lan"|synelia.lan]]" -out server.csr
+openssl x509 -req -extfile <(printf "subjectAltName=DNS:[[https://gitlab.synelia.lan"|synelia.lan]],DNS:[[www.gitlab.]][[https://gitlab.synelia.lan"|synelia.lan]][["]]) -days 365 -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt

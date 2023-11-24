@@ -557,7 +557,7 @@ velero schedule delete sauve-01
 https://www.youtube.com/watch?v=uIKaiZQxqkI&ab_channel=DEVOPSD-DAY
 
 velero backup create first-backup
-
+velero backup create backup-test
 
 __velero backup describe first-backup__
 __velero backup logs first-backup__
@@ -565,17 +565,17 @@ __velero backup logs first-backup__
 
 
 
-kubectl logs deployment/velero -n velero
+__kubectl logs deployment/velero -n velero__
 
 
-velero get backups  # voir les sauvegardes disponible
+__velero get backups__  # voir les sauvegardes disponible
 
-velero restore create --from-backup NOM_DE_LA_SAUVEGARDE  # Restauration 
+__velero restore create --from-backup NOM_DE_LA_SAUVEGARDE__  # Restauration 
 
-velero restore
-velero restore describe NOM_DU_RESTORE    # voir la progression 
+__velero restore__
+__velero restore describe NOM_DU_RESTORE__    # voir la progression 
 
-
+velero restore create --from-backup sauve-20231120084817
 
 
 
@@ -930,6 +930,7 @@ https://git.smile.ci/adminsys/dex/-/blob/master/kubernetes/03-0-configuration.md
 ==== __''Configuration des autorisations RBAC pour limiter l'accès aux ressources d'un cluster à certains utilisateurs''__ ====
 
 ==== __''Installation d'un cluster consul''__ ====
+avec argo CD 
 
 ==== __''Installation d'un cluster vault''__ ====
 
@@ -1183,7 +1184,7 @@ externalURL: https://domain-harbor.lan
 	jobservice:
 	  jobLog:
 		existingClaim: ""
-		storageClass: "rbd"
+		storageClass: "rbd-name"
 		subPath: ""
 		accessMode: ReadWriteOnce
 		size: 1Gi
@@ -1192,7 +1193,7 @@ externalURL: https://domain-harbor.lan
 	# be ignored
 	database:
 	  existingClaim: ""
-	  storageClass: "rbd"
+	  storageClass: "rbd-name"
 	  subPath: ""
 	  accessMode: ReadWriteOnce
 	  size: 1Gi
@@ -1238,118 +1239,11 @@ Nous pouvons joindre la GUI via la ressource ingress definir dans la fichier ci-
 https://domain.harbor.lan
 
 
---------------------
-
-===== ''Installer docker (Master & worker)'' =====
-
-curl https://releases.rancher.com/install-docker/20.10.sh | sh
-
-''sudo systemctl enable docker'' 
-''sudo systemctl start docker''
-''sudo systemctl status docker''
-
-**__sudo usermod -aG docker $user__**
-sudo usermod -aG docker albam
-
-
-
-
-===== Installation d'un nouveau controller node avec docker =====
-
-
-export K3S_URL=https://192.168.0.128:6443
-export INSTALL_K3S_VERSION=v1.23.16+k3s1
-curl -sfL https://get.k3s.io | K3S_TOKEN=K10ef08abf620e5310e1f8630fac12d65257c1784c720a13a80010f183b74fd7ec2::server:b937816c6a826e8bbe220468b6c1eb74 sh -s - --docker server --no-deploy=traefik
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Cette commande va télécharger et sauvegarder le binaire k3s dans le chemin /usr/local/bin. Assurez-vous alors que le chemin /usr/local/bin a été déclaré comme un chemin binaire.//
-
-__echo "export PATH=\$PATH:/usr/local/bin" | sudo tee -a /etc/profile__
-__source /etc/profile__
-
-//Rajouter la config .kube/config//
-
-__mkdir -p /root/.kube__
-__ln -s /etc/rancher/k3s/k3s.yaml /root/.kube/config__
-
-//Autorisez les ports ci-dessous à travers le pare-feu sur le nœud de contrôle ://
-
-__sudo firewall-cmd --zone=trusted --add-interface=cni0 --permanent__
-__sudo firewall-cmd --add-port=8090/tcp --permanent__
-__sudo firewall-cmd --add-port=10250/tcp --permanent__
-__sudo firewall-cmd --add-port=10255/tcp --permanent__
-__sudo firewall-cmd --add-port=8472/udp --permanent__
-__sudo firewall-cmd --add-port=6443/tcp --permanent__
-__sudo firewall-cmd --add-port=9443/tcp --permanent__
-__sudo firewall-cmd --reload__
-
-
-//Les service k3s seront gerer avec ces commande ci-dessous//
-
-__sudo systemctl start k3s__
-__sudo systemctl enable k3s__
-__sudo systemctl status k3s__
-
-
-
-
-===== Installation des workers nodes avec docker =====
-//le token qui va nous permettre de joint les worker au control panel ce trouve dans le fichier token du master creer plus haut.//
-
-__sudo cat /var/lib/rancher/k3s/server/node-token__
-
-//Ensuite nous allons executer le script suivant pour permettre aux nodes worker de rejoindre le master et creer le cluster.//
-
-//K3S_URL and K3S_TOKEN son des variable d'environment a remplacer dans la commande.//
-
-__export  K3S_URL=https://192.168.0.128:6443__
-export INSTALL_K3S_VERSION=v1.23.16+k3s1
-__export K3S_TOKEN=K10ef08abf620e5310e1f8630fac12d65257c1784c720a13a80010f183b74fd7ec2::server:b937816c6a826e8bbe220468b6c1eb74__
-__curl -sfL https://get.k3s.io | sh -s - --docker__
-
-//Autorisez les ports suivants à travers le pare-feu sur le nœud de travail ://
-
-__sudo firewall-cmd --zone=trusted --add-interface=cni0 --permanent__
-__sudo firewall-cmd --add-port=8090/tcp --permanent__
-__sudo firewall-cmd --add-port=10250/tcp --permanent__
-__sudo firewall-cmd --add-port=10255/tcp --permanent__
-__sudo firewall-cmd --add-port=8472/udp --permanent__
-__sudo firewall-cmd --reload__
-
-
-
-===== ''auto-completion'' =====
-
-''sudo dnf install bash-completion''
-''echo "source <(kubectl completion bash)" >> ~/.bashrc''
-''source .bashrc''
-
-
-
-
-
-
-
 
 
 --------------------
 
-
+=== Storage ===
 
 
 	__ceph osd pool create vdisk 32__
@@ -1384,6 +1278,8 @@ kubectl  get pods -A  | grep -i Evicted  | grep default | awk '{print $2}' | xar
 
 
 --------------------
+
+=== vault ===
 vault write pki/roles/example-dot-com \
 	key_type=rsa \
 	allowed_domains=albam.com \
@@ -1427,7 +1323,7 @@ Trivy est un outil de scan de vulnérabilités et de  détection de mauvaise con
 
 https://aquasecurity.github.io/trivy/v0.28.1/docs/kubernetes/cli/scanning/	#doc
 
-__Installation__
+=== Installation ===
 https://aquasecurity.github.io/trivy/v0.28.1/getting-started/installation/
 
 
@@ -1449,17 +1345,11 @@ sudo yum -y install trivy
 ```
 
 
-
-
-
+== Avec script ==
 curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin v0.28.1
 
 
-
-
-
-
-
+==== Mode d'emploi ====
 
 [EXPERIMENTAL] Scan kubernetes cluster
 
@@ -1593,7 +1483,7 @@ Global Flags:
 
 --------------------
 
-
+=== Grafana + promtail+loki ===
 
 
 kubectl port-forward svc/loki-write 8080:3100
@@ -1636,3 +1526,258 @@ NOTES:
 
 
 furZmPxenR4coyUKKzIZbJDWQ1v9WxCoTPxNImUx
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------
+
+==== Supprimer les pod qui ne demarre pas correctement ====
+
+kubectl get pods --field-selector=status.phase!=Running --all-namespaces -o json | jq -r '.items[] | select(.status.phase != "Running") | .metadata.name + " " + .metadata.namespace' | while read pod ns; do kubectl delete pod $pod -n $ns; done
+
+
+==== Taintez le nœud master: ====
+Pour marquer votre nœud master de manière à ce qu'il n'accepte aucun pod de déploiement, suivez ces étapes:
+
+Pour ajouter un taint au nœud master, exécutez la commande suivante sur votre machine où kubectl est configuré pour interagir avec votre cluster k3s:
+
+kubectl taint nodes <nom-du-master> key=value:NoSchedule
+__kubectl taint nodes albam-maasster-1.dev01.smile.lan key=allassaneBamba:NoSchedule__
+
+Remplacez <nom-du-master> par le nom de votre nœud master. La clé et la valeur peuvent être ce que vous voulez, par exemple node-role.kubernetes.io/master="". NoSchedule signifie que aucun nouveau pod ne sera programmé sur le nœud, sauf s'ils ont une tolérance correspondante.
+
+Vérifiez le taint:
+
+Pour confirmer que le taint a été appliqué, exécutez:
+
+kubectl get nodes -o json | jq '.items[].spec.taints'
+
+Gérez les tolerations pour les pods spéciaux:
+
+Si vous avez des pods qui doivent s'exécuter sur le nœud master, vous devrez ajouter une tolération à la spécification de ce pod. Voici un exemple de tolération dans un manifeste de pod:
+
+```
+tolerations:
+- key: "key"
+  operator: "Equal"
+  value: "value"
+  effect: "NoSchedule"
+```
+
+Cette tolération doit correspondre au taint que vous avez mis sur le master.
+
+N'oubliez pas que lorsque vous taintez le nœud master, les pods qui y sont déjà en cours d'exécution ne seront pas affectés; seuls les nouveaux déploiements seront repoussés. Si vous voulez également évacuer les pods déjà en cours d'exécution, vous devrez le faire manuellement avec la commande __kubectl drain__, en prenant soin de ne pas interrompre les services importants.
+
+
+== pour retirer un taint ==
+
+```
+__kubectl taint nodes albam-maasster-1.dev01.smile.lan key=allassaneBamba:NoSchedule-__
+```
+
+
+
+===== Déploiement de multi-master k3s =====
+
+
+ssh albam@10.1.16.2 -A
+option a pour embarqué ma clé
+
+=== Pour installer les masters ===
+vim inventory/hosts
+```
+agents
+servers
+
+[servers]
+albam-M1.dev01.abj.smile.lan
+albam-M2.dev01.abj.smile.lan
+albam-M3.dev01.abj.smile.lan
+
+
+[agents]
+```
+vim playbooks/k3s.yml 
+```
+---
+
+- hosts: all
+  vars:
+	k3s_servers: "{{ groups['servers'] }}"
+	k3s_agents: "{{ groups['agents'] }}"
+  roles:
+	- role: k3s
+
+
+```
+
+ansible-playbook playbooks/k3s.yml -u albam -b 
+
+
+=== Pour installer les workers ===
+vim inventory/hosts
+```
+agents
+servers
+
+[servers]
+albam-M1.dev01.abj.smile.lan
+albam-M2.dev01.abj.smile.lan
+albam-M3.dev01.abj.smile.lan
+
+
+[agents]
+albam-W1.dev01.abj.smile.lan
+albam-W2.dev01.abj.smile.lan
+albam-W3.dev01.abj.smile.lan
+
+``` 
+ansible-playbook playbooks/k3s.yml -u albam -b 
+
+--------------------
+
+===== Logs =====
+
+== url dans data sources grafana ==
+http://loki-gateway.loki.svc.cluster.local
+
+**`loki-gateway`** :
+   - C'est le nom du service dans Kubernetes. Dans ce cas, il s'agit d'un service nommé "loki-gateway", probablement une passerelle (gateway) pour le système de gestion de logs Loki.
+
+**`loki`** :
+   - Ce segment représente le namespace dans lequel le service est déployé.
+
+**`svc`** :
+   - Cela indique qu'il s'agit d'un service au sein de Kubernetes. `svc` est un sous-domaine standard utilisé dans les DNS internes de Kubernetes pour les services.
+
+**`cluster.local`** :
+   - C'est le domaine par défaut interne à un cluster Kubernetes. Cela signifie que l'URL est résoluble uniquement à l'intérieur du cluster Kubernetes et n'est pas accessible depuis l'extérieur du cluster.
+
+== suivie des logs ==
+kubectl logs -f -l app.kubernetes.io/name=grafana-loki -n loki-grafana --max-log-requests=12
+
+
+
+
+
+Release "grafana" does not exist. Installing it now.
+NAME: grafana
+LAST DEPLOYED: Thu Nov 16 17:29:53 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get your 'admin' user password by running:
+
+   kubectl get secret --namespace default grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+
+
+2. The Grafana server can be accessed via port 80 on the following DNS name from within your cluster:
+
+   grafana.default.svc.cluster.local
+
+   If you bind grafana to 80, please update values in values.yaml and reinstall:
+   ```
+   securityContext:
+	 runAsUser: 0
+	 runAsGroup: 0
+	 fsGroup: 0
+
+   command:
+   - "setcap"
+   - "'cap_net_bind_service=+ep'"
+   - "/usr/sbin/grafana-server &&"
+   - "sh"
+   - "/run.sh"
+   ```
+   Details refer to https://grafana.com/docs/installation/configuration/#http-port.
+   Or grafana would always crash.
+
+   From outside the cluster, the server URL(s) are:
+	 http://albam-grafana.lan
+
+3. Login with the password from step 1 and the username: admin
+#################################################################################
+######   WARNING: Persistence is disabled!!! You will lose your data when   #####
+######            the Grafana pod is terminated.                            #####
+#################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
