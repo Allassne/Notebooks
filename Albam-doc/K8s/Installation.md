@@ -1,11 +1,11 @@
 
-Déploiement de multi-master k3s
+# Déploiement de multi-master k3s
 
 
 ssh albam@10.1.16.2 -A
 option a pour embarqué ma clé
 
-Pour installer les masters
+## Pour installer les masters
 vim inventory/hosts
 ```
 agents
@@ -33,7 +33,7 @@ vim playbooks/k3s.yml
 ansible-playbook playbooks/k3s.yml -u albam -b 
 
 
-Pour installer les workers
+## Pour installer les workers
 vim inventory/hosts
 ```
 agents
@@ -49,6 +49,6 @@ albam-M3.dev01.abj.smile.lan
 albam-W1.dev01.abj.smile.lan
 albam-W2.dev01.abj.smile.lan
 albam-W3.dev01.abj.smile.lan
-
 ``` 
+
 ansible-playbook playbooks/k3s.yml -u albam -b 

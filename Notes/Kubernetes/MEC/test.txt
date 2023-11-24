@@ -117,7 +117,7 @@ __sudo chmod 644 /etc/rancher/k3s/k3s.yaml__
 
 
 
-
+===== Traefik =====
 
 Utiliser helm en tant que root
 
@@ -323,7 +323,8 @@ helm repo add rancher-stable https://releases.rancher.com/server-charts/stable
 helm repo update
 helm install cert-manager jetstack/cert-manager  --namespace cert-manager  --create-namespace  --version v1.7.1 --set installCRDs=true
 kubectl get pods --namespace cert-manager
-helm upgrade -i rancher rancher-stable/rancher --create-namespace  --namespace cattle-system --version 2.7   --set bootstrapPassword=admin  --set hostname=rancher.smile.ci
+helm upgrade -i rancher rancher-stable/rancher --create-namespace  --namespace cattle-system --version 2.7   --set bootstrapPassword=admin  --set hostname=rancher.synelia.ci
+
 
 
 ===== Deploie grafana et prometheus depuis rancher pour le monitoring =====
@@ -1005,23 +1006,7 @@ Helm est un gestionnaire de paquets pour Kubernetes, permettant de définir, d'i
 2. **Bitnami Helm Charts** : Bitnami fournit un grand nombre de chartes Helm pour des applications populaires.
    - Repo : `https://charts.bitnami.com/bitnami`
 
-3. **Helm Stable & Incubator Repos** : Historiquement, ces deux dépôts étaient les références officielles pour les chartes Helm. Cependant, le dépôt stable a été déprécié et les chartes ont été déplacées vers d'autres dépôts. L'incubateur est également en phase de dépréciation.
-   - Stable (déprécié) : `https://charts.helm.sh/stable`
-   - Incubator (déprécié) : `https://charts.helm.sh/incubator`
 
-4. **JupyterHub Helm Charts** : Si vous déployez JupyterHub sur Kubernetes, ce dépôt est utile.
-   - Repo : `https://jupyterhub.github.io/helm-chart/`
-
-5. **Prometheus Community Helm Charts** : Pour le monitoring avec Prometheus et d'autres outils liés.
-   - Repo : `https://prometheus-community.github.io/helm-charts`
-
-6. **Elastic Helm Charts** : Pour déployer des produits Elastic comme Elasticsearch sur Kubernetes.
-   - Repo : `https://helm.elastic.co`
-
-7. **Grafana Helm Charts** : Pour déployer Grafana sur Kubernetes.
-   - Repo : `https://grafana.github.io/helm-charts`
-
-Ceci est juste un échantillon de quelques dépôts Helm populaires. Il existe de nombreux autres dépôts hébergés par des fournisseurs de logiciels, des communautés open-source et des organisations. Lorsque vous cherchez une charte Helm pour une application spécifique, une recherche rapide sur Artifact Hub ou sur le web en général devrait vous donner des résultats pertinents.
 
 
 

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Gitlab/key.md",
+                "file": "K8s/K3S installation Multi Master.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Gitlab/key.md",
+                "file": "K8s/K3S installation Multi Master.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Gitlab/key.md",
+                "file": "K8s/K3S installation Multi Master.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Gitlab/key.md"
+                "file": "K8s/K3S installation Multi Master.md"
               }
             }
           }
@@ -148,13 +148,17 @@
   },
   "active": "99216beabfd71dcf",
   "lastOpenFiles": [
-    "K8s/Installation.md",
+    "K8s/K3S.md",
+    "K8s/K3S installation Multi Master.md",
+    "K8s/Grafana-Loki Connexion.md",
+    "K8s/Traefik.md",
     "Gitlab/key.md",
+    "key-git.md",
+    "K8s/Rancher.md",
+    "K8s/Définition.md",
+    "K8s/Installation.md",
     "Gitlab",
     "K8s/Gitlab",
-    "K8s/Définition.md",
-    "K8s/test-loki.md",
-    "key-git.md",
     "Sans titre.md",
     "K8s"
   ]

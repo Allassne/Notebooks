@@ -1,13 +1,5 @@
 
- 
- 
- 
- 
- 
  - url: http://{{ include "grafana-loki.gateway.fullname" . }}:{{ .Values.gateway.service.ports.http }}/loki/api/v1/push 
-
-
-
 
 
 L'URL `http://loki-gateway.loki.svc.cluster.local` représente l'adresse d'un service dans un cluster Kubernetes, spécifiquement pour accéder à un service lié à Loki, probablement un composant de gestion de logs. Voici la décomposition de cette URL :
