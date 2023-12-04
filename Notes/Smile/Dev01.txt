@@ -136,9 +136,9 @@ sudo lvextend -l +100%FREE /dev/system/root
 
 
 
-__sudo pvcreate [[/dev/vdb]]__
-__sudo vgextend system [[/dev/vdb]]__
-__sudo lvextend -l +100%FREE [[/dev/system/root]]__
-__sudo resize2fs [[/dev/system/root]]__
+__pvcreate [[/dev/vdb]]__
+__vgextend system [[/dev/vdb]]__
+__lvextend -l +100%FREE [[/dev/system/root]]__
+__resize2fs [[/dev/system/root]]__
 
 

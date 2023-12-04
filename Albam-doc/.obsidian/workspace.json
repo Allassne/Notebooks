@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "K8s/K3S installation Multi Master.md",
+                "file": "K8s/Installation CEPH.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "K8s/K3S installation Multi Master.md",
+                "file": "K8s/Installation CEPH.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "K8s/K3S installation Multi Master.md",
+                "file": "K8s/Installation CEPH.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "K8s/K3S installation Multi Master.md"
+                "file": "K8s/Installation CEPH.md"
               }
             }
           }
@@ -148,15 +148,22 @@
   },
   "active": "99216beabfd71dcf",
   "lastOpenFiles": [
-    "K8s/K3S.md",
-    "K8s/K3S installation Multi Master.md",
-    "K8s/Grafana-Loki Connexion.md",
-    "K8s/Traefik.md",
-    "Gitlab/key.md",
+    "K8s/CEPH.md",
+    "K8s/Installer Docker.md",
     "key-git.md",
+    "K8s/Installation CEPH.md",
+    "K8s/Velero.md",
+    "Cloud/Momo.md",
+    "Cloud",
+    "K8s/Installation K3S Multi Master.md",
     "K8s/Rancher.md",
-    "K8s/Définition.md",
+    "K8s/Traefik.md",
+    "K8s/K3S.md",
     "K8s/Installation.md",
+    "K8s/argo CD.md",
+    "K8s/Grafana-Loki Connexion.md",
+    "Gitlab/key.md",
+    "K8s/Définition.md",
     "Gitlab",
     "K8s/Gitlab",
     "Sans titre.md",

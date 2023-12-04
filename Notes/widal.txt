@@ -1,0 +1,70 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-11-29T14:25:51+00:00
+
+====== widal ======
+Créée le Wednesday 29 November 2023
+
+__met en place un serveur mariadb et importe la bd__
+
+curl -LsS https://downloads.mariadb.com/MariaDB/mariadb_repo_setup | sudo bash -s -- --mariadb-server-version=10.11
+dnf install mariadb-server -y
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+mariadb-secure-installation
+
+
+
+gunzip bd_table.tar.gz
+tar -xvf bd_table.tar
+
+__db name: radius_ftth__
+mysql -u root -p
+CREATE DATABASE radius_ftth;
+EXIT;
+I__mporter la bd__
+mysqldump -u [username] -p [database_name] > [filename].sql
+
+mysql -u root -p
+show DATABASES;
+USE radius_ftth;
+show TABLES;
+
+__1- vérifie le nombre d'enregistrement qu'on a dans la table radacct__
+SELECT COUNT(*) FROM radacct;
+	1451691
+
+__2- il y a combien d'enregistrement pour l'année 2023 en te basant sur le champ acctstarttime ?__
+SELECT COUNT(*) FROM radacct WHERE YEAR(acctstarttime) = 2023;
+	1037049
+
+__3- il y a combien d'enregistrement pour les années antérieurs à 2023 (toujours  avec le champ acctstartime) ?__
+SELECT COUNT(*) FROM radacct WHERE acctstarttime < '2023-01-01';
+	414642
+
+__4- Crée une table radacct_archive en se basant sur la table radacct__
+CREATE TABLE radacct_archive LIKE radacct;
+
+__5- Copie les données de la table radacct vers la table radacct_archive__
+INSERT INTO radacct_archive SELECT * FROM radacct;
+
+	**Vérifier**
+SELECT COUNT(*) FROM radacct;
+SELECT COUNT(*) FROM radacct_archive;
+
+
+
+
+__6- Supprime les données qui ne date pas de 2023 (toujours  avec le champ acctstartime) de la table radacct__
+DELETE FROM radacct WHERE YEAR(acctstarttime) <> 2023;
+
+
+__Il faudrait noter la durée d’exécution de la tâche 5 et 6__
+
+5- Query OK, 1451691 rows affected (6 min 55.425 sec)
+Records: 1451691  Duplicates: 0  Warnings: 0
+
+6- Query OK, 414642 rows affected (2 min 37.402 sec)
+
+SELECT * FROM radacct_archive;
+

@@ -377,14 +377,14 @@ La première étape de la création d'un nouveau cluster Ceph consiste à exécu
 Exécutez la commande :
 
 __cephadm bootstrap  --mon-ip 10.1.6.53  --allow-fqdn-hostname__
-cephadm bootstrap  --mon-ip 192.168.0.80  --allow-fqdn-hostname
+cephadm bootstrap  --mon-ip 192.168.0.113  --allow-fqdn-hostname
 
 
 
 Cette commande va :
 
 Crée un démon de surveillance et de gestion pour le nouveau cluster sur l'hôte local.
-Génère une nouvelle clé SSH pour le cluster Ceph et ajoutez-la au /root/.ssh/authorized_keysfichier de l'utilisateur racine.
+Génère une nouvelle clé SSH pour le cluster Ceph et ajoutez-la au [[/root/.ssh/authorized_keys]] fichier de l'utilisateur racine.
 Écris une copie de la clé publique dans /etc/ceph/ceph.pub.
 Écris un fichier de configuration minimal dans /etc/ceph/ceph.conf. Ce fichier est nécessaire pour communiquer avec le nouveau cluster.
 Écris une copie de la client.admin clé secrète administrative (privilégiée !) dans /etc/ceph/ceph.client.admin.keyring.
@@ -408,23 +408,18 @@ __cephadm add-repo --release quincy__
 __cephadm install ceph-common__
 
 
-
-
-URL: https://albam-ceph-v1.dev01.smile.lan:8443/
+ URL: https://albam-C-1.dev01.smile.lan:8443/
 	  User: admin
-	
-	
-	
-https://albam-cephs.dev01.smile.lan:8443/
 
-
+https://albam-C-1.dev01.smile.lan:8443/
 
 == Ajouter un hote ==
 
 Rajouter la clé publique sur le serveur que vous voulez rajouter
 
 
-__ssh-copy-id -f -i /etc/ceph/ceph.pub root@10.1.6.52__
+__ssh-copy-id -f -i /etc/ceph/ceph.pub root@192.168.0.114__
+ssh-copy-id -f -i /etc/ceph/ceph.pub root@192.168.0.115
 
 
 
@@ -1744,6 +1739,10 @@ NOTES:
 
 
 
+
+
+
+helm install filebeat  elastic/logstash  -f logstash.yaml
 
 
 

@@ -71,13 +71,10 @@ git@github.com:Allassne/Notebooks.git
 
 --------------------
 
-  389  git pull
-  390  git ch	eckout
-
-  393  git pull
-  394  git add .
-  395  git commit -m "test albam"
-  396  git push
+  git pull
+  git add .
+  git commit -m "test albam"
+  git push
 
 
 

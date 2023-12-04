@@ -1,0 +1,25 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-12-01T12:26:19+00:00
+
+====== day ======
+Créée le Friday 01 December 2023
+
+
+
+Deploy Filebeat
+Deploy Logstash
+
+Installation serveur CEPH 	via Ceph adm
+	installer docker
+Installation de Ceph Object Storage depuis l'interface GUI
+Documentation sur le cloud computing
+
+--------------------
+depannage interne (activation de office)
+
+Ceph RBD
+Deploy Elasticsearch
+
+
+

@@ -1,0 +1,40 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-12-02T11:06:29+00:00
+
+====== Commande ======
+Créée le Saturday 02 December 2023
+
+===== APT-GET =====
+
+apt-get est une interface en ligne de commande servant à
+télécharger des paquets ainsi que des informations à leur propos
+depuis des sources de confiance ainsi qu'à les installer, les mettre à jour
+avec leurs dépendances.
+
+Commandes les plus utilisées :
+* **update** - Récupère les nouvelles listes de paquets
+* **upgrade** - Réalise une mise à jour
+* **install** - Installe de nouveaux paquets (pkg1 est libc6 et non libc6.deb)
+* **reinstall** - Réinstaller les paquets (pkg est libc6 et pas libc6.deb)
+* **remove** - Supprime des paquets
+* **purge** - Supprime des paquets et leurs fichiers de configuration
+* **autoremove** - Supprime automatiquement les dépendances inutilisées
+* **dist-upgrade** - Met à jour la distribution, reportez-vous à apt-get(8)
+* **dselect-upgrade** - Suit les sélections de dselect
+* **build-dep** - Configure build-dependencies pour les paquets sources
+* **satisfy** - Satisfaire les chaînes de dépendance
+* **clean** - Supprime dans le cache local tous les fichiers téléchargés
+* **autoclean** - Supprime dans le cache local les fichiers inutiles
+* **check** - Vérifie qu'il n'y a pas de rupture de dépendances
+* **source** - Télécharge les archives de sources
+* **download** - Télécharge le paquet binaire dans le répertoire courant
+* **changelog** - Télécharge et affiche le journal des modifications (« changelog ») du paquet indiqué
+
+Veuillez vous référer à apt-get(8) pour plus d'information à propos des commandes disponibles.
+Les options de configuration ainsi que la syntaxe sont détaillées dans apt.conf(5).
+Des informations sur la configuration des sources sont disponibles dans sources.list(5).
+Les choix de paquet ainsi que la version peuvent être renseignés grâce à apt_preferences(5).
+Les informations à propos de la sécurité sont disponibles dans apt-secure(8).
+
+								Cet APT a les « Super Cow Powers »
