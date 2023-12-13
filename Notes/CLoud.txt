@@ -264,3 +264,362 @@ Vous souscrivez une formule et signez un contrat d'externalisation de votre arch
 
 https://kinsta.com/fr/blog/types-de-cloud-computing/#xaas
 https://kinsta.com/fr/blog/securite-cloud/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+**Cloud Privé d'Entreprise :**
+Les entreprises peuvent utiliser OpenNebula pour créer et gérer leur propre infrastructure de cloud privé, permettant une meilleure utilisation des ressources, une gestion centralisée et une sécurité renforcée.
+
+**Clouds Hybrides :**
+Intégration d'un cloud privé avec des services de cloud public pour créer un environnement hybride. Cela permet aux entreprises d'étendre leur infrastructure sur des clouds publics lors de pics de demande.
+
+**Fournisseurs de Services Cloud :**
+Les fournisseurs de services peuvent utiliser OpenNebula pour offrir des services de cloud computing à leurs clients, en tirant parti de sa capacité à gérer plusieurs clients (multi-tenancy) et à offrir une tarification flexible.
+
+**Centres de Données et Infrastructures de Recherche :**
+Utilisé pour gérer des centres de données et des infrastructures de calcul de haute performance (HPC), facilitant la gestion des ressources et la mise à disposition de capacités de calcul pour la recherche et le développement.
+
+**Développement et Test de Logiciels :**
+Mise en place rapide d'environnements de développement et de test. OpenNebula permet aux développeurs de déployer et de gérer facilement des environnements de test isolés.
+
+**Continuité d'Activité et Reprise après Sinistre :**
+Utilisé pour mettre en place des stratégies de continuité d'activité et de reprise après sinistre, grâce à sa capacité à répliquer des environnements et à basculer entre différents sites de data center.
+
+**Virtualisation du Bureau (VDI) :**
+OpenNebula peut être utilisé pour déployer et gérer des solutions de virtualisation de bureau, offrant un accès à distance aux ressources de l'entreprise.
+
+**Big Data et Applications Analytiques :**
+Fournit une infrastructure flexible pour le traitement de grandes quantités de données, soutenant des applications analytiques et de big data.
+
+**Déploiement de Conteneurs et Microservices :**
+Prise en charge des architectures basées sur des conteneurs, facilitant le déploiement et la gestion de microservices.
+
+**Développement de Produits IoT :**
+Mise à disposition d'infrastructures pour le développement et le test d'applications IoT, permettant une gestion et une orchestration efficaces des ressources.
+
+**Hébergement Web et Applications :**
+Utilisé par les hébergeurs Web pour gérer efficacement les ressources d'hébergement et fournir des services d'hébergement évolutifs à leurs clients.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cas d'utilisation 1 : Cloud privé
+Entreprises: Créer et gérer un cloud privé pour leurs employés, hébergeant des applications et des services internes critiques.
+Universités: Fournir un accès à des environnements de développement et de test aux étudiants et aux chercheurs.
+Institutions gouvernementales: Héberger des applications et des données sensibles dans un environnement sécurisé et contrôlé.
+
+Scénario 1 : Une entreprise souhaite créer un nouveau système de gestion des ressources humaines pour ses employés. Elle utilise Eucalyptus pour provisionner des serveurs virtuels, des réseaux virtuels et du stockage pour héberger le système. Les employés peuvent ensuite accéder au système de n'importe quel appareil connecté à Internet.
+
+Cas d'utilisation 2 : Cloud public
+Fournisseurs de services cloud: Créer et exploiter un cloud public offrant des services de cloud computing à la demande aux clients.
+Startups: Lancer rapidement de nouvelles applications et services sans avoir à investir dans une infrastructure matérielle coûteuse.
+Développeurs: Tester et déployer des applications dans un environnement évolutif et rentable.
+
+Scénario 2 : Une startup a développé une nouvelle application mobile. Elle utilise Eucalyptus pour lancer l'application dans un cloud public. L'application est rapidement adoptée par les utilisateurs, et Eucalyptus permet à la startup de faire évoluer son infrastructure de manière transparente pour répondre à la demande croissante.
+
+Cas d'utilisation 3 : Cloud hybride
+Entreprises: Combiner les avantages du cloud public et du cloud privé en créant un cloud hybride.
+Institutions financières: Héberger les données sensibles sur site dans un cloud privé, tout en utilisant le cloud public pour les applications non critiques.
+Organisations de recherche: Exploiter la puissance de calcul du cloud public pour effectuer des recherches complexes.
+
+Scénario 3 : Une institution financière a besoin de stocker des données sensibles sur site pour des raisons de conformité. Elle utilise Eucalyptus pour créer un cloud privé pour stocker ses données. Elle utilise également le cloud public pour héberger ses applications non critiques. Cela lui permet de profiter des avantages de l'agilité et de la rentabilité du cloud public, tout en respectant les exigences de sécurité et de conformité.
+
+Autres cas d'utilisation potentiels :
+Hébergement de sites web
+Développement et test de logiciels
+Big data et analyse
+Calcul haute performance (HPC)
+Apprentissage automatique et intelligence artificielle (IA)
+
+
+
+
+
+
+
+Gestion des ressources informatiques
+Création, suppression et modification de ressources informatiques, telles que des serveurs, des réseaux, du stockage et des machines virtuelles.
+Gestion des quotas et des budgets des ressources.
+
+Gestion des machines virtuelles
+Création, démarrage, arrêt, suspension et reprise de machines virtuelles.
+Gestion des images systèmes, des templates et des groupes de machines virtuelles.
+
+Gestion des réseaux
+Création, suppression et modification de réseaux virtuels.
+Gestion des ports, des adresses IP et des règles de pare-feu.
+
+Gestion du stockage
+Création, suppression et modification de volumes de stockage.
+Gestion des snapshots et des clones.
+
+Gestion des utilisateurs et des groupes
+Création, suppression et modification d'utilisateurs et de groupes.
+Gestion des permissions sur les ressources.
+
+Gestion des clusters
+Gestion de clusters de serveurs virtuels.
+
+Gestion des workflows
+Définition de workflows pour automatiser les tâches de gestion des ressources.
+
+Gestion de la sécurité
+Authentification, autorisation et chiffrement.
+
+
+
+
+
+
+
+Gestion des ressources informatiques : OpenNebula permet de créer, de supprimer et de modifier des ressources informatiques, telles que des serveurs, des réseaux, du stockage et des machines virtuelles. Il permet également de gérer les quotas et les budgets des ressources.
+
+Gestion des machines virtuelles : OpenNebula permet de créer, de démarrer, d'arrêter, de suspendre et de reprendre des machines virtuelles. Il permet également de gérer les images systèmes, les templates et les groupes de machines virtuelles.
+
+Gestion des réseaux : OpenNebula permet de créer, de supprimer et de modifier des réseaux virtuels. Il permet également de gérer les ports, les adresses IP et les règles de pare-feu.
+
+Gestion du stockage : OpenNebula permet de créer, de supprimer et de modifier des volumes de stockage. Il permet également de gérer les snapshots et les clones.
+
+Gestion des utilisateurs et des groupes : OpenNebula permet de créer, de supprimer et de modifier des utilisateurs et des groupes. Il permet également de gérer les permissions sur les ressources.
+
+Gestion des clusters : OpenNebula permet de gérer des clusters de serveurs virtuels.
+
+Gestion des workflows : OpenNebula permet de définir des workflows pour automatiser les tâches de gestion des ressources.
+
+Gestion de la sécurité : OpenNebula offre une gamme de fonctionnalités de sécurité, telles que l'authentification, l'autorisation et le chiffrement.
+
+Gestion des ressources hybrides : OpenNebula peut gérer des ressources informatiques provenant de différentes sources, telles que des datacenters privés, des clouds publics et des ressources cloud à la demande.
+
+Gestion de la haute disponibilité : OpenNebula peut être configuré pour fournir une haute disponibilité pour les machines virtuelles et les clusters.
+
+Gestion du cloud Edge : OpenNebula peut être utilisé pour gérer des clouds Edge, qui sont des clouds déployés à proximité des utilisateurs finaux.
+
+Gestion des conteneurs : OpenNebula peut être utilisé pour gérer des conteneurs, qui sont une forme de virtualisation légère.
+
+
+
+
+
+
+
+Surveillance d'infrastructure informatique:
+Serveurs: Suivre l'utilisation du CPU, de la mémoire, du disque et du réseau. Détecter les problèmes de disponibilité et de performance.
+Réseaux: Surveiller les performances des réseaux, identifier les goulots d'étranglement et les erreurs.
+Stockage: Surveiller l'utilisation et les performances du stockage, identifier les problèmes de saturation.
+Systèmes d'exploitation: Surveiller l'état des systèmes d'exploitation, détecter les problèmes de sécurité et de configuration.
+Applications: Surveiller la disponibilité et la performance des applications, détecter les erreurs et les problèmes de performance.
+Bases de données: Surveiller les performances des bases de données, identifier les requêtes lentes et les problèmes de configuration.
+Suivi des ressources matérielles : Il peut surveiller les équipements matériels, tels que les commutateurs, routeurs, pare-feu, pour s'assurer de leur bon fonctionnement et identifier les problèmes potentiels.
+Notification des pannes : Zabbix génère des alertes en temps réel en cas de défaillance ou de problèmes, permettant ainsi aux équipes informatiques d'intervenir rapidement pour résoudre les incidents.
+Analyse des tendances et reporting : Il permet de visualiser les tendances de performances au fil du temps, de créer des rapports détaillés et des tableaux de bord personnalisés pour une meilleure compréhension des données collectées.
+Automatisation des tâches : Zabbix peut être utilisé pour automatiser des actions en réponse à des événements spécifiques, réduisant ainsi le temps de résolution des problèmes.
+
+Surveillance des services cloud:
+Surveiller les instances de cloud computing (EC2, Azure, etc.)
+Surveiller les bases de données cloud (RDS, Aurora, etc.)
+Surveiller les services de stockage cloud (S3, Azure Blob Storage, etc.)
+Surveiller les services de réseau cloud (VPC, Azure Virtual Network, etc.)
+
+Surveillance de sites web et applications web:
+Surveiller les temps de réponse des pages
+Surveiller les taux d'erreur
+Surveiller les performances des transactions
+Surveiller l'utilisation des ressources
+
+Autres cas d'utilisation:
+Surveillance des environnements de développement et de test
+Surveillance de la consommation d'énergie
+Surveillance des conditions environnementales (température, humidité, etc.)
+Surveillance des systèmes de sécurité et de surveillance
+
+En résumé, Zabbix peut être utilisé pour surveiller pratiquement n'importe quel type de système ou d'application. Il est un outil polyvalent et indispensable pour les administrateurs système, les opérateurs réseau, les développeurs et les responsables informatiques.
+
+
+
+
+
+
+Avantages:
+
+Polyvalence: Zabbix peut être utilisé pour surveiller une grande variété de systèmes et d'applications.
+Fonctionnalités avancées: Zabbix offre un large éventail de fonctionnalités de surveillance, notamment la surveillance des performances, l'état, les alertes et le reporting.
+Flexibilité: Zabbix est un logiciel open source qui peut être personnalisé pour répondre aux besoins spécifiques de chaque organisation.
+
+Inconvénients :
+
+Complexité: Zabbix peut être complexe à configurer et à utiliser pour les utilisateurs non expérimentés.
+Performances: Les performances de Zabbix peuvent être affectées par la taille de l'infrastructure à surveiller.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Gestion des clusters Kubernetes multi-cloud: Kubernetes Cluster API peut être utilisé pour créer et gérer des clusters Kubernetes dans plusieurs clouds. Cela permet aux organisations de déployer leurs applications dans le cloud de leur choix.
+
+Automatisation du provisioning et du déploiement des clusters Kubernetes: Kubernetes Cluster API peut être utilisé pour automatiser le provisioning et le déploiement des clusters Kubernetes. Cela permet aux organisations de réduire le temps et les efforts nécessaires pour créer et gérer des clusters Kubernetes.
+
+Gestion du cycle de vie des clusters Kubernetes: Kubernetes Cluster API peut être utilisé pour gérer le cycle de vie des clusters Kubernetes. Cela permet aux organisations de garantir que leurs clusters Kubernetes sont toujours conformes aux normes et aux politiques de l'entreprise.
+
+Intégration de la gestion des clusters Kubernetes avec les outils CI/CD: Kubernetes Cluster API peut être utilisé pour intégrer la gestion des clusters Kubernetes avec les outils CI/CD. Cela permet aux organisations d'automatiser le déploiement et la gestion des applications dans les clusters Kubernetes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		 URL: https://test-ceph-1.dev01.smile.lan:8443/
+		User: admin
+	Password: mhpuvkb2fx
+
+Enabling client.admin keyring and conf on hosts with "admin" label
+Saving cluster configuration to /var/lib/ceph/35eee038-95dd-11ee-ab54-525400bdffa5/config directory
+Enabling autotune for osd_memory_target
+You can access the Ceph CLI as following in case of multi-cluster or non-default config:
+
+	sudo /sbin/cephadm shell --fsid 35eee038-95dd-11ee-ab54-525400bdffa5 -c /etc/ceph/ceph.conf -k /etc/ceph/ceph.client.admin.keyring
+
+Or, if you are only running a single cluster on this host:
+
+	sudo /sbin/cephadm shell 
+
+Please consider enabling telemetry to help improve Ceph:
+
+	ceph telemetry on
+
+For more information see:
+
+	https://docs.ceph.com/docs/master/mgr/telemetry/
+
+Bootstrap complete.
+
+
+
+
+
+tee credentials-velero <<EOF
+[default]
+aws_access_key_id = CGZHMQP0VUHKHUNSP431
+aws_secret_access_key = WqTBABpQQqpGYyyIjo6iGULEtnAxHAqVi5NeVAdD
+EOF
+
+
+
+
+velero install \
+	--provider aws \
+	--plugins velero/velero-plugin-for-aws:v1.5.0 \
+	--bucket test \
+	--use-restic \
+	--secret-file ./credentials-velero \
+	--use-volume-snapshots=false \
+	--backup-location-config region=default,s3ForcePathStyle="true",s3Url=http://192.168.0.16:8080 \
+	--wait
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+":"ROUND_TRIPPER_RAFT_MESSAGE","remote-peer-id":"20dd6186380d5155","rtt":"0s","error":"dial tcp 192.168.0.130:2380: connect: no route to host"}
+":"ROUND_TRIPPER_SNAPSHOT","remote-peer-id":"20dd6186380d5155","rtt":"0s","error":"dial tcp 192.168.0.130:2380: connect: no route to host"}
+":"ROUND_TRIPPER_SNAPSHOT","remote-peer-id":"5088cbb253c29eec","rtt":"0s","error":"dial tcp 192.168.0.129:2380: connect: no route to host"}
+":"ROUND_TRIPPER_RAFT_MESSAGE","remote-peer-id":"5088cbb253c29eec","rtt":"0s","error":"dial tcp 192.168.0.129:2380: connect: no route to host"}
+	
+	
+	
+	
+	
+albam-C-1.dev01.abj.smile.lan  
+albam-C-2.dev01.abj.smile.lan 
+albam-C-3.dev01.abj.smile.lan 
+
+
+
+
+
+
+
+
+
+

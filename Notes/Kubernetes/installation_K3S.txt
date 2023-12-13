@@ -300,3 +300,43 @@ velero install \
 	--use-volume-snapshots=false \
 	--backup-location-config region=default,s3ForcePathStyle="true",s3Url=http://<IP_MONITOR>:<RGW_PORT> \
 	--wait
+	
+	
+	
+	
+	
+	
+	
+--------------------
+
+Mise à jour des paquets et installation des dépendances :
+Avant d'ajouter le dépôt, assurez-vous que votre système est à jour et installez les paquets nécessaires pour permettre à apt d'utiliser un dépôt sur HTTPS :
+
+bash
+Copy code
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl
+Ajouter la clé GPG du dépôt Kubernetes :
+Kubernetes fournit une clé GPG pour vérifier l'authenticité de ses paquets. Vous pouvez l'ajouter avec cette commande :
+
+bash
+Copy code
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+Ajout du dépôt Kubernetes :
+Ensuite, ajoutez le dépôt lui-même. Vous pouvez le faire en ajoutant une nouvelle ligne à votre liste de sources apt :
+
+bash
+Copy code
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+Mise à jour de la liste des paquets :
+Après avoir ajouté le dépôt, mettez à jour la liste des paquets pour inclure les paquets Kubernetes :
+
+bash
+Copy code
+sudo apt-get update
+Installation des paquets Kubernetes :
+Maintenant, vous pouvez installer les paquets Kubernetes nécessaires, comme kubectl, kubelet, et kubeadm :
+
+bash
+Copy code
+sudo apt-get install -y kubelet kubeadm kubectl

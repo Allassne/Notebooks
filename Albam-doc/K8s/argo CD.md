@@ -83,17 +83,6 @@ kubectl -n default get secret argocd-initial-admin-secret -o jsonpath="{.data.pa
 
 
 
-
-
- helm upgrade -i argocd argo/argo-cd -f argocd.yml
-Release "argocd" has been upgraded. Happy Helming!
-NAME: argocd
-LAST DEPLOYED: Mon Nov 27 12:18:36 2023
-NAMESPACE: default
-STATUS: deployed
-REVISION: 2
-TEST SUITE: None
-NOTES:
 In order to access the server UI you have the following options:
 
 1. kubectl port-forward service/argocd-server -n default 8080:443
@@ -110,3 +99,14 @@ After reaching the UI the first time you can login with username: admin and the 
 kubectl -n default get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 
 (You should delete the initial secret afterwards as suggested by the Getting Started Guide: https://argo-cd.readthedocs.io/en/stable/getting_started/#4-login-using-the-cli)
+
+
+
+## Créer un répertoire helm 
+
+Settings/Repositories/connect repo
+
+```
+https://charts.bitnami.com/bitnami
+```
+

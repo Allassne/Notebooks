@@ -1,7 +1,4 @@
 
-
-
-
 ### Gestion des utilisateurs
 
 Créer un utilisateur :
@@ -117,6 +114,8 @@ secret:
 helm upgrade -i rbd ceph-csi/ceph-csi-rbd -f ceph-csi-rbd.yml
 ```
 
+https://github.com/ceph/ceph-csi/tree/v3.10.0/examples/rbd
+
 Vérifier que vos ressources sont bien crées:
 
 ```
@@ -145,6 +144,8 @@ EOF
 
 kubectl apply -f pvc.yaml
 ```
+
+
 
 ### Ceph CEPHS
 

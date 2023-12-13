@@ -43,8 +43,7 @@ git push -u origin main
 
 git@github.com:Allassne/Notebooks.git
 
-
- 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 
+ 
 
 
 

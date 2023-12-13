@@ -5,8 +5,6 @@ Creation-Date: 2023-12-01T12:26:19+00:00
 ====== day ======
 Créée le Friday 01 December 2023
 
-
-
 Deploy Filebeat
 Deploy Logstash
 
@@ -17,7 +15,7 @@ Documentation sur le cloud computing
 
 --------------------
 depannage interne (activation de office)
-
+installation de velero
 Ceph RBD
 Deploy Elasticsearch
 

@@ -50,8 +50,8 @@ Créer le fichier credentials ( cas de Ceph RGW )
 ```
 tee credentials-velero <<EOF
 [default]
-aws_access_key_id = S2ZZJW616TKPUH6A22CW
-aws_secret_access_key = IHdcKsuBn7eLv2KW65WLoSaPNh3FkNDazqA9kHxD
+aws_access_key_id = SRN1NQW3RMJW4A2VOEZM
+aws_secret_access_key = BRndHebHEMBAyF8AvNLc7tmXcxj8NuxgEkgSGfSS
 EOF
 ```
 
@@ -66,7 +66,7 @@ velero install \
 	--use-restic \
 	--secret-file ./credentials-velero \
 	--use-volume-snapshots=false \
-	--backup-location-config region=default,s3ForcePathStyle="true",s3Url=http://192.168.0.112:8080 \
+	--backup-location-config region=default,s3ForcePathStyle="true",s3Url=http://192.168.0.113:8080 \
 	--wait
 ```
 
@@ -78,13 +78,24 @@ velero backup-location get
 
 
 ```
-velero schedule create sauve-01 --schedule "42 20 * * *"
+kubectl logs deployment/velero -n velero
 ```
+
+### Sauvegarde Planifier
+
+affiche toutes les planifications de sauvegarde configurées :
 
 ```
 velero schedule get
 ```
 
+créer une planification de sauvegarde quotidienne nommée "sauve-01" dans Velero, qui s'exécute tous les jours à 9h00 :
+
+```
+velero schedule create sauve-01 --schedule "00 09 * * *"
+```
+
+supprimer la planification de sauvegarde :
 ```
 velero schedule delete sauve-01
 ```
@@ -95,35 +106,60 @@ velero schedule delete sauve-01
 
 https://www.youtube.com/watch?v=uIKaiZQxqkI&ab_channel=DEVOPSD-DAY
 
+### Backup
+
+ Créer une backup :
+ 
 ```
 velero backup create first-backup
 ```
 
+Afficher les détails sur la sauvegarde :
+
 ```
 velero backup describe first-backup
+```
+
+Afficher les journaux de la sauvegarde:
+
+```
 velero backup logs first-backup
 ```
 
-```
-kubectl logs deployment/velero -n velero
-```
+voir les sauvegardes disponible
 
 ```
-velero get backups  # voir les sauvegardes disponible
+velero get backups  
 ```
 
-```
-velero restore create --from-backup NOM_DE_LA_SAUVEGARDE  # Restauration 
-```
+### Restauration 
+
+Restaurer à partir d'une sauvegarde spécifique :
 
 ```
-velero restore
+velero restore create --from-backup NOM_DE_LA_SAUVEGARDE  
 ```
 
-```
-velero restore describe NOM_DU_RESTORE    # voir la progression 
-```
+lister toutes les restaurations effectuées ou en cours dans le système:
 
 ```
-velero restore create --from-backup sauve-20231120084817
+velero restore get
 ```
+
+voir la progression ou obtenir un rapport détaillé sur une opération de restauration spécifique :
+
+```
+velero restore describe NOM_DU_RESTORE    
+```
+
+
+
+
+### Désinstallation de Velero
+
+```
+kubectl delete namespace/velero clusterrolebinding/velero
+kubectl delete crds -l component=velero
+```
+
+

@@ -1749,6 +1749,10 @@ helm install filebeat  elastic/logstash  -f logstash.yaml
 
 
 
+https://medium.com/cloudreach-france/monitoring-et-alerting-dun-cluster-kubernetes-par-prometheus-et-grafana-par-gr%C3%A9goire-dayet-ab350b53a74d
+
+
+--------------------
 
 
 
@@ -1758,10 +1762,186 @@ helm install filebeat  elastic/logstash  -f logstash.yaml
 
 
 
+apiVersion: v1
+clusters:
+- cluster:
+	certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJkekNDQVIyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQWpNU0V3SHdZRFZRUUREQmhyTTNNdGMyVnkKZG1WeUxXTmhRREUzTURFNE5UazVNak13SGhjTk1qTXhNakEyTVRBMU1qQXpXaGNOTXpNeE1qQXpNVEExTWpBegpXakFqTVNFd0h3WURWUVFEREJock0zTXRjMlZ5ZG1WeUxXTmhRREUzTURFNE5UazVNak13V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFUbDJCNFpwQTZreEllZTM2dERFblJsTytPWGVlQnpwR0dNMEl5Yzl5dWkKMDdFSjc0eFNpR0w4MjN2d1Y2KzF4TlRQck45OCtVRHFEcmRjbC9OUmFNdUFvMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVVVKbFUwU3d1UElSK0wxcUFWNXEyClBzclR0YmN3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUloQVA1dWpBQXNsOUJMUUhkWGZOZXRFNEg5VzlPREErckcKdnN4L2hoWnZnaG5LQWlCa2IvUThaVzNtZVNsRXRCSS9UWEdQa3o1K1V0V0pLSTAwV2NGUnpIbG9uQT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+	server: https://lazok-k3s-conpln-1.dev01.smile.lan:6443
+  name: default
+contexts:
+- context:
+	cluster: default
+	user: default
+  name: default
+current-context: default
+kind: Config
+preferences: {}
+users:
+- name: default
+  user:
+	client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJrVENDQVRlZ0F3SUJBZ0lJV1hpNGJTaktldkF3Q2dZSUtvWkl6ajBFQXdJd0l6RWhNQjhHQTFVRUF3d1kKYXpOekxXTnNhV1Z1ZEMxallVQXhOekF4T0RVNU9USXpNQjRYRFRJek1USXdOakV3TlRJd00xb1hEVEkwTVRJdwpOVEV3TlRJd00xb3dNREVYTUJVR0ExVUVDaE1PYzNsemRHVnRPbTFoYzNSbGNuTXhGVEFUQmdOVkJBTVRESE41CmMzUmxiVHBoWkcxcGJqQlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VIQTBJQUJIS2F1K09uNndFRERqV0EKSTFGeUVjeVFmc1pnMFVUT3NHT0RIOVl2aCs0NFBiclNQQXRzb0YrRFA4VTU4cUJtQlY2azQ2a2FBWDNyVjdQKwo0U1dUYkd5alNEQkdNQTRHQTFVZER3RUIvd1FFQXdJRm9EQVRCZ05WSFNVRUREQUtCZ2dyQmdFRkJRY0RBakFmCkJnTlZIU01FR0RBV2dCU0JhcDM1NFUrR1ZDNFZUSXFDQnRMNTUwWit6VEFLQmdncWhrak9QUVFEQWdOSUFEQkYKQWlFQTFDWnhwTlVzS2lQc3FDZVBtUkRUbjBqYUtBMUx3ODRjOUdyaU5uM2Yzb1VDSURtT3p6VVlFaFEwek9UcApCOEcyRGRJY2xyKzFHVFVjZGdQdHRIaVFieWFpCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0KLS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJkekNDQVIyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQWpNU0V3SHdZRFZRUUREQmhyTTNNdFkyeHAKWlc1MExXTmhRREUzTURFNE5UazVNak13SGhjTk1qTXhNakEyTVRBMU1qQXpXaGNOTXpNeE1qQXpNVEExTWpBegpXakFqTVNFd0h3WURWUVFEREJock0zTXRZMnhwWlc1MExXTmhRREUzTURFNE5UazVNak13V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFTVlk0MjJLSWJ0NEhCcDVEK1VmK1U0VUNPYndJdFJ4SU96VFpnWnhiVVMKTDFZUFM5OWNMZDBOeCtXcmQ5RXliTzFIZ1loSFNlVXJxVDd1VDFLdEhWdUVvMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVWdXcWQrZUZQaGxRdUZVeUtnZ2JTCitlZEdmczB3Q2dZSUtvWkl6ajBFQXdJRFNBQXdSUUlnSXkwcmluNHIzbDF4eWtpRldwV1g0R21MOTgwRGZWaWEKbmNMdkt1MEVMbXdDSVFEZHZpbTlGcGcwOTVRZGw4bTVCcWxISVFXcUl4QTVvQkRCeDNiZktGbE9RUT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+	client-key-data: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU5NcDBvRERUYzVBaEI1d1NGZG1WRW9QaVNsTWY2TFdBbWhXZ2Y2OFY3MXhvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFY3BxNzQ2ZnJBUU1PTllBalVYSVJ6SkIreG1EUlJNNndZNE1mMWkrSDdqZzl1dEk4QzJ5ZwpYNE0veFRueW9HWUZYcVRqcVJvQmZldFhzLzdoSlpOc2JBPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
 
 
 
+apiVersion: v1
+clusters:
+- cluster:
+	certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJlRENDQVIyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQWpNU0V3SHdZRFZRUUREQmhyTTNNdGMyVnkKZG1WeUxXTmhRREUzTURFek5EUTFNamN3SGhjTk1qTXhNVE13TVRFME1qQTNXaGNOTXpNeE1USTNNVEUwTWpBMwpXakFqTVNFd0h3WURWUVFEREJock0zTXRjMlZ5ZG1WeUxXTmhRREUzTURFek5EUTFNamN3V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFRNHN4OUJQdVpoK3J4MU1MRjFqdzVJQllUOE1NRkV5bDBubk03Q2d5SlgKSmY5eUdtQksyeVBjK05xUHR0Z3doZ1FTUHVwTG9YNDRodWtnWkxxMGEyU2hvMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVWNabis1eitPQUt2TjlvSWlCU1luCkVZRjl0eXd3Q2dZSUtvWkl6ajBFQXdJRFNRQXdSZ0loQUlkTnRKRXZrWktPaHEyR29TMDFPRUtQbU81dFBrZXkKM1U3SFozSnhDdlE0QWlFQTVGQzd0MGJLWHFvcktHVWltMHExcE9pb2ZYWkhaTkw1Y2hkMGVrTTAvTFU9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+	server: https://albam-Master1.dev01.smile.lan:6443
+  name: default
+- cluster:
+	server: ""
+  name: k3s
+contexts:
+- context:
+	cluster: default
+	user: default
+  name: default
+- context:
+	cluster: ""
+	user: ""
+  name: test
+current-context: test
+kind: Config
+preferences: {}
+users:
+- name: default
+  user:
+	client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJrVENDQVRlZ0F3SUJBZ0lJWGJDZk92U1BUTGN3Q2dZSUtvWkl6ajBFQXdJd0l6RWhNQjhHQTFVRUF3d1kKYXpOekxXTnNhV1Z1ZEMxallVQXhOekF4TXpRME5USTNNQjRYRFRJek1URXpNREV4TkRJd04xb1hEVEkwTVRFeQpPVEV4TkRJd04xb3dNREVYTUJVR0ExVUVDaE1PYzNsemRHVnRPbTFoYzNSbGNuTXhGVEFUQmdOVkJBTVRESE41CmMzUmxiVHBoWkcxcGJqQlpNQk1HQnlxR1NNNDlBZ0VHQ0NxR1NNNDlBd0VIQTBJQUJEMzZQam1oaFk3c2w0aTEKSDFWbTB4NDVRMUhIV2lnWWIvT1RQNnBtUGJnSi84cS9lcHFySUoyYTRsT3orL2d5TmxvNTFXbXVGemZCbVpEbwpYTzdsckFLalNEQkdNQTRHQTFVZER3RUIvd1FFQXdJRm9EQVRCZ05WSFNVRUREQUtCZ2dyQmdFRkJRY0RBakFmCkJnTlZIU01FR0RBV2dCUlJtMEhBNFlOOVg4STdhaWRWZTNYR1h6TW15VEFLQmdncWhrak9QUVFEQWdOSUFEQkYKQWlFQXNsTlpWS1VhZk8rUFVqUkVWVjczaStMbUl0T3JEc0ZGTUpvcEIvRlVEWEFDSUZuUFgySldYcnpJN2ZqbgpPdW5WY253YndMZzZPQVdBTURnY0ZtMHlzSzRjCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0KLS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJlRENDQVIyZ0F3SUJBZ0lCQURBS0JnZ3Foa2pPUFFRREFqQWpNU0V3SHdZRFZRUUREQmhyTTNNdFkyeHAKWlc1MExXTmhRREUzTURFek5EUTFNamN3SGhjTk1qTXhNVE13TVRFME1qQTNXaGNOTXpNeE1USTNNVEUwTWpBMwpXakFqTVNFd0h3WURWUVFEREJock0zTXRZMnhwWlc1MExXTmhRREUzTURFek5EUTFNamN3V1RBVEJnY3Foa2pPClBRSUJCZ2dxaGtqT1BRTUJCd05DQUFTSW1qakRSVTh5ZzhoYXdqOTRGakxBeElVMEFhanVwczlPNnVXOXRJdEUKSm5HaWR6a3o5ckpUYy8xcGVTNUdQK0YxMHU1cXhnN1NObzB0MVY4S1dmRjlvMEl3UURBT0JnTlZIUThCQWY4RQpCQU1DQXFRd0R3WURWUjBUQVFIL0JBVXdBd0VCL3pBZEJnTlZIUTRFRmdRVVVadEJ3T0dEZlYvQ08yb25WWHQxCnhsOHpKc2t3Q2dZSUtvWkl6ajBFQXdJRFNRQXdSZ0loQUtNbHNrRVJZd0ZiYk9ySk9ZQTdYV0E0T3BSZTNhSVUKRWl5YklIeGkwUW9DQWlFQWxteWpMUjM2TEY4Rmd3NVZHWTlvSnhGQ0MrYjlSY3FibS91TUNkSUFqNDA9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+	client-key-data: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUdLVmVsK3R4VkdwdExKWk5qR2xmMGRLbkhFK3o3MTdCS2JiTm84VnhURWFvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFUGZvK09hR0ZqdXlYaUxVZlZXYlRIamxEVWNkYUtCaHY4NU0vcW1ZOXVBbi95cjk2bXFzZwpuWnJpVTdQNytESTJXam5WYWE0WE44R1prT2hjN3VXc0FnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+
+
+--------------------
+
+====== Ajouter un cluster Kubernetes externe à la configuration d'Argo CD ======
+
+===== Configuration Fusionnée =====
+
+__Combiner les configurations de plusieurs clusters (2 dans notre cas)__
+
+Pour combiner les configurations de deux clusters Kubernetes dans le fichier ".kube/config"
+Nous allons renommer les Clusters, Utilisateurs et Contextes.
+Il est essentiel de s'assurer que chaque cluster, utilisateur et contexte a un nom unique.
+
+Par exemple, nous allons nommer le premier cluster et ses entités associées comme `lazok` et le second comme `albam`.
+
+```
+apiVersion: v1
+kind: Config
+clusters:
+- name: lazok
+  cluster:
+	certificate-authority-data: <votre-certificat-lazok>
+	server: https://lazok-k3s-conpln-1.dev01.smile.lan:6443
+- name: albam
+  cluster:
+	certificate-authority-data: <votre-certificat-albam>
+	server: https://albam-Master1.dev01.smile.lan:6443
+
+users:
+- name: user-lazok
+  user:
+	client-certificate-data: <votre-client-certificat-lazok>
+	client-key-data: <votre-client-cle-lazok>
+- name: user-albam
+  user:
+	client-certificate-data: <votre-client-certificat-albam>
+	client-key-data: <votre-client-cle-albam>
+
+contexts:
+- name: context-lazok
+  context:
+	cluster: lazok
+	user: user-lazok
+- name: context-albam
+  context:
+	cluster: albam
+	user: user-albam
+
+current-context: context-lazok
+preferences: {}
+```
+Remplacez `<votre-certificat-lazok>`, `<votre-certificat-albam>`, `<votre-client-certificat-lazok>`, `<votre-client-certificat-albam>`, `<votre-client-cle-lazok>`, et `<votre-client-cle-albam>` par les valeurs réelles de vos certificats et clés.
+- Si les données de certificat ou les clés sont stockées dans des fichiers séparés plutôt qu'incluses directement dans le fichier `.kube/config`, vous devrez référencer ces fichiers à la place.
+
+Dans cette configuration :
+- Nous avons nommé le premier cluster en `lazok` et le second en `albam`.
+- Les utilisateurs sont nommés `user-lazok` et `user-albam` respectivement.
+- Les contextes sont désormais `context-lazok` et `context-albam`.
+- `current-context` est défini sur `context-lazok`, mais vous pouvez le changer selon votre besoin.
+
+
+Cette configuration vous permet de basculer entre les deux clusters en changeant le `current-context` avec la commande `kubectl config use-context`, par exemple :
+
+- Pour basculer sur le cluster `lazok` :
+  ```
+  kubectl config use-context context-lazok
+  ```
+- Pour basculer sur le cluster `albam` :
+  ```
+  kubectl config use-context context-albam
+  ```
 
 
 
+===== argocd =====
+__Installation de l'outil en ligne de commande Argo CD__
+
+``
+curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+chmod +x argocd
+sudo mv argocd /usr/local/bin/
+```
+
+Vérifiez la Version de l'Exécutable Argo CD :
+```
+argocd version
+```
+
+
+__Connexion au serveur argocd__
+Changer le type de service "ClusterIp" par "NodePort" pour que argo cd soit joiniable par adresse IP 
+Avant de vous connecter au serveur Argo CD en invite de commande il est préferable de basculer sur le cluster que vous aimerais ajouter à Argo CD
+
+pour se connecter à un serveur Argo CD en invite de commande :
+
+
+```
+argocd login <IP-serveur>:<Port> --username admin
+```
+Exemple :
+```
+argocd login 192.168.0.128:30443 --username admin
+```
+
+sortie de la commande :
+```
+WARNING: server is not configured with TLS. Proceed (y/n)? yes
+Password: 
+'admin:login' logged in successfully
+Context '192.168.0.128:30443' updated
+```
+
+lister les applications deployer sur Argo CD : 
+```
+argocd app list
+```
+
+lister les clusters sur Argo CD : 
+```
+argocd cluster list
+```
+
+
+argocd cluster add context-lazok --name cluster-lazok
+
+sortie de la commande :
+```
+WARNING: This will create a service account `argocd-manager` on the cluster referenced by context `context-lazok` with full cluster level privileges. Do you want to continue [y/N]? y
+INFO[0006] ServiceAccount "argocd-manager" already exists in namespace "kube-system" 
+INFO[0006] ClusterRole "argocd-manager-role" updated    
+INFO[0006] ClusterRoleBinding "argocd-manager-role-binding" updated 
+Cluster 'https://192.168.0.186:6443' added
+```
 

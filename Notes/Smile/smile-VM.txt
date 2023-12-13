@@ -1,0 +1,61 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2023-12-13T16:04:40+00:00
+
+====== smile-VM ======
+Créée le Wednesday 13 December 2023
+
+sshuttle -r albam@gw.abj.smile.ci 10.1.4.0/24 10.1.6.0/24
+
+
+
+DEV01 cheatsheet
+
+#se connecter à la dev01 pour pouvoir creer ses VMs
+
+1-se connecter en ssh à la dev01
+ ssh ldap@dev01.ovh.smile.ci
+
+2- se diriger dans le repertoire "project", passer en "root"(sudo su)  copier le repertoire "template" en le renommant suivant la nomenclature suivante "ldap-nomdulab" pour creer son espace de travail.
+
+exemple: cp -r template/ dekou-apache ; cp -r template/ cokof-apache, etc. 
+
+une fois que cela est fait, ce diriger das son espace de lab (exemple: cd widal-apache)
+
+3- configurer une VM
+  
+modifier le fichier "servers.json" en specifiant
+- le nom de la machine suivant la nomenclature <<ldap-nom_de_la_techno>> ou <<ldap-nom_de_la_machine>> 
+- l'adresse ip (une adresse ip libre)
+
+4- creer/demarrer la VM, verifier l'etat de la VM, eteindre la VM, detruire la VM.
+
+-vagrant status: pour voir l'etat de la VM:
+*differents etats sont possibles:
+
+  1- not created: la VM n'est pas encore creer
+  2- shutoff: la VM est créée mais eteinte
+  3- running: la VM est en cours de fonctionnement
+
+-vagrant up: pour allumer ou creer VM
+-vagrant halt: pour eteindre la VM
+-vagrant destroy : pour detruire la VM
+
+exemple: vagrant up rodje-apache.dev01.ovh.smile.lan
+
+# se connecter à sa VM 
+
+1- faire en sorte de pouvoir joindre le reseau des VMs
+sshuttle -r ldap@dev01.ovh.smile.ci 192.168.1.0 /24
+
+2- se connecter en ssh à sa VM
+ssh ldap@ip_de_sa_vm
+
+une fois sur votre machine, vous pouvez faire les gagies comme bon vous semble😁
+
+
+
+
+🚨🚨🚨W A R N I N G🚨🚨🚨 :  
+une fois connecté à la dev01 faites toujours attention aux commandes que vous tapez. 
+Assurez-vous ausi d'etre toujours dans votre repertoire de lab avant d'effectuer des commandes bizarres, plusieurs personnes utilisent la dev01 pour leur lab

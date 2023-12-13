@@ -11,17 +11,17 @@ __kubectl__
 	L'outil de ligne de commande Kubernetes, kubectl , vous permet d'exécuter des commandes sur des clusters Kubernetes. Vous pouvez utiliser kubectl pour déployer des applications, inspecter et gérer les ressources du cluster et afficher les journaux.
 
 __Installer à l'aide de la gestion native des packages__ 
-	'''
-	cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
-	[kubernetes]
-	name=Kubernetes
-	baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
-	enabled=1
-	gpgcheck=1
-	gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-	EOF
-	sudo yum install -y kubectl
-	'''
+cat <<EOF | sudo tee [[/etc/yum.repos.d/kubernetes.repo]]
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+
+sudo yum install -y kubectl
 
 
 
